@@ -18,6 +18,7 @@ class TextField extends Component
         public String $value = "",
         public String $cssClassName = "",
         public String $placeholder = "",
+        public String $autocomplete = "",
     )
     {
         //

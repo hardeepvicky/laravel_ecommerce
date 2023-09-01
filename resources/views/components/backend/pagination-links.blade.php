@@ -1,0 +1,1 @@
+{{ $records->appends(request()->except('page'))->links('pagination::bootstrap-4-with-info') }}

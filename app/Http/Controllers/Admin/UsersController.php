@@ -17,8 +17,9 @@ class UsersController extends BackendController
     {
         $modelName = "User";
 
-        $conditions = $this->getConditions($modelName, [
-            ["field" => "name", "type" => "string", "view_field" => "name"]
+        $conditions = $this->getConditions([
+            ["field" => "name", "type" => "string", "view_field" => "name"],
+            ["field" => "email", "type" => "string", "view_field" => "email"],
         ]);
 
         //dd($conditions);

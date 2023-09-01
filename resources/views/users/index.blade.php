@@ -23,10 +23,14 @@
 <div class="card">
     <div class="card-body">
         <form method="GET" action="{{ url('/users') }}">
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-md-3">
-                    <x-inputs.text-field name="name" label="Name" value="{{ ${$modelName . 'name'} }}" />
-                </div>            
+                    <x-inputs.text-field name="name" label="Name" :value="$name" autocomplete="off" />
+                </div>   
+                <div class="col-md-3">
+                    <x-inputs.text-field name="email" label="Email" :value="$email" autocomplete="off" />
+                </div> 
+
             </div>
             <div class="row justify-content-center">
                 <div class="col-sm-3">                   
@@ -42,7 +46,7 @@
 
 <div class="card">
     <div class="card-header">
-        {{ $records->links('pagination::bootstrap-4-with-info') }}
+        <x-backend.pagination-links :records="$records"/>
     </div>
 
     <div class="card-body">        
@@ -70,7 +74,7 @@
         </table>
     </div>
     <div class="card-footer">
-        {{ $records->links('pagination::bootstrap-4') }}
+        <x-backend.pagination-links :records="$records"/>
     </div>
 </div>
 

@@ -19,7 +19,7 @@ class WebController extends Controller
         return view($this->view_prefix . "." . $view_name, $this->data);
     }
 
-    protected function getConditions($modelName, array $array)
+    protected function getConditions(array $array)
     {
         $conditions = [];
         $search_variables = [];
@@ -43,7 +43,7 @@ class WebController extends Controller
                     break;
                 }
             }
-            $search_variables[$modelName . $view_field] = $value;
+            $search_variables[$view_field] = $value;
         }
 
         $this->setForView($search_variables);
