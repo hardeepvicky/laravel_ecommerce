@@ -23,3 +23,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource("users", UsersController::class);
+Route::get('/clear_search_cache/{view_name}', [UsersController::class, 'clearSearchCache']);

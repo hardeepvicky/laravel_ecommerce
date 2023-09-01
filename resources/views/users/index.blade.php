@@ -21,12 +21,22 @@
 <!-- end page title -->
 
 <div class="card">
-    <div class="card-body">    
-        <div class="row">
-            <div class="col-md-3">
-                
-            </div>            
-        </div>
+    <div class="card-body">
+        <form method="GET" action="{{ url('/users') }}">
+            <div class="row">
+                <div class="col-md-3">
+                    <x-inputs.text-field name="name" label="Name" value="{{ ${$modelName . 'name'} }}" />
+                </div>            
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-3">                   
+                    <div>
+                        <button type="submit" class="btn btn-primary w-md">Search</button>
+                        <a href="/clear_search_cache/index" class="btn btn-light w-md">Clear</a>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 

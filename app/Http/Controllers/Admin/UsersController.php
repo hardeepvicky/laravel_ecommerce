@@ -15,9 +15,16 @@ class UsersController extends BackendController
 
     public function index()
     {
-        $records = User::paginate(PAGINATION_LIMIT);
+        $modelName = "User";
 
-        $this->setForView(compact("records"));
+        $conditions = $this->getConditions($modelName, [
+            ["field" => "name", "type" => "string", "view_field" => "name"]
+        ]);
+
+        //dd($conditions);
+        $records = User::where($conditions)->paginate(PAGINATION_LIMIT);
+
+        $this->setForView(compact("records", "modelName"));
 
         return $this->view("index");
     }

@@ -18,4 +18,41 @@ class WebController extends Controller
     {
         return view($this->view_prefix . "." . $view_name, $this->data);
     }
+
+    protected function getConditions($modelName, array $array)
+    {
+        $conditions = [];
+        $search_variables = [];
+
+        foreach($array as $row)
+        {
+            $field = $row['field'];
+            $view_field = $row['view_field'] ?? $row['field'];
+            $value = trim(request()->query($view_field));
+
+            if (strlen($value) > 0)
+            {
+                switch($row['type'])
+                {
+                    case "string":
+                        $conditions[]= [$field, 'LIKE', "%" . $value . "%"];
+                        break;
+                    
+                    default:
+                    $conditions[]= [$field, '=', "%" . $value . "%"];
+                    break;
+                }
+            }
+            $search_variables[$modelName . $view_field] = $value;
+        }
+
+        $this->setForView($search_variables);
+
+        return $conditions;
+    }
+
+    public function clearSearchCache($view_name)
+    {
+        return redirect($this->url_prefix);
+    }
 }
