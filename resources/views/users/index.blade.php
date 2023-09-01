@@ -21,6 +21,16 @@
 <!-- end page title -->
 
 <div class="card">
+    <div class="card-body">    
+        <div class="row">
+            <div class="col-md-3">
+                
+            </div>            
+        </div>
+    </div>
+</div>
+
+<div class="card">
     <div class="card-header">
         {{ $records->links('pagination::bootstrap-4-with-info') }}
     </div>
@@ -42,16 +52,7 @@
                     <td>{{ $record->name }}</td>
                     <td>{{ $record->email }}</td>
                     <td>
-                        <a class="btn btn-light" href="{{ url('users/' . $record->id . '/edit') }}">
-                            <i class="bx bx-edit-alt label-icon"></i>                            
-                        </a>
-                        <form action="{{ url('users/' . $record->id ) }}" method="POST" class="delete" style="display:inline-block;">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                            <button class="btn btn-danger">
-                                <i class="bx bx-trash label-icon"></i>
-                            </button>
-                        </form>
+                        <x-backend.summary-comman-actions :id="$record->id" />
                     </td>
                 </tr>
                 @endforeach    
@@ -62,39 +63,5 @@
         {{ $records->links('pagination::bootstrap-4') }}
     </div>
 </div>
-
-
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        $("form.delete").submit(function()
-        {
-            var _form = $(this);
-
-            var is_confirm = _form.attr("data-confirm");
-
-            if (!is_confirm)
-            {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: !0,
-                    confirmButtonColor: "#2ab57d",
-                    cancelButtonColor: "#fd625e",
-                    confirmButtonText: "Yes, delete it!"
-                }).then(function(e) {
-                    if (e.value)
-                    {
-                        _form.attr("data-confirm", 1);
-                        _form.trigger("submit");
-                    }
-                });
-
-                return false;
-            }
-        });
-    });
-</script>
 
 @endsection

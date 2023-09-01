@@ -34,16 +34,11 @@
     <div class="col-lg-5">
         <form action="{{ url('users') }}" method="POST">
             {!! csrf_field() !!}
-            <div class="form-group mb-3  @error('name') has-danger @enderror">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-control" placeholder="Enter Name" name="name">
-                @error('name')
-                    <div class="pristine-error text-help">{{ $message }}</div>
-                @enderror
+            <div class="form-group mb-3">                
+                <x-inputs.text-field name="name" label="Name" placeholder="Enter Name" />
             </div>
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" placeholder="Enter Email" name="email">
+            <div class="mb-3">                
+                <x-inputs.text-field type="email" name="email" label="Email" placeholder="Enter Email" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>

@@ -249,6 +249,7 @@
         <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
         <script src="/assets/js/app.js"></script>
+        <script src="/js/backend/default.js"></script>
 
     </body>
 

@@ -1,4 +1,5 @@
-<div class="mb-3">
-    <label for="example-text-input" class="form-label">Text</label>
-    <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
-</div>
+<label class="form-label">{{ $label }}</label>
+<input class="form-control {{ $cssClassName }}" type="{{ $type }}" value="{{ old($name, $value) }}" name="{{ $name }}" placeholder="{{ $placeholder }}" />
+@error($name)
+    <div class="pristine-error text-help">{{ $message }}</div>
+@enderror

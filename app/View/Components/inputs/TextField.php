@@ -11,7 +11,14 @@ class TextField extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        public String $name,
+        public String $label,
+        public String $type="text",
+        public String $value = "",
+        public String $cssClassName = "",
+        public String $placeholder = "",
+    )
     {
         //
     }
