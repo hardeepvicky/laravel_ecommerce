@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class WebController extends Controller
 {
@@ -19,16 +20,35 @@ class WebController extends Controller
         return view($this->view_prefix . "." . $view_name, $this->data);
     }
 
-    protected function getConditions(array $array)
+    protected function getConditions($cache_prefix, array $array)
     {
         $conditions = [];
         $search_variables = [];
+        
+        $cache_key = "search_" . str_replace($cache_prefix, ".", "-") . "_" . auth()->id();
 
+        $request_params = request()->all();
+
+        if (!$request_params)
+        {
+            if ( Cache::has($cache_key) )
+            {
+                $request_params = Cache::get($cache_key);
+            }
+        }
+        
         foreach($array as $row)
         {
             $field = $row['field'];
-            $view_field = $row['view_field'] ?? $row['field'];
-            $value = trim(request()->query($view_field));
+            $view_field = $row['view_field'] ?? $row['field'];            
+            $search_variables[$view_field] = $request_params[$view_field] ?? "";
+
+            if ( !isset($request_params[$view_field]) )
+            {
+                continue;
+            }
+            
+            $value = trim($request_params[$view_field]);
 
             if (strlen($value) > 0)
             {
@@ -43,8 +63,10 @@ class WebController extends Controller
                     break;
                 }
             }
-            $search_variables[$view_field] = $value;
+            
         }
+
+        Cache::put($cache_key, $search_variables, 43200); //30 days
 
         $this->setForView($search_variables);
 

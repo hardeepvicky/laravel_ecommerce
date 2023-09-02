@@ -27,4 +27,11 @@ $(document).ready(function()
             return false;
         }
     });
+
+    $(".clear_form_search_conditions").click(function()
+    {
+        var _form = $(this).closest("form");
+        _form.find(':input').not(':button, :submit, :reset, :hidden').val('').prop('checked', false).prop('selected', false);
+        _form.trigger("submit");
+    });
 });

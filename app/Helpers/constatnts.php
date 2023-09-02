@@ -1,2 +1,2 @@
 <?php
-define("PAGINATION_LIMIT", 2);
+define("PAGINATION_LIMIT", 10);

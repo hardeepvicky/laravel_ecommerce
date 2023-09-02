@@ -36,7 +36,7 @@
                 <div class="col-sm-3">                   
                     <div>
                         <button type="submit" class="btn btn-primary w-md">Search</button>
-                        <a href="/clear_search_cache/index" class="btn btn-light w-md">Clear</a>
+                        <span class="btn btn-light w-md clear_form_search_conditions">Clear</span>
                     </div>
                 </div>
             </div>

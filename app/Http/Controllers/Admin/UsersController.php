@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 class UsersController extends BackendController
 {
@@ -17,7 +18,7 @@ class UsersController extends BackendController
     {
         $modelName = "User";
 
-        $conditions = $this->getConditions([
+        $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "name", "type" => "string", "view_field" => "name"],
             ["field" => "email", "type" => "string", "view_field" => "email"],
         ]);
