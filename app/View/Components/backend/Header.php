@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Backend;
 
 use Illuminate\View\Component;
 
-class backend.paginationLinks extends Component
+class Header extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class backend.paginationLinks extends Component
      */
     public function render()
     {
-        return view('components.backend.pagination-links');
+        return view('components.backend.header');
     }
 }

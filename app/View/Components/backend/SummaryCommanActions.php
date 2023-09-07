@@ -6,15 +6,16 @@ use Illuminate\View\Component;
 
 class SummaryCommanActions extends Component
 {
-    public $id;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($id)
+    public function __construct(
+        public $id,
+        public $routePrefix,
+    )
     {
-        $this->id = $id;
     }
 
     /**

@@ -37,14 +37,14 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <x-header/>
+            <x-backend.header/>
 
             <!-- ========== Left Sidebar Start ========== -->
             <div class="vertical-menu">
 
                 <div data-simplebar class="h-100">
 
-                    <x-menu-show/>
+                    <x-backend.menu-show/>
                 </div>
             </div>
             <!-- Left Sidebar End -->

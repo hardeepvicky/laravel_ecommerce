@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class WebController extends Controller
 {
-    public $url_prefix, $view_prefix;
+    public $route_prefix, $view_prefix;
     private $data = [];
 
     protected function setForView(array $array)
@@ -17,6 +17,8 @@ class WebController extends Controller
 
     protected function view($view_name)
     {
+        $this->data['route_prefix'] = $this->route_prefix;
+        
         return view($this->view_prefix . "." . $view_name, $this->data);
     }
 
@@ -59,14 +61,14 @@ class WebController extends Controller
                         break;
                     
                     default:
-                    $conditions[]= [$field, '=', "%" . $value . "%"];
+                    $conditions[]= [$field, '=', $value];
                     break;
                 }
             }
             
         }
 
-        Cache::put($cache_key, $search_variables, 43200); //30 days
+        Cache::put($cache_key, $search_variables, CACHE_SEARCH_CONDITIONS_TIME);
 
         $this->setForView($search_variables);
 

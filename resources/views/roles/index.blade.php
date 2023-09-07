@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Role Summary</h4>
+            <h4 class="mb-sm-0 font-size-18">Role</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
@@ -22,15 +22,11 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="GET" action="{{ url('/users') }}">
+        <form method="GET" action="{{ route($route_prefix . '.index') }}">
             <div class="row mb-4">
                 <div class="col-md-3">
                     <x-inputs.text-field name="name" label="Name" :value="$name" autocomplete="off" />
-                </div>   
-                <div class="col-md-3">
-                    <x-inputs.text-field name="email" label="Email" :value="$email" autocomplete="off" />
-                </div> 
-
+                </div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-sm-3">                   
@@ -55,7 +51,6 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Email</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -64,9 +59,8 @@
                 <tr>
                     <td>{{ $record->id }}</td>
                     <td>{{ $record->name }}</td>
-                    <td>{{ $record->email }}</td>
                     <td>
-                        <x-backend.summary-comman-actions :id="$record->id" />
+                        <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$route_prefix"/>
                     </td>
                 </tr>
                 @endforeach    

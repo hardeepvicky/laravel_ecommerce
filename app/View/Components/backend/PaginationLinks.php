@@ -1,18 +1,19 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Backend;
 
 use Illuminate\View\Component;
-use App\Helpers\Menu;
 
-class menuShow extends Component
+class PaginationLinks extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        public $records
+    )
     {
         //
     }
@@ -24,8 +25,6 @@ class menuShow extends Component
      */
     public function render()
     {
-        return view('components.menu-show', [
-            'menu' => Menu::get()
-        ]);
+        return view('components.backend.pagination-links');
     }
 }

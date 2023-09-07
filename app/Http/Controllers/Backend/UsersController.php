@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Backend;
 
+use App\Acl\AccessControl;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Route;
 
 class UsersController extends BackendController
 {
     public function __construct()
     {
-        $this->url_prefix = "/users";
-        $this->view_prefix = "users";
+        $this->route_prefix = $this->view_prefix = "users";
     }
 
     public function index()
     {
         $modelName = "User";
+
+        $accessControl = AccessControl::init();
+        $accessControl->syncRouteNamesToDatabase();
 
         $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "name", "type" => "string", "view_field" => "name"],
@@ -62,9 +66,11 @@ class UsersController extends BackendController
     {
         $model = User::findOrFail($id);
 
-        return view("users.edit", [
-            'model' => $model
-        ]);
+        $role_list = (new Role())->getList();
+        
+        $this->setForView(compact("role_list", "model"));
+
+        return $this->view("edit");
     }
 
     public function update($id, Request $request)
@@ -83,7 +89,7 @@ class UsersController extends BackendController
         $model->fill($validatedData);
         $model->save();
 
-        return redirect("/users")->with('success', 'User updated successfully.');
+        return redirect()->route($this->route_prefix . ".index")->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)

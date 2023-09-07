@@ -1,21 +1,18 @@
 <?php
 
-namespace App\View\Components\inputs;
+namespace App\View\Components\Backend;
 
 use Illuminate\View\Component;
+use App\Helpers\Menu;
 
-class TextField extends Component
+class MenuShow extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(
-        public String $name,
-        public String $label,        
-        public String $value = ""        
-    )
+    public function __construct()
     {
         //
     }
@@ -27,6 +24,8 @@ class TextField extends Component
      */
     public function render()
     {
-        return view('components.inputs.text-field');
+        return view('components.backend.menu-show', [
+            'menu' => Menu::get()
+        ]);
     }
 }

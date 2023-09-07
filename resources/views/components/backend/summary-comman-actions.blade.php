@@ -1,4 +1,4 @@
-<a class="btn btn-light" href="{{ url('users/' . $id . '/edit') }}">
+<a class="btn btn-light" href="{{ route($routePrefix . '.edit',[$id]) }}">
     <i class="bx bx-edit-alt label-icon"></i>                            
 </a>
 <form action="{{ url('users/' . $id ) }}" method="POST" class="delete" style="display:inline-block;">

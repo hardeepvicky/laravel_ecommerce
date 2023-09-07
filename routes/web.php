@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Backend\UsersController;
+use App\Http\Controllers\Backend\PermissionsController;
+use App\Http\Controllers\Backend\RolesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +25,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource("users", UsersController::class);
-Route::get('/clear_search_cache/{view_name}', [UsersController::class, 'clearSearchCache']);
+Route::resource("roles", RolesController::class);
+
+Route::get('/permissions/index', [PermissionsController::class, 'index'])->name("permissions.index");
+Route::any('/permissions/assign', [PermissionsController::class, 'assign'])->name("permissions.assign");
+Route::any('/permissions/assign_to_many', [PermissionsController::class, 'assign_to_many'])->name("permissions.assign_to_many");
+Route::delete('/permissions/delete/{id}', [PermissionsController::class, 'delete'])->name("permissions.delete");

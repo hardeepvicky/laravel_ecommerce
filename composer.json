@@ -31,7 +31,9 @@
         "files" : [
             "app/Helpers/constatnts.php",
             "app/Helpers/fontawesome_icon_constatnts.php",
-            "app/Helpers/functions.php"
+            "app/Helpers/functions.php",
+            "app/Acl/AccessControl.php",
+            "app/Acl/SectionRoutes.php"
         ]
     },
     "autoload-dev": {
