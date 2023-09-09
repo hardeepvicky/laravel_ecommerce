@@ -17,13 +17,13 @@ class CreateUserRolesTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->id();
-            $table->bigInteger("user_id");
-            $table->bigInteger("role_id");
+            $table->bigInteger("user_id")->unsigned();
+            $table->bigInteger("role_id")->unsigned();
             $table->timestamps();
             $table->bigInteger("created_by")->nullable();
             $table->bigInteger("updated_by")->nullable();
-            $table->index('role_id');            
-            $table->index('user_id');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
         });
     }
 

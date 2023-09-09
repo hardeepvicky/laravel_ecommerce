@@ -17,13 +17,13 @@ class CreateRoleRouteNamesTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->id();
-            $table->bigInteger("role_id");
-            $table->bigInteger("route_name_id");
+            $table->bigInteger("role_id")->unsigned();
+            $table->bigInteger("route_name_id")->unsigned();
             $table->timestamps();
             $table->bigInteger("created_by")->nullable();
             $table->bigInteger("updated_by")->nullable();
-            $table->index('role_id');            
-            $table->index('route_name_id');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('route_name_id')->references('id')->on('route_names')->onDelete('cascade');
         });
     }
 

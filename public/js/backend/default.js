@@ -35,3 +35,9 @@ $(document).ready(function()
         _form.trigger("submit");
     });
 });
+
+const element = document.querySelector('.js-choice');
+const choices = new Choices(element, {
+    removeItems: true,
+    removeItemButton: true,
+});

@@ -15,8 +15,18 @@ class Role extends BaseModel
 
     public static $cache_list_key = "RoleList";
 
+    public function userRole()
+    {
+        return $this->hasMany(UserRole::class, 'role_id');
+    }
+
     public function routeNames(): HasManyThrough
     {
         return $this->hasManyThrough(RouteName::class, RoleRouteName::class);
+    }
+
+    public function scopeWithAll($query) 
+    {
+        $query->with('userRole');
     }
 }

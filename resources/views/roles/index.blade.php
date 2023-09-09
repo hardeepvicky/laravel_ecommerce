@@ -22,7 +22,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="GET" action="{{ route($route_prefix . '.index') }}">
+        <form method="GET" action="{{ route($routePrefix . '.index') }}">
             <div class="row mb-4">
                 <div class="col-md-3">
                     <x-inputs.text-field name="name" label="Name" :value="$name" autocomplete="off" />
@@ -60,7 +60,7 @@
                     <td>{{ $record->id }}</td>
                     <td>{{ $record->name }}</td>
                     <td>
-                        <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$route_prefix"/>
+                        <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$routePrefix"/>
                     </td>
                 </tr>
                 @endforeach    

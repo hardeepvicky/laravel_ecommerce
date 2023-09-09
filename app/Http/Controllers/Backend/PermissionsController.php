@@ -11,7 +11,7 @@ class PermissionsController extends BackendController
 {
     public function __construct()
     {
-        $this->view_prefix = $this->route_prefix = "permissions";
+        $this->viewPrefix = $this->routePrefix = "permissions";
     }
 
     public function index()

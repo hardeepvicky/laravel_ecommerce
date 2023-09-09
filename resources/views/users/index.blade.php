@@ -5,12 +5,12 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Role Summary</h4>
+            <h4 class="mb-sm-0 font-size-18">User</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                    <li class="breadcrumb-item">Role</li>
+                    <li class="breadcrumb-item">User</li>
                     <li class="breadcrumb-item active">Summary</li>
                 </ol>
             </div>
@@ -22,7 +22,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form method="GET" action="{{ url('/users') }}">
+        <form method="GET" action="{{ route($routePrefix . '.index') }}">
             <div class="row mb-4">
                 <div class="col-md-3">
                     <x-inputs.text-field name="name" label="Name" :value="$name" autocomplete="off" />
@@ -66,7 +66,7 @@
                     <td>{{ $record->name }}</td>
                     <td>{{ $record->email }}</td>
                     <td>
-                        <x-backend.summary-comman-actions :id="$record->id" />
+                        <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$routePrefix" />
                     </td>
                 </tr>
                 @endforeach    

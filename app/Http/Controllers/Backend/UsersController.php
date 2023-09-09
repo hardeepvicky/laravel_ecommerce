@@ -6,13 +6,15 @@ use App\Acl\AccessControl;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\UserRole;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class UsersController extends BackendController
 {
     public function __construct()
     {
-        $this->route_prefix = $this->view_prefix = "users";
+        $this->routePrefix = $this->viewPrefix = "users";
     }
 
     public function index()
@@ -38,9 +40,10 @@ class UsersController extends BackendController
     public function create()
     {
         $model = new User();
-        return view("users.add", [
-            'model' => $model
-        ]);
+
+        $this->setForView(compact("model"));
+
+        return $this->view("add");
     }
 
     public function store(Request $request)
@@ -64,9 +67,9 @@ class UsersController extends BackendController
 
     public function edit($id)
     {
-        $model = User::findOrFail($id);
+        $model = User::query()->findOrFail($id);
 
-        $role_list = (new Role())->getList();
+        $role_list = Role::getList();
         
         $this->setForView(compact("role_list", "model"));
 
@@ -86,16 +89,38 @@ class UsersController extends BackendController
             'email.email' => 'Email must be email address.'
         ]);
 
-        $model->fill($validatedData);
-        $model->save();
+        DB::beginTransaction();
 
-        return redirect()->route($this->route_prefix . ".index")->with('success', 'User updated successfully.');
+        try
+        {
+            $model->fill($validatedData);
+            $model->save();
+
+            foreach($request->get('roles') as $role_id)
+            {
+                $userRole = new UserRole();
+                $userRole->insertOrUpdate([
+                    'user_id' => $model->id,
+                    'role_id' => $role_id
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route($this->routePrefix . ".index")->with('success', 'Record updated successfully.');
+        }
+        catch(\Exception $ex)
+        {
+            DB::rollBack();
+
+            return back()->with('fail')->withInput();
+        }
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return back()->with('success', 'User deleted successfully.');
+        return back()->with('success', 'Record deleted successfully.');
     }
 }

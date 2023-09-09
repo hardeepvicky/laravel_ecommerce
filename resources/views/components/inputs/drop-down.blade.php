@@ -1,11 +1,20 @@
 <label class="form-label">{{ $label }}</label>
 @php
+   $value_list = [];
+
    $v = old($name, $value);
+
+   $value_list = explode(",", $v);
 @endphp
 <select name="{{ $name }}" {{ $attributes->merge(['class' => 'form-control']) }}>
-    <option value="">Please Select</option>
+    @if (!$attributes->has('multiple'))    
+        <option value="">Please Select</option>
+    @endif
     @foreach($list as $k => $t)
-        <option value="{{ $k }}" {{ $v == $k ? 'selected="true"' : '' }} >{{$t}}</option>
+        @php 
+            $attr = in_array($k, $value_list) ? 'selected="selected"' : "";
+        @endphp
+        <option value="{{ $k }}" {!! $attr !!} >{{$t}}</option>
     @endforeach
 </select>
 

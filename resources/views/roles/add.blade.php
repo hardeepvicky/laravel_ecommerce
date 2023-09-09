@@ -32,7 +32,7 @@
 
 <div class="row">
     <div class="col-lg-5">
-        <form action="{{ route($route_prefix . '.store') }}" method="POST">
+        <form action="{{ route($routePrefix . '.store') }}" method="POST">
             {!! csrf_field() !!}
             <div class="form-group mb-3">                
                 <x-inputs.text-field name="name" label="Name" placeholder="Enter Name" />

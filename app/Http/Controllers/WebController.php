@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class WebController extends Controller
 {
-    public $route_prefix, $view_prefix;
+    public $routePrefix, $viewPrefix;
     private $data = [];
 
     protected function setForView(array $array)
@@ -17,9 +17,9 @@ class WebController extends Controller
 
     protected function view($view_name)
     {
-        $this->data['route_prefix'] = $this->route_prefix;
+        $this->data['routePrefix'] = $this->routePrefix;
         
-        return view($this->view_prefix . "." . $view_name, $this->data);
+        return view($this->viewPrefix . "." . $view_name, $this->data);
     }
 
     protected function getConditions($cache_prefix, array $array)

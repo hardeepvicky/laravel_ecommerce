@@ -1,7 +1,7 @@
 <a class="btn btn-light" href="{{ route($routePrefix . '.edit',[$id]) }}">
     <i class="bx bx-edit-alt label-icon"></i>                            
 </a>
-<form action="{{ url('users/' . $id ) }}" method="POST" class="delete" style="display:inline-block;">
+<form action="{{ route($routePrefix . '.destroy', [$id]) }}" method="POST" class="delete" style="display:inline-block;">
     {{ csrf_field() }}
     {{ method_field('DELETE') }}
     <button class="btn btn-danger">

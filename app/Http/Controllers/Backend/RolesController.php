@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Backend;
 use App\Acl\AccessControl;
 use Illuminate\Http\Request;
 use App\Models\Role;
+use Exception;
 use Illuminate\Support\Facades\Route;
 
 class RolesController extends BackendController
 {
     public function __construct()
     {
-        $this->route_prefix = $this->view_prefix = "roles";
+        $this->routePrefix = $this->viewPrefix = "roles";
     }
 
     public function index()
@@ -70,13 +71,20 @@ class RolesController extends BackendController
         $model->fill($validatedData);
         $model->save();
 
-        return redirect()->route($this->route_prefix . ".index")->with('success', 'Record updated successfully');
+        return redirect()->route($this->routePrefix . ".index")->with('success', 'Record updated successfully');
     }
 
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
-        $role->delete();
-        return back()->with('success', 'Record deleted successfully.');
+        try
+        {        
+            $this->delete(Role::class, $id);
+
+            return back()->with('success', 'Record deleted successfully.');
+        }
+        catch(\Exception $ex)
+        {
+            return back()->with('fail', $ex->getMessage());
+        }
     }
 }

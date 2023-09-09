@@ -31,14 +31,14 @@ class Menu
         return $arr;
     }
 
-    private static function getControllerLinks(String $route_prefix, String $title, String $icon)
+    private static function getControllerLinks(String $routePrefix, String $title, String $icon)
     {
         $links = [
             "title" => $title,
             "icon" => $icon,
             "links" => [
-                self::addLink($route_prefix . ".index", "Summary", FontAwesomeIcon::SUMMARY),
-                self::addLink($route_prefix . ".create", "Add", FontAwesomeIcon::ADD),
+                self::addLink($routePrefix . ".index", "Summary", FontAwesomeIcon::SUMMARY),
+                self::addLink($routePrefix . ".create", "Add", FontAwesomeIcon::ADD),
             ],
         ];
 
@@ -48,8 +48,8 @@ class Menu
     private static function _home()
     {
         $links = [];
-        $route_prefix = "users";
-        $links[] = self::getControllerLinks($route_prefix, "Users", "fas fa-users");
+        $routePrefix = "users";
+        $links[] = self::getControllerLinks($routePrefix, "Users", "fas fa-users");
         $links[] = self::getControllerLinks("roles", "Roles", "fas fa-table");
 
         self::$menu['home'] = [

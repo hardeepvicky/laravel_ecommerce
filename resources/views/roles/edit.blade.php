@@ -32,7 +32,7 @@
 
 <div class="row">
     <div class="col-lg-5">
-        <form action="{{ route($route_prefix . '.update', [$model->id]) }}" method="POST">
+        <form action="{{ route($routePrefix . '.update', [$model->id]) }}" method="POST">
             {!! csrf_field() !!}
             {{ method_field('PUT') }}
             <div class="form-group mb-3">                

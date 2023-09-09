@@ -41,7 +41,7 @@ class BaseModel extends Model
         });
     }
 
-    public function insertOrUpdate(array $data, &$is_insert)
+    public function insertOrUpdate(array $data, &$is_insert = null)
     {
         $record = $this->getUniqueId($data);
         

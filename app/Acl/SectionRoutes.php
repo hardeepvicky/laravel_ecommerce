@@ -7,19 +7,19 @@ class SectionRoutes
         "users.clear_search_cache",
     ];
 
-    private static function commonRoutes($route_prefix)
+    private static function commonRoutes($routePrefix)
     {
         $routes =  [
-            "Summary" => [$route_prefix . ".index"],
+            "Summary" => [$routePrefix . ".index"],
             "Add" => [
-                $route_prefix . ".add", 
-                $route_prefix . ".store"
+                $routePrefix . ".add", 
+                $routePrefix . ".store"
             ],
             "Edit" => [
-                $route_prefix . ".edit", 
-                $route_prefix . ".update"
+                $routePrefix . ".edit", 
+                $routePrefix . ".update"
             ],
-            "Delete" => [$route_prefix . ".destroy"]
+            "Delete" => [$routePrefix . ".destroy"]
         ];
 
         return $routes;
@@ -34,9 +34,9 @@ class SectionRoutes
 
     private static function users()
     {
-        $route_prefix = "users";
+        $routePrefix = "users";
         
-        $routes = self::commonRoutes($route_prefix);
+        $routes = self::commonRoutes($routePrefix);
 
         return $routes;
     }
