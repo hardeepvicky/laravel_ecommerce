@@ -12,6 +12,8 @@ class BaseModel extends Model
 
     protected static $cache_list_key = null;
 
+    public $child_model_class = [];
+
     public static function boot()
     {
         parent::boot();
@@ -54,6 +56,18 @@ class BaseModel extends Model
         {
             $is_insert = true;
             $record = self::create($data);
+        }
+
+        return $record->id;
+    }
+
+    public function insertIgnoreIfExist(array $data)
+    {
+        $record = $this->getUniqueId($data);
+        
+        if (!$record)
+        {
+            $record = static::create($data);
         }
 
         return $record->id;
@@ -112,5 +126,10 @@ class BaseModel extends Model
         }
 
         return $list;
+    }
+
+    public static function getFileSavePath()
+    {
+        throw_exception("getFileSavePath function not declare in Model");
     }
 }

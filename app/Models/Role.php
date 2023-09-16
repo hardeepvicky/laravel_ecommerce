@@ -15,6 +15,17 @@ class Role extends BaseModel
 
     public static $cache_list_key = "RoleList";
 
+    public $child_model_class = [
+        UserRole::class => [
+            "foreignKey" => "role_id",
+            "preventDelete" => true,
+        ],
+        RoleRouteName::class => [
+            "foreignKey" => "role_id",
+            "preventDelete" => false,
+        ],
+    ];
+
     public function userRole()
     {
         return $this->hasMany(UserRole::class, 'role_id');

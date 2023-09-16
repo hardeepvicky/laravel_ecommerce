@@ -42,6 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public $child_model_class = [
+        UserRole::class => [
+            "foreignKey" => "role_id",
+            "preventDelete" => true,
+        ],       
+    ];
+
     public function userRole()
     {
         return $this->hasMany(UserRole::class, 'user_id');

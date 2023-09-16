@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Acl\AccessControl;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 class PermissionsController extends BackendController
@@ -16,68 +15,75 @@ class PermissionsController extends BackendController
 
     public function index()
     {
+        $modelName = "Role";
+
+        $conditions = $this->getConditions(Route::currentRouteName(), [
+            ["field" => "name", "type" => "string", "view_field" => "name"],            
+        ]);
+
+        //dd($conditions);
+        $records = Role::where($conditions)->paginate(PAGINATION_LIMIT);
+
+        $this->setForView(compact("records", "modelName"));
+
         return $this->view("index");
     }
 
     public function create()
     {
-        $model = new User();
-        return view("users.add", [
-            'model' => $model
-        ]);
+        $model = new Role();
+
+        $this->setForView(compact("model"));
+
+        return $this->view("add");
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'password' => 'required|min:5',
-            'email' => 'required|email|unique:users'
-        ], [
-            'name.required' => 'Name is required.',
-            'password.required' => 'Password is required.',
-            'email.required' => 'Email is required.',
-            'email.email' => 'Email must be email address.'
+        $validatedData = $request->validate([            
+            'name' => 'required|min:3|unique:roles'
         ]);
   
-        $validatedData['password'] = bcrypt($validatedData['password']);
-        User::create($validatedData);
+        Role::create($validatedData);
             
-        return back()->with('success', 'User created successfully.');
+        return back()->with('success', 'Record created successfully');
     }
 
     public function edit($id)
     {
-        $model = User::findOrFail($id);
+        $model = Role::findOrFail($id);
 
-        return view("users.edit", [
-            'model' => $model
-        ]);
+        $this->setForView(compact("model"));
+
+        return $this->view("edit");
     }
 
     public function update($id, Request $request)
     {
-        $model = User::findOrFail($id);
+        $model = Role::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'name' => 'required',            
-            'email' => 'required|email|unique:users,email,'. $model->id
-        ], [
-            'name.required' => 'Name is required.',            
-            'email.required' => 'Email is required.',
-            'email.email' => 'Email must be email address.'
+        $validatedData = $request->validate([            
+            'name' => 'required|min:3|unique:roles,name,' . $model->id      
         ]);
 
         $model->fill($validatedData);
         $model->save();
 
-        return redirect($this->url_prefix)->with('success', 'User updated successfully.');
+        return redirect()->route($this->routePrefix . ".index")->with('success', 'Record updated successfully');
     }
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return back()->with('success', 'User deleted successfully.');
+        try
+        {       
+            $model = Role::findOrFail($id); 
+            $this->delete($model);
+
+            return back()->with('success', 'Record deleted successfully.');
+        }
+        catch(\Exception $ex)
+        {
+            return back()->with('fail', $ex->getMessage());
+        }
     }
 }

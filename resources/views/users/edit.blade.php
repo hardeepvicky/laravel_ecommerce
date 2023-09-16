@@ -42,7 +42,7 @@
                 <x-inputs.text-field type="email" name="email" label="Email" placeholder="Enter Email" value="{{ $model->email }}" />
             </div>          
             <div class="mb-3">                
-                <x-inputs.drop-down name="roles[]" label="Roles" value="" class="js-choice" :list="$role_list" multiple="multiple" value="{{ implode(',', $model->userRole->pluck('role_id')->toArray()) }}" />
+                <x-inputs.drop-down name="roles[]" label="Roles" value="" class="select2" :list="$role_list" multiple="multiple" value="{{ implode(',', $model->userRole->pluck('role_id')->toArray()) }}" />
             </div>          
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary w-md">Submit</button>

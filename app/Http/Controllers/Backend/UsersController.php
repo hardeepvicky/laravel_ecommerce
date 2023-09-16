@@ -96,16 +96,31 @@ class UsersController extends BackendController
             $model->fill($validatedData);
             $model->save();
 
+            $exist_user_role_list = UserRole::where("user_id", "=", $model->id)->pluck("id", "id")->toArray();
+
+            $userRole = new UserRole();
             foreach($request->get('roles') as $role_id)
             {
-                $userRole = new UserRole();
-                $userRole->insertOrUpdate([
+                $user_role_id = $userRole->insertIgnoreIfExist([
                     'user_id' => $model->id,
                     'role_id' => $role_id
                 ]);
+
+                unset($exist_user_role_list[$user_role_id]);
             }
 
+            if ($exist_user_role_list)
+            {
+                UserRole::withoutEvents(function () use ($exist_user_role_list)
+                {
+                    UserRole::destroy($exist_user_role_list);
+                });
+            }
+            
+
             DB::commit();
+
+            $this->saveSqlLog();
 
             return redirect()->route($this->routePrefix . ".index")->with('success', 'Record updated successfully.');
         }
@@ -113,7 +128,7 @@ class UsersController extends BackendController
         {
             DB::rollBack();
 
-            return back()->with('fail')->withInput();
+            return back()->with('fail', $ex->getMessage())->withInput();
         }
     }
 

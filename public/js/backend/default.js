@@ -1,5 +1,10 @@
 $(document).ready(function()
 {
+    $(".select2").select2({
+        placeHolder : "Please Select",
+        theme : "bootstrap-5",
+    });
+
     $("form.delete").submit(function()
     {
         var _form = $(this);
@@ -34,10 +39,4 @@ $(document).ready(function()
         _form.find(':input').not(':button, :submit, :reset, :hidden').val('').prop('checked', false).prop('selected', false);
         _form.trigger("submit");
     });
-});
-
-const element = document.querySelector('.js-choice');
-const choices = new Choices(element, {
-    removeItems: true,
-    removeItemButton: true,
 });

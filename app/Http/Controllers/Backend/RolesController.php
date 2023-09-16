@@ -77,8 +77,10 @@ class RolesController extends BackendController
     public function destroy($id)
     {
         try
-        {        
-            $this->delete(Role::class, $id);
+        {       
+            $model = Role::findOrFail($id); 
+            
+            $this->delete($model);
 
             return back()->with('success', 'Record deleted successfully.');
         }

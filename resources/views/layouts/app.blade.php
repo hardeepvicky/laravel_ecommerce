@@ -17,7 +17,8 @@
         <!-- preloader css -->
         <link rel="stylesheet" href="/assets/css/preloader.min.css" type="text/css" />
 
-        <link href="/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/libs/select2/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/libs/select2/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
 
         <!-- Bootstrap Css -->
         <link href="/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
@@ -240,7 +241,7 @@
         <script src="/assets/libs/feather-icons/feather.min.js"></script>
         <!-- pace js -->
         <script src="/assets/libs/pace-js/pace.min.js"></script>
-        <script src="/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+        <script src="/assets/libs/select2/select2.min.js"></script>
 
         <!-- apexcharts -->
         <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>

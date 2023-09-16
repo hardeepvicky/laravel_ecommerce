@@ -32,8 +32,11 @@
             "app/Helpers/constatnts.php",
             "app/Helpers/fontawesome_icon_constatnts.php",
             "app/Helpers/functions.php",
+            "app/Helpers/CsvUtility.php",
+            "app/Helpers/AWSFileUtility.php",
+            "app/Helpers/FileUtility.php",
             "app/Acl/AccessControl.php",
-            "app/Acl/SectionRoutes.php"
+            "app/Acl/SectionRoutes.php"            
         ]
     },
     "autoload-dev": {
