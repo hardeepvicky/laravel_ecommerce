@@ -3,87 +3,84 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Acl\AccessControl;
+use App\Acl\SectionRoutes;
+use App\Models\Role;
+use App\Models\RoleRouteName;
+use App\Models\RouteName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 class PermissionsController extends BackendController
 {
     public function __construct()
     {
-        $this->viewPrefix = $this->routePrefix = "permissions";
+        $this->routePrefix = "admin.permissions";
+        $this->viewPrefix = "backend.permissions";
     }
 
     public function index()
     {
-        $modelName = "Role";
-
-        $conditions = $this->getConditions(Route::currentRouteName(), [
-            ["field" => "name", "type" => "string", "view_field" => "name"],            
-        ]);
-
-        //dd($conditions);
-        $records = Role::where($conditions)->paginate(PAGINATION_LIMIT);
-
-        $this->setForView(compact("records", "modelName"));
-
         return $this->view("index");
     }
 
-    public function create()
+    public function assign(Request $request)
     {
-        $model = new Role();
+        $sections = SectionRoutes::get();
 
-        $this->setForView(compact("model"));
-
-        return $this->view("add");
-    }
-
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([            
-            'name' => 'required|min:3|unique:roles'
-        ]);
-  
-        Role::create($validatedData);
-            
-        return back()->with('success', 'Record created successfully');
-    }
-
-    public function edit($id)
-    {
-        $model = Role::findOrFail($id);
-
-        $this->setForView(compact("model"));
-
-        return $this->view("edit");
-    }
-
-    public function update($id, Request $request)
-    {
-        $model = Role::findOrFail($id);
-
-        $validatedData = $request->validate([            
-            'name' => 'required|min:3|unique:roles,name,' . $model->id      
-        ]);
-
-        $model->fill($validatedData);
-        $model->save();
-
-        return redirect()->route($this->routePrefix . ".index")->with('success', 'Record updated successfully');
-    }
-
-    public function destroy($id)
-    {
-        try
-        {       
-            $model = Role::findOrFail($id); 
-            $this->delete($model);
-
-            return back()->with('success', 'Record deleted successfully.');
-        }
-        catch(\Exception $ex)
+        if ($request->isMethod('post'))
         {
-            return back()->with('fail', $ex->getMessage());
+            $accessControl = AccessControl::init();
+            $saved_route_name_list = $accessControl->syncRouteNamesToDatabase();
+            
+            $data = $request->all();
+
+            //d($sections);
+
+            $choosen_route_list = [];
+            foreach($data['data'] as $section_name => $data_actions)
+            {
+                if (isset($sections[$section_name]))
+                {
+                    foreach($data_actions as $action_name)
+                    {
+                        if ( isset($sections[$section_name][$action_name]))
+                        {
+                            $choosen_route_list = array_merge($choosen_route_list, $sections[$section_name][$action_name]);
+                        }
+                    }
+                }
+            }
+
+            $choosen_route_list = array_unique($choosen_route_list);
+
+            $roleRouteName = new RoleRouteName();
+
+            
+            foreach($choosen_route_list as $route_name)
+            {
+                if (!isset($saved_route_name_list[$route_name]))
+                {
+                    die("$route_name not found in saved_route_name_list. may be you forgot to save in SectionRoutes.php");
+                }
+
+                $roleRouteName->insertIgnoreIfExist([
+                    "role_id" => $data['role_id'],
+                    "route_name_id" => $saved_route_name_list[$route_name],
+                ]);
+            }
+
+            $this->saveSqlLog();
+
+            Session::flash('success', 'Permission are saved');
         }
+
+        $role_list = Role::getList();
+
+        //d($sections); exit;
+
+        $this->setForView(compact("role_list", "sections"));
+
+        return $this->view("assign");
     }
 }

@@ -25,7 +25,7 @@ class RolesController extends BackendController
         ]);
 
         //dd($conditions);
-        $records = Role::where($conditions)->paginate(PAGINATION_LIMIT);
+        $records = Role::where($conditions)->orderBy('id', 'desc')->paginate(PAGINATION_LIMIT);
 
         $this->setForView(compact("records", "modelName"));
 

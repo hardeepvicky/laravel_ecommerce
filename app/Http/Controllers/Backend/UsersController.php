@@ -14,15 +14,13 @@ class UsersController extends BackendController
 {
     public function __construct()
     {
-        $this->routePrefix = $this->viewPrefix = "users";
+        $this->routePrefix = "admin.users";
+        $this->viewPrefix = "backend.users";
     }
 
     public function index()
     {
         $modelName = "User";
-
-        $accessControl = AccessControl::init();
-        $accessControl->syncRouteNamesToDatabase();
 
         $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "name", "type" => "string", "view_field" => "name"],
@@ -30,7 +28,7 @@ class UsersController extends BackendController
         ]);
 
         //dd($conditions);
-        $records = User::where($conditions)->paginate(PAGINATION_LIMIT);
+        $records = User::where($conditions)->orderBy('id', 'desc')->paginate(PAGINATION_LIMIT);
 
         $this->setForView(compact("records", "modelName"));
 

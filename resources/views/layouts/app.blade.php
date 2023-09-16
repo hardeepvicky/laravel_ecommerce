@@ -27,8 +27,9 @@
         <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-        <link href="/css/backend.css" id="app-style" rel="stylesheet" type="text/css" />
         
+        <link href="/css/backend.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="/css/backend/default.css" id="app-style" rel="stylesheet" type="text/css" />
 
         <script src="/assets/libs/jquery/jquery.min.js"></script>
     </head>
@@ -253,6 +254,9 @@
         <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
         <script src="/assets/js/app.js"></script>
+
+        <script src="/js/backend.js"></script>
+
         <script src="/js/backend/default.js"></script>
 
     </body>

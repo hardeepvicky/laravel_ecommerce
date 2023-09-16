@@ -11,6 +11,8 @@ class Menu
         //self::$current_url = strtolower("Users/index");
 
         self::_home();
+        self::_member_manager();
+        self::_system_manager();
         self::_logs();
 
         return self::$menu;
@@ -46,13 +48,48 @@ class Menu
 
     private static function _home()
     {
+        $links = [];
+
+        $links[] = self::addLink("admin.dashboard", "Dashboard", 'bx bxs-dashboard');
+       
+        self::$menu[] = [
+            'title' => 'Home',
+            'icon' => 'fas fa-home',
+            'links' => $links,
+        ];
+    }
+
+    private static function _member_manager()
+    {
         $links = [];        
         $links[] = self::getControllerLinks("admin.users", "Users", "fas fa-users");
         $links[] = self::getControllerLinks("admin.roles", "Roles", "fas fa-table");
 
         self::$menu[] = [
-            'title' => 'Home',
-            'icon' => 'fas fa-home',
+            'title' => 'Member Manager',
+            'icon' => 'fas fa-users',
+            'links' => $links,
+        ];
+    }
+
+    private static function _system_manager()
+    {
+        $links = [];        
+        
+        $routePrefix = "admin.permissions";
+        $links[] = [
+            "title" => "Permissions",
+            "icon" => "fas fa-bars",
+            "links" => [
+                self::addLink($routePrefix . ".index", "Summary", FontAwesomeIcon::SUMMARY),
+                self::addLink($routePrefix . ".assign", "Assign", 'bx bx-grid-alt'),
+                self::addLink($routePrefix . ".assign_to_many", "Assign To Many", 'bx bx-grid-alt'),
+            ],
+        ];
+
+        self::$menu[] = [
+            'title' => 'System Manager',
+            'icon' => 'fas fa-cogs',
             'links' => $links,
         ];
     }

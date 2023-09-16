@@ -1,4 +1,222 @@
-.fas
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 30, 2020, 11:24:56 PM
+    Author     : Hardeep
+*/
+
+.hidden
 {
-    font-size: 1em !important;
+    display: none;
+}
+
+.error-message
+{
+    color : red;
+    display: block;
+}
+
+.sr-paragraph-more-text-opener,
+.sr-paragraph-less-text-opener
+{
+    color : #0000ff;
+    cursor: pointer;
+}
+
+.help-block
+{
+    display: block;
+    color : #AAA;
+}
+
+.sr-loader-applied
+{
+    padding : 0;
+}
+
+.sr-loader-container
+{
+    position: relative;
+    width : 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.5);    
+}
+
+.sr-loader-container-fixed
+{
+    position: fixed;
+    top : 0;
+    left : 0;
+    height : 100vh;
+    width : 100%;
+    background-color: rgba(0,0,0,.5);    
+}
+
+i.sr-loader-icon
+{
+    position: absolute;
+    top : 50%;
+    left: 50%;    
+    font-size: 2em;
+    color : #FFF;
+    margin-left : -0.65em;
+    margin-top : -0.6em;
+}
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 3, 2020, 5:06:29 PM
+    Author     : Hardeep
+*/
+
+.sr-ajax-file-upload
+{
+}
+
+.sr-ajax-file-upload .abort
+{
+    cursor: pointer;
+}
+
+.sr-ajax-file-upload-block .progress-status
+{
+    font-size: 0.8em;
+}
+
+.sr-ajax-file-upload-block .status
+{
+    padding: 0.5rem 1rem;
+}
+
+div.sr-ajax-file-upload-block
+{
+    border : 1px solid #007bff;
+    padding: 8px;
+}
+
+div.sr-ajax-file-upload-block .sr-ajax-file-upload-file-info
+{
+    margin : 0.75em 0 1em 0;
+}
+
+div.sr-ajax-file-upload-block .sr-ajax-file-upload-file-info .filename
+{
+    width : 50%;
+    float : left;
+}
+
+div.sr-ajax-file-upload-block .sr-ajax-file-upload-file-info .total-size
+{
+    width : 50%;
+    float : right;
+    text-align: right;
+}
+
+div.sr-ajax-file-upload-block .sr-ajax-file-upload-file-info .total-size:after
+{
+    float: clear;
+}
+
+div.sr-ajax-file-upload-block .sr-ajax-file-upload-file-info .abort
+{
+    margin-left : 10px;
+}
+
+tr.sr-ajax-file-upload-block .filename
+{
+    margin-bottom: 0.3em;
+    font-size: 0.85em;
+}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 12, 2018, 2:31:53 PM
+    Author     : abc
+*/
+
+.sr-data-table-applied
+{
+    
+}
+
+.hidden
+{
+    display: none;
+}
+
+.sr-data-table-applied th
+{
+    position: relative;    
+    overflow: hidden;
+}
+
+
+.sr-data-table-applied th .search-block
+{
+    width : 96%;
+    position: absolute;
+    top : 50%;
+    right: -100%;
+    transform : translateY(-50%);
+    transition: .1s;
+    opacity: 0.85;
+}
+
+.sr-data-table-applied th .sr-data-table-sort
+{
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.sr-data-table-applied th .search-block input[type='text']
+{
+    width : 100%;
+    padding : 6px 8px;
+    border: 1px solid #3174AF;
+    color : #000;
+}
+
+.sr-data-table-applied th .search-icon,
+.sr-data-table-applied th .search-clear-icon
+{
+    position: absolute;
+    top : 50%;
+    right : 5px;
+    transform : translateY(-50%);
+    font-size: 16px;
+    padding : 8px;
+    color : #FFF;
+    background-color: #ccccff;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.sr-data-table-applied th .search-clear-icon
+{
+    background-color:#E08283;
+}
+
+.sr-data-table-applied th .search-icon.active
+{
+    background-color: #364150;
+}
+
+.sr-data-table-applied th .search-icon:hover + .search-block, .sr-data-table-applied th .search-block:hover, .sr-data-table-applied th .search-block:focus-within{
+    right : 4px;
+}
+
+.sr-data-table-applied .info-tooltip
+{
+    position: absolute;
+    right: 5px;
 }

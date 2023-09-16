@@ -22,7 +22,7 @@ class SqlLogsController extends BackendController
             ["field" => "route_name_or_url", "type" => "string", "view_field" => "route_name_or_url"],            
         ]);
 
-        $records = SqlLog::where($conditions)->paginate(50);
+        $records = SqlLog::where($conditions)->orderBy('id', 'desc')->paginate(50);
 
         $this->setForView(compact("records", "modelName"));
 

@@ -40,8 +40,6 @@ class AccessControl
     {
         $routeCollection = \Illuminate\Support\Facades\Route::getRoutes();
 
-        dd($routeCollection);
-        
         $list = [];
         foreach($routeCollection as $route)
         {
@@ -58,18 +56,24 @@ class AccessControl
 
         $id_list = RouteName::pluck('name', 'id')->toArray();
 
+        $saved_route_name_list = [];
+
         foreach($list as $route_name)
         {
             if (!in_array($route_name, SectionRoutes::$public_routes))
             {
-                $id = $routeNameModel->insertOrUpdate(["name" => $route_name], $is_insert);
+                $id = $routeNameModel->insertIgnoreIfExist(["name" => $route_name]);
                 unset($id_list[$id]);
+
+                $saved_route_name_list[$route_name] = $id;
             }            
         }
 
         if ($id_list)
         {
-            RouteName::destroy($id_list);
+            RouteName::destroy(array_keys($id_list));
         }
+
+        return $saved_route_name_list;
     }
 }

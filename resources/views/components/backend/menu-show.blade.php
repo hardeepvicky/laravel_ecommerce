@@ -28,7 +28,7 @@
                                 @endforeach
                             </ul>
                         @endisset
-                        @isset($sub_menu2['url'])                                                            
+                        @isset($sub_menu2['route_name'])                                                            
                             <a href="{{ route($sub_menu2['route_name']) }}" class="{{ $sub_menu2['is_active'] ? 'active' : '' }}">
                                 <i class="{{ $sub_menu2['icon'] }}"></i>
                                 <span>{{ $sub_menu2['title'] }}</span>
@@ -39,7 +39,7 @@
                     @endforeach 
                     
                 @endisset
-                @isset($sub_menu['url'])                    
+                @isset($sub_menu['route_name'])                    
                     <a href="{{ route($sub_menu['route_name']) }}" class="$sub_menu['is_active'] ? 'active' : '' }}">
                         <i class="{{ $sub_menu['icon'] }}"></i>
                         <span>{{ $sub_menu['title'] }}</span>

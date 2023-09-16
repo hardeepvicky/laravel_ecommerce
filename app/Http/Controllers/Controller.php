@@ -10,7 +10,7 @@ use App\Models\BaseModel;
 use App\Models\SqlLog;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\CsvUtility;
+use Illuminate\Support\Facades\App;
 use App\Helpers\FileUtility;
 use Illuminate\Database\Eloquent\Model;
 
@@ -71,6 +71,11 @@ class Controller extends BaseController
 
     protected function saveSqlLog()
     {
+        if (App::environment('production')) 
+        {
+            return false;
+        }
+
         $db_logs = DB::getQueryLog();
 
         if (count($db_logs) == 0)
