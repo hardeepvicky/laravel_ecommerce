@@ -12,7 +12,8 @@ class RolesController extends BackendController
 {
     public function __construct()
     {
-        $this->routePrefix = $this->viewPrefix = "roles";
+        $this->routePrefix = "admin.roles";
+        $this->viewPrefix = "backend.roles";
     }
 
     public function index()
@@ -79,8 +80,10 @@ class RolesController extends BackendController
         try
         {       
             $model = Role::findOrFail($id); 
-            
+
             $this->delete($model);
+
+            $this->saveSqlLog();
 
             return back()->with('success', 'Record deleted successfully.');
         }

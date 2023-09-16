@@ -40,6 +40,8 @@ class AccessControl
     {
         $routeCollection = \Illuminate\Support\Facades\Route::getRoutes();
 
+        dd($routeCollection);
+        
         $list = [];
         foreach($routeCollection as $route)
         {

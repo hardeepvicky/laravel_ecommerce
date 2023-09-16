@@ -44,8 +44,8 @@ class User extends Authenticatable
 
     public $child_model_class = [
         UserRole::class => [
-            "foreignKey" => "role_id",
-            "preventDelete" => true,
+            "foreignKey" => "user_id",
+            "preventDelete" => false,
         ],       
     ];
 

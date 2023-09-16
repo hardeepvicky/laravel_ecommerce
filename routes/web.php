@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\Logs\SqlLogsController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\PermissionsController;
 use App\Http\Controllers\Backend\RolesController;
@@ -24,10 +25,19 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource("users", UsersController::class);
-Route::resource("roles", RolesController::class);
+Route::group(['prefix' => 'admin', 'as'=>'admin.'], function () {    
 
-Route::get('/permissions/index', [PermissionsController::class, 'index'])->name("permissions.index");
-Route::any('/permissions/assign', [PermissionsController::class, 'assign'])->name("permissions.assign");
-Route::any('/permissions/assign_to_many', [PermissionsController::class, 'assign_to_many'])->name("permissions.assign_to_many");
-Route::delete('/permissions/delete/{id}', [PermissionsController::class, 'delete'])->name("permissions.delete");
+    Route::resource("users", UsersController::class);
+    Route::resource("roles", RolesController::class);
+
+    Route::group(['prefix' => 'permissions', 'as'=>'permissions.'], function () {
+        Route::get('/permissions/index', [PermissionsController::class, 'index'])->name("index");
+        Route::any('/permissions/assign', [PermissionsController::class, 'assign'])->name("assign");
+        Route::any('/permissions/assign_to_many', [PermissionsController::class, 'assign_to_many'])->name("assign_to_many");
+        Route::delete('/permissions/destroy/{id}', [PermissionsController::class, 'delete'])->name("destroy");
+    });
+
+    Route::group(['prefix' => 'logs', 'as'=>'logs.'], function () {
+        Route::get('sql', [SqlLogsController::class, 'index'])->name('sql.index');
+    });
+});

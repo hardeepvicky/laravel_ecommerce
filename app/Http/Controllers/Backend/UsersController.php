@@ -134,8 +134,19 @@ class UsersController extends BackendController
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return back()->with('success', 'Record deleted successfully.');
+        try
+        {       
+            $model = User::findOrFail($id); 
+            
+            $this->delete($model);
+
+            $this->saveSqlLog();
+
+            return back()->with('success', 'Record deleted successfully.');
+        }
+        catch(\Exception $ex)
+        {
+            return back()->with('fail', $ex->getMessage());
+        }
     }
 }

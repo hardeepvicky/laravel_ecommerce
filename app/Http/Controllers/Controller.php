@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\CsvUtility;
 use App\Helpers\FileUtility;
+use Illuminate\Database\Eloquent\Model;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function delete(BaseModel $model)
+    public function delete(BaseModel | Model $model)
     {
         DB::beginTransaction();
 
@@ -42,7 +43,9 @@ class Controller extends BaseController
 
                     if ($list->count() > 0)
                     {
-                        if ( !$child_model->destroy($list->toArray()) )
+                        $list = $list->toArray();
+
+                        if ( !$child_model->destroy($list) )
                         {
                             throw_exception("Fail to delete records of $className");
                         }
@@ -93,7 +96,7 @@ class Controller extends BaseController
         }
 
         $sql_list = $dml_sql_list = [
-            implode(",", ["Query", "Time In MilliSeconds"])
+            implode(",", ["Query", "Time-In-MilliSeconds"])
         ];
 
         foreach ($db_logs as $row)

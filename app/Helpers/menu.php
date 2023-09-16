@@ -11,8 +11,7 @@ class Menu
         //self::$current_url = strtolower("Users/index");
 
         self::_home();
-
-        
+        self::_logs();
 
         return self::$menu;
     }
@@ -47,14 +46,33 @@ class Menu
 
     private static function _home()
     {
-        $links = [];
-        $routePrefix = "users";
-        $links[] = self::getControllerLinks($routePrefix, "Users", "fas fa-users");
-        $links[] = self::getControllerLinks("roles", "Roles", "fas fa-table");
+        $links = [];        
+        $links[] = self::getControllerLinks("admin.users", "Users", "fas fa-users");
+        $links[] = self::getControllerLinks("admin.roles", "Roles", "fas fa-table");
 
-        self::$menu['home'] = [
+        self::$menu[] = [
             'title' => 'Home',
             'icon' => 'fas fa-home',
+            'links' => $links,
+        ];
+    }
+
+    private static function _logs()
+    {
+        $links = [];
+        $routePrefix = "admin.logs";
+        
+        $links[] = [
+            "title" => "Developer",
+            "icon" => "fas fa-bars",
+            "links" => [
+                self::addLink($routePrefix . ".sql.index", "SQL", FontAwesomeIcon::SUMMARY)
+            ],
+        ];
+
+        self::$menu[] = [
+            'title' => 'Logs',
+            'icon' => 'fas fa-layer-group',
             'links' => $links,
         ];
     }
