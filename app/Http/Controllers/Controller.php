@@ -118,34 +118,35 @@ class Controller extends BaseController
 
             $sql_list[] = $sql_row;
 
+            $query_first_10_chars = substr($query, 0, 10);
             if (!$is_dml)
             {
-                $is_dml = strpos($query, "INSERT") !== false;
+                $is_dml = strpos($query_first_10_chars, "INSERT") !== false;
             }
 
             if (!$is_dml)
             {
-                $is_dml = strpos($query, "insert") !== false;
+                $is_dml = strpos($query_first_10_chars, "insert") !== false;
             }
 
             if (!$is_dml)
             {
-                $is_dml = strpos($query, "UPDATE") !== false;
+                $is_dml = strpos($query_first_10_chars, "UPDATE") !== false;
             }
 
             if (!$is_dml)
             {
-                $is_dml = strpos($query, "update") !== false;
+                $is_dml = strpos($query_first_10_chars, "update") !== false;
             }
 
             if (!$is_dml)
             {
-                $is_dml = strpos($query, "DELETE") !== false;
+                $is_dml = strpos($query_first_10_chars, "DELETE") !== false;
             }
 
             if (!$is_dml)
             {
-                $is_dml = strpos($query, "delete") !== false;
+                $is_dml = strpos($query_first_10_chars, "delete") !== false;
             }
 
             if ($is_dml)

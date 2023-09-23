@@ -231,5 +231,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
+    
+    'will_menu_cache' => env('WILL_MENU_CACHE', true),
 ];

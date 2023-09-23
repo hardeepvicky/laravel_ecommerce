@@ -21,6 +21,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "bootbox": "^6.0.0",
         "sr-basic-feature": "^1.3.0",
         "sr-bootstrap-components": "^1.0.0"
     }

@@ -3,7 +3,16 @@ namespace App\Acl;
 
 class SectionRoutes
 {
-    public static $public_routes = [];
+    public static $public_routes = [
+        'admin.permissions.ajax_get_permissions'
+    ];
+
+    public static $allow_routes_for_admin_role = [
+        'admin.permissions.index',
+        'admin.permissions.assign',
+        'admin.permissions.assign_to_many',
+        'admin.permissions.destroy',
+    ];
 
     private static function commonRoutes($routePrefix)
     {
@@ -29,7 +38,6 @@ class SectionRoutes
 
         $sections["Users"] = self::users();
         $sections["Roles"] = self::roles();
-        $sections["Permissions"] = self::permissions();
 
         return $sections;
     }
@@ -52,21 +60,5 @@ class SectionRoutes
         return $routes;
     }
 
-    private static function permissions()
-    {
-        $routePrefix = "admin.permissions";
-        
-        $routes =  [
-            "Summary" => [$routePrefix . ".index"],
-            "Assign" => [
-                $routePrefix . ".assign",                 
-            ],
-            "Assign to Many" => [
-                $routePrefix . ".assign_to_many",                 
-            ],
-            "Delete" => [$routePrefix . ".destroy"]
-        ];
-
-        return $routes;
-    }
+    
 }

@@ -24,14 +24,15 @@
         <link href="/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <!-- Icons Css -->
         <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
-        <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" />
         
-        <link href="/css/backend.css" id="app-style" rel="stylesheet" type="text/css" />
-        <link href="/css/backend/default.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link href="/css/backend.css" rel="stylesheet" type="text/css" />
+        <link href="/css/backend/default.css" rel="stylesheet" type="text/css" />
 
         <script src="/assets/libs/jquery/jquery.min.js"></script>
+        <script src="/js/backend/constants.js"></script>
     </head>
 
     <body>
@@ -62,8 +63,6 @@
 
                 <div class="page-content">
                     <div class="container-fluid">
-
-                        
 
                         <x-backend.session-flash />
 
@@ -251,14 +250,18 @@
         <script src="/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
         <script src="/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
         <!-- dashboard init -->
-        <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+        <script src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
         <script src="/assets/js/app.js"></script>
 
         <script src="/js/backend.js"></script>
 
+        <script src="/js/backend/ajax.js"></script>
         <script src="/js/backend/default.js"></script>
 
+        <script type="text/javascript">
+            $("body").srLoader();
+        </script>
     </body>
 
 </html>

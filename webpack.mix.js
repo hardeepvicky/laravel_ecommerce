@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
  mix.scripts(
     [
+        'node_modules/bootbox/dist/bootbox.min.js',
         'node_modules/sr-basic-feature/dist/sr-basic-functions.js',
         'node_modules/sr-basic-feature/dist/sr-basic-feature.js',
         'node_modules/sr-bootstrap-components/dist/sr-ajax-file-upload.js',

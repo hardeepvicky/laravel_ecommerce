@@ -11,4 +11,14 @@ class RoleRouteName extends BaseModel
     public $fillable = ["role_id", "route_name_id"];
 
     public $unique_fields = ["role_id", "route_name_id"];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, "role_id");
+    }
+
+    public function routeName()
+    {
+        return $this->belongsTo(RouteName::class, "route_name_id");
+    }
 }

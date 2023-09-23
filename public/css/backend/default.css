@@ -1,4 +1,14 @@
-.fas
+.menu-icon
 {
     font-size: 1em !important;
+}
+
+.sr-loader-icon
+{
+    font-size: 8em !important;
+}
+
+.sr-loader-container-fixed, .sr-loader-container
+{
+    z-index: 2;
 }

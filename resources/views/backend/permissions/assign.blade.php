@@ -33,7 +33,7 @@
             <div class="row mb-4">
                 <label class="col-sm-3 col-form-label" style="text-align:right;">Role</label>
                 <div class="col-sm-8">
-                    <select name="role_id" class ="form-control select2" required="required">                        
+                    <select id="role_id" name="role_id" class ="form-control select2" required="required">                        
                         <option value="">Please Select</option>
                         @foreach($role_list as $k => $t)                            
                             <option value="{{ $k }}">{{$t}}</option>
@@ -43,61 +43,7 @@
             </div>
             
             <div class="row mb-4">
-                <div class="offset-lg-2">
-                    <table class="table table-striped table-bordered table-hover mb-0">
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th>Section</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $i = 0;
-                            @endphp
-                            @foreach($sections as $section_name => $actions)
-                                @php
-                                    $section_name = trim($section_name);
-                                    $section_name_str = str_replace(" ", "_", $section_name);
-                                    
-                                    $a = 0;
-                                @endphp
-                                
-                                @foreach($actions as $action_name => $route_list)
-                                    @php
-                                        $a++;
-                                        $i++;
-                                        $tr_cls = $a == 1 ? "first-row" : "";
-                                    @endphp
-                                    <tr class="{{ $tr_cls }}">
-                                        <td class="text-center">{{ $i }}</td>
-                                        <td>
-                                            <?php if ($a == 1): ?>
-                                                <label>
-                                                    <input type="checkbox" class="chk-select-all" data-sr-chkselect-children="input.section-<?= $section_name_str ?>">
-                                                    <b><?= $section_name ?></b>
-                                                </label>
-                                            <?php else: ?>
-                                                <?= $section_name ?>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <label>
-                                                <input type="checkbox"                                             
-                                                    class="section-<?= $section_name_str ?>" 
-                                                    name="data[<?= $section_name ?>][]" 
-                                                    value="<?= $action_name ?>"
-                                                    />
-                                                <?= $action_name ?>
-                                            </label>
-                                        </td>                            
-                                    </tr>
-                                @endforeach    
-                            @endforeach    
-                        </tbody>
-                    </table>
-                </div>
+                <div class="offset-lg-2" id="permission_block"></div>
             </div>
             <div class="mt-4 offset-md-4">
                 <button type="submit" class="btn btn-primary w-md">Submit</button>
@@ -105,5 +51,48 @@
         </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $("select#role_id").change(function()
+        {
+            var id = $(this).val();
+
+            var v = $(this).val();
+            v = v ? v : 0;
+            
+            if ($("#permission_block").not(":empty").length > 0)
+            {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You have change permissions but did not save it, Are you sure to ignore changes",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: constants.swal.button.confirm_color,
+                    cancelButtonColor: constants.swal.button.cancel_color,
+                    confirmButtonText: "Yes"   
+                }).then(function(e) {
+                    if (e.value)
+                    {
+                        $("#permission_block").html("");
+                        if (v)
+                        {
+                            $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v);
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $("#permission_block").html("");
+                if (v)
+                {
+                    $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v);
+                }
+            }
+        });
+    });
+</script>
 
 @endsection
