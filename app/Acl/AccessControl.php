@@ -23,6 +23,12 @@ class AccessControl
     public function isAllow(String $route_name, Array $role_id_list)
     {
         $route_name = trim($route_name);
+
+        if (in_array($route_name, SectionRoutes::$public_routes))
+        {
+            return true;
+        }
+        
         $role_ids = implode(",", $role_id_list);
 
         $q = "
@@ -61,7 +67,7 @@ class AccessControl
 
         $records = DB::select($q);
 
-        $list = [];
+        $list = SectionRoutes::$public_routes;
 
         foreach($records as $record)
         {
@@ -82,25 +88,11 @@ class AccessControl
         {
             $cache_key = $this->getMenuCacheKey($user_id);
 
-            Cache::forget($cache_key);
+            if (Cache::has($cache_key))
+            {
+                Cache::forget($cache_key);
+            }
         }
-    }
-
-    public function getAllowedRouteNames($role_id)
-    {
-        $q = "
-            SELECT
-                *
-            FROM
-                role_route_names RRN
-                INNER JOIN routes R ON R.id = RRN.route_name_id
-            WHERE
-                RRN.role_id = $role_id
-        ";
-        
-        $records = DB::select($q);
-
-        dd($records);
     }
 
     public function syncRouteNamesToDatabase()

@@ -1,3 +1,7 @@
+<label>
+    <input type="checkbox" id="select-all">
+    <b>Select All</b>
+</label>
 <table class="table table-striped table-bordered table-hover mb-0">
     <thead>
         <tr>
@@ -30,7 +34,7 @@
                         <?php if ($a == 1): ?>
                             <label>
                                 <input type="checkbox"                                     
-                                    class="chk-select-all" 
+                                    class="chk-select-all aco_section" 
                                     data-sr-chkselect-children="input.section-<?= $section_name_str ?>">
                                 <b><?= $section_name ?></b>
                             </label>
@@ -42,7 +46,7 @@
                         <label>
                             <input type="checkbox"     
                                 <?= $action_arr['is_checked'] ? "checked" : "" ?>
-                                class="section-<?= $section_name_str ?>" 
+                                class="section-<?= $section_name_str ?> aco_action" 
                                 name="data[<?= $section_name ?>][]" 
                                 value="<?= $action_name ?>"
                                 />
@@ -55,4 +59,15 @@
     </tbody>
 </table>
 
-<script src="/js/backend/ajax.js"></script>
+<script src="/js/backend/ajax.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
+
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        $("#select-all").change(function()
+        {
+            $("input.aco_section").prop("checked", $(this).prop("checked"));
+            $("input.aco_section").trigger("sr-chkselect.childcheck");
+        });
+    });
+</script>

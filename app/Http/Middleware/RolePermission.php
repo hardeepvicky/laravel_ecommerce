@@ -19,14 +19,14 @@ class RolePermission
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
-
         $route_name = $request->route()->getName();
 
         if (!$route_name)
         {
             die("Current Url has no Route Name. Please Assign Route name.");
         }
+
+        $user = Auth::user();
 
         $role_id_list = [];
         foreach($user->userRole->toArray() as $user_role)

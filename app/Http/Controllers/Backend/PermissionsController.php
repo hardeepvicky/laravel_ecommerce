@@ -7,7 +7,11 @@ use App\Acl\SectionRoutes;
 use App\Models\Role;
 use App\Models\RoleRouteName;
 use App\Models\RouteName;
+use App\Models\User;
+use HardeepVicky\QueryBuilder\Join;
+use HardeepVicky\QueryBuilder\QuerySelect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -21,6 +25,79 @@ class PermissionsController extends BackendController
 
     public function index()
     {
+        $conditions = $this->getConditions(Route::currentRouteName(), [
+            ["field" => "role_id", "type" => "int", "view_field" => "role_id"],
+        ], true);
+
+        $section_conditions = $this->getConditions(Route::currentRouteName() . "-section", [
+            ["field" => "section_name", "type" => "int", "view_field" => "section_name"],
+            ["field" => "action_name", "type" => "int", "view_field" => "action_name"],
+        ], true);
+
+        $sections = SectionRoutes::get();
+
+        if ($conditions)
+        {
+            $qb = new QuerySelect("role_route_names", "RRN");            
+
+
+            $q = $qb->get();
+
+            d($q); exit;
+
+            $records = DB::select($q);
+
+            dd($records);
+
+           
+            $records = RoleRouteName::where($conditions)->with([
+                "role" => function($query)
+                {
+                    $query->select(["id", "name"]);                    
+                },
+                "routeName" => function ($query)
+                {
+                    $query->select(["id", "name"]);
+                }
+            ])->get()->toArray();
+
+            //d($section_conditions);
+           
+            foreach($records as $k => $record)
+            {   
+                if (isset($record['role']) && isset($record['route_name']))
+                {
+                    foreach($sections as $section_name => $actions)
+                    {
+                        foreach($actions as $action_name => $route_list)
+                        {
+                            if (in_array($record['route_name']['name'], $route_list) )
+                            {
+                                $records[$k]['section'] = $section_name;
+                                $records[$k]['action'] = $action_name;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    unset($records[$k]);
+                }
+            }
+
+            usort($records, function($a, $b){
+                return strcmp($a['role']["name"], $b['role']["name"]);
+            });
+
+            $this->setForView(compact("records"));
+        }
+
+        $role_list = Role::getList();
+
+        $section_list = array_combine(array_keys($sections), array_keys($sections));
+
+        $this->setForView(compact("role_list", "section_list"));
+
         return $this->view(__FUNCTION__);
     }
 
@@ -88,6 +165,10 @@ class PermissionsController extends BackendController
             }
 
             RoleRouteName::destroy($delete_id_list);
+
+            $user_id_list = User::pluck("id")->toArray();
+
+            $accessControl->clearMenuCache($user_id_list);
 
             $this->saveSqlLog();
 

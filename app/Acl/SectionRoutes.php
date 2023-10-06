@@ -14,6 +14,18 @@ class SectionRoutes
         'admin.permissions.destroy',
     ];
 
+    public static function get()
+    {
+        $sections = [];
+
+        $sections["Users"] = self::users();
+        $sections["Roles"] = self::roles();
+        $sections["Logs"] = self::logs();
+        $sections["Developer Logs"] = self::developer_logs();
+
+        return $sections;
+    }
+
     private static function commonRoutes($routePrefix)
     {
         $routes =  [
@@ -32,16 +44,6 @@ class SectionRoutes
         return $routes;
     }
 
-    public static function get()
-    {
-        $sections = [];
-
-        $sections["Users"] = self::users();
-        $sections["Roles"] = self::roles();
-
-        return $sections;
-    }
-
     private static function users()
     {
         $routePrefix = "admin.users";
@@ -56,6 +58,28 @@ class SectionRoutes
         $routePrefix = "admin.roles";
         
         $routes = self::commonRoutes($routePrefix);
+
+        return $routes;
+    }
+
+    private static function logs()
+    {
+        $routePrefix = "admin.logs";
+        
+        $routes =  [
+            "Email" => []
+        ];
+
+        return $routes;
+    }
+
+    private static function developer_logs()
+    {
+        $routePrefix = "admin.logs";
+        
+        $routes =  [
+            "Sql" => [$routePrefix . ".sql.index"],            
+        ];
 
         return $routes;
     }

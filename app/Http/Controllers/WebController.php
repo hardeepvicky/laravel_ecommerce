@@ -22,16 +22,19 @@ class WebController extends Controller
         return view($this->viewPrefix . "." . $view_name, $this->data);
     }
 
-    protected function getConditions($cache_prefix, array $array)
+    protected function getConditions($cache_prefix, array $array, bool $return_key_value_pair_conditions = false)
     {
         $conditions = [];
         $search_variables = [];
         
-        $cache_key = "search_" . str_replace($cache_prefix, ".", "-") . "_" . auth()->id();
+        if ($cache_prefix)
+        {
+            $cache_key = "search_" . str_replace($cache_prefix, ".", "-") . "_" . auth()->id();
+        }
 
         $request_params = request()->all();
 
-        if (!$request_params)
+        if (!$request_params && isset($cache_key))
         {
             if ( Cache::has($cache_key) )
             {
@@ -54,29 +57,33 @@ class WebController extends Controller
 
             if (strlen($value) > 0)
             {
-                switch($row['type'])
+                if ($return_key_value_pair_conditions)
                 {
-                    case "string":
-                        $conditions[]= [$field, 'LIKE', "%" . $value . "%"];
+                    $conditions[$field] = $value;                    
+                }
+                else
+                {
+                    switch($row['type'])
+                    {
+                        case "string":
+                            $conditions[]= [$field, 'LIKE', "%" . $value . "%"];
+                            break;
+                        
+                        default:
+                            $conditions[]= [$field, '=', $value];
                         break;
-                    
-                    default:
-                    $conditions[]= [$field, '=', $value];
-                    break;
+                    }
                 }
             }
-            
         }
 
-        Cache::put($cache_key, $search_variables, CACHE_SEARCH_CONDITIONS_TIME);
+        if (isset($cache_key))
+        {
+            Cache::put($cache_key, $search_variables, CACHE_SEARCH_CONDITIONS_TIME);
+        }
 
         $this->setForView($search_variables);
 
         return $conditions;
-    }
-
-    public function clearSearchCache($view_name)
-    {
-        return redirect($this->url_prefix);
     }
 }

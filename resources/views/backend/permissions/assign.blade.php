@@ -15,9 +15,9 @@
             <h4 class="mb-sm-0 font-size-18">Permissions</h4>
 
             <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                    <li class="breadcrumb-item">Permission</li>
+                <ol class="breadcrumb m-0">                    
+                    <li class="breadcrumb-item">System Manager</li>
+                    <li class="breadcrumb-item">Permissions</li>
                     <li class="breadcrumb-item active">Assign</li>
                 </ol>
             </div>
@@ -90,6 +90,30 @@
                 {
                     $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v);
                 }
+            }
+        });
+
+        $("form").submit(function()
+        {
+            var len = $("input.aco_action").length;
+
+            if (len <= 0)
+            {
+                $("select#role_id").trigger("change");
+                return false;
+            }
+
+            var check_len = $("input.aco_action:checked").length;
+
+            if (check_len <= 0)
+            {
+                Swal.fire(
+                    'Error!',
+                    'Please Select At Least One Checkbox',
+                    'error'
+                )
+
+                return false;
             }
         });
     });

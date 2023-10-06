@@ -115,6 +115,8 @@ class UsersController extends BackendController
                 });
             }
             
+            $accessControl = AccessControl::init();
+            $accessControl->clearMenuCache([$model->id]);
 
             DB::commit();
 
