@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\WebController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class LoginController extends Controller
+class LoginController extends WebController
 {
     /*
     |--------------------------------------------------------------------------
@@ -35,6 +35,19 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('guest')->except('logout');
+
+        $this->routePrefix = "";
+        
+        $this->viewPrefix = "auth";
+
+        $this->layout = "backend.layouts.login";
+    }
+
+    public function showLoginForm()
+    {
+        return $this->view("login");
     }
 }

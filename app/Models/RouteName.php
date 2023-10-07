@@ -10,5 +10,5 @@ class RouteName extends BaseModel
 
     public $fillable = ["name"];
 
-    public $unique_fields = ["name"];
+    protected static Array $unique_fields = ["name"];
 }

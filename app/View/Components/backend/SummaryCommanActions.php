@@ -2,9 +2,9 @@
 
 namespace App\View\Components\backend;
 
-use Illuminate\View\Component;
+use App\View\Components\BaseComponent;
 
-class SummaryCommanActions extends Component
+class SummaryCommanActions extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -16,15 +16,8 @@ class SummaryCommanActions extends Component
         public $routePrefix,
     )
     {
-    }
-
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
-    public function render()
-    {
-        return view('components.backend.summary-comman-actions');
+        parent::__construct();
+        
+        $this->view_path = "backend.components.summary-comman-actions";
     }
 }

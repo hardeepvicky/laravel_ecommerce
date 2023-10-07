@@ -2,9 +2,9 @@
 
 namespace App\View\Components\Backend;
 
-use Illuminate\View\Component;
+use App\View\Components\BaseComponent;
 
-class Header extends Component
+class Header extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -13,16 +13,8 @@ class Header extends Component
      */
     public function __construct()
     {
-        //
-    }
+        parent::__construct();
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
-    public function render()
-    {
-        return view('components.backend.header');
+        $this->view_path = "backend.components.header";
     }
 }

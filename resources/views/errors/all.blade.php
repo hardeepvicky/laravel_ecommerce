@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.frontend.error')
 
 @section('content')
 <div class="my-5 pt-5">

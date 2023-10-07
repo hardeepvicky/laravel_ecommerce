@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Acl;
 
+use App\Helpers\RoleType;
+use App\Models\Role;
 use App\Models\RouteName;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -8,27 +11,28 @@ use Illuminate\Support\Facades\DB;
 class AccessControl
 {
     private static $instance = null;
-    public static bool $check_permissions = false;
 
     public static function init()
     {
-        if (is_null(self::$instance))
-        {
+        if (is_null(self::$instance)) {
             self::$instance = new AccessControl();
         }
 
         return self::$instance;
     }
 
-    public function isAllow(String $route_name, Array $role_id_list)
+    public function isAllow(String $route_name, array $role_id_list)
     {
         $route_name = trim($route_name);
 
-        if (in_array($route_name, SectionRoutes::$public_routes))
-        {
+        if (in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER)) {
             return true;
         }
-        
+
+        if (in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {
+            return true;
+        }
+
         $role_ids = implode(",", $role_id_list);
 
         $q = "
@@ -40,19 +44,32 @@ class AccessControl
             WHERE
                 RRN.role_id IN ($role_ids) AND RR.name = '$route_name';
         ";
-        
+
         $record = DB::select($q);
 
-        if ($record && $record[0]->c > 0)
-        {
+        if ($record && $record[0]->c > 0) {
             return true;
         }
 
         return false;
     }
 
-    public function getListOfAllowedRouteNames(Array $role_id_list)
+    public function getListOfAllowedRouteNames(array $role_id_list)
     {
+        // by default allow 
+        $allow_route_list = SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER;
+
+        // check for system admin
+        foreach($role_id_list as $role_id)
+        {
+            $role = Role::select('id', 'is_system_admin')->findOrFail($role_id);
+
+            if ($role->is_system_admin)
+            {
+                $allow_route_list = array_merge($allow_route_list, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN);
+            }
+        }
+
         $role_ids = implode(",", $role_id_list);
 
         $q = "
@@ -67,14 +84,12 @@ class AccessControl
 
         $records = DB::select($q);
 
-        $list = SectionRoutes::$public_routes;
 
-        foreach($records as $record)
-        {
-            $list[] = $record->name;
+        foreach ($records as $record) {
+            $allow_route_list[] = $record->name;
         }
 
-        return $list;
+        return $allow_route_list;
     }
 
     public function getMenuCacheKey($user_id)
@@ -82,14 +97,12 @@ class AccessControl
         return "menu_user_" . $user_id;
     }
 
-    public function clearMenuCache(Array $user_id_list)
+    public function clearMenuCache(array $user_id_list)
     {
-        foreach($user_id_list as $user_id)
-        {
+        foreach ($user_id_list as $user_id) {
             $cache_key = $this->getMenuCacheKey($user_id);
 
-            if (Cache::has($cache_key))
-            {
+            if (Cache::has($cache_key)) {
                 Cache::forget($cache_key);
             }
         }
@@ -99,38 +112,40 @@ class AccessControl
     {
         $routeCollection = \Illuminate\Support\Facades\Route::getRoutes();
 
-        $list = [];
-        foreach($routeCollection as $route)
-        {
+        $route_list = [];
+        foreach ($routeCollection as $route) {
             $name = trim($route->getName());
-            if ($name)
-            {
-                $list[] = $name;
+            if ($name) {
+                $route_list[] = $name;
             }
         }
 
-        sort($list);
+        sort($route_list);
 
         $routeNameModel = new RouteName();
 
-        $id_list = RouteName::pluck('name', 'id')->toArray();
+        $old_id_list = RouteName::pluck('name', 'id')->toArray();
 
         $saved_route_name_list = [];
 
-        foreach($list as $route_name)
-        {
-            if (!in_array($route_name, SectionRoutes::$public_routes))
-            {
-                $id = $routeNameModel->insertIgnoreIfExist(["name" => $route_name]);
-                unset($id_list[$id]);
+        foreach ($route_list as $route_name) {
+            if (
+                in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER)
+                && in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)
+            ) {
+                continue;
+            }
 
-                $saved_route_name_list[$route_name] = $id;
-            }            
+
+            $id = $routeNameModel->insertIgnoreIfExist(["name" => $route_name]);
+
+            unset($old_id_list[$id]);
+
+            $saved_route_name_list[$route_name] = $id;
         }
 
-        if ($id_list)
-        {
-            RouteName::destroy(array_keys($id_list));
+        if ($old_id_list) {
+            RouteName::destroy(array_keys($old_id_list));
         }
 
         return $saved_route_name_list;

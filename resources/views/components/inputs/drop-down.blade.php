@@ -4,7 +4,8 @@
 
    $v = old($name, $value);
 
-   $value_list = explode(",", $v);
+   $value_list = $v ? explode(",", $v) : [];
+   
 @endphp
 <select name="{{ $name }}" {{ $attributes->merge(['class' => 'form-control']) }}>
     @if (!$attributes->has('multiple'))    

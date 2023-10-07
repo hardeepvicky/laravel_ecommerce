@@ -12,20 +12,7 @@ const mix = require('laravel-mix');
  */
  mix.scripts(
     [
-        'node_modules/bootbox/dist/bootbox.min.js',
-        'node_modules/sr-basic-feature/dist/sr-basic-functions.js',
-        'node_modules/sr-basic-feature/dist/sr-basic-feature.js',
-        'node_modules/sr-bootstrap-components/dist/sr-ajax-file-upload.js',
-        'node_modules/sr-bootstrap-components/dist/sr-datatable.js',
+        'node_modules/bootbox/dist/bootbox.min.js',        
     ],  
-    'public/js/backend.js'
-);
-
-mix.styles(
-    [
-        'node_modules/sr-basic-feature/dist/sr-basic-feature.css',
-        'node_modules/sr-bootstrap-components/dist/sr-ajax-file-upload.css',
-        'node_modules/sr-bootstrap-components/dist/sr-datatable.css',
-    ],  
-    'public/css/backend.css'
+    'public/js/npm-js-mix.js'
 );

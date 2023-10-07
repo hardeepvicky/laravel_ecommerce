@@ -14,25 +14,23 @@ class UsersController extends BackendController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->routePrefix = "admin.users";
         $this->viewPrefix = "backend.users";
     }
 
     public function index()
     {
-        $modelName = "User";
-
         $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "name", "type" => "string", "view_field" => "name"],
             ["field" => "email", "type" => "string", "view_field" => "email"],
         ]);
 
-        //dd($conditions);
-        $records = User::where($conditions)->orderBy('id', 'desc')->paginate(PAGINATION_LIMIT);
+        $records = $this->getPaginagteRecords(User::where($conditions));
 
-        $this->setForView(compact("records", "modelName"));
+        $this->setForView(compact("records"));
 
-        return $this->view("index");
+        return $this->view(__FUNCTION__);
     }
 
     public function create()
@@ -41,7 +39,7 @@ class UsersController extends BackendController
 
         $this->setForView(compact("model"));
 
-        return $this->view("add");
+        return $this->view("form");
     }
 
     public function store(Request $request)

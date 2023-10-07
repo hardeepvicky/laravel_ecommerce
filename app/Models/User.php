@@ -42,7 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public $child_model_class = [
+    public static Array $child_model_class = [
         UserRole::class => [
             "foreignKey" => "user_id",
             "preventDelete" => false,

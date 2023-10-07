@@ -8,17 +8,18 @@ use App\Models\Role;
 use App\Models\RoleRouteName;
 use App\Models\RouteName;
 use App\Models\User;
-use HardeepVicky\QueryBuilder\Join;
-use HardeepVicky\QueryBuilder\QuerySelect;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use RolePreDefined;
 
 class PermissionsController extends BackendController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->routePrefix = "admin.permissions";
         $this->viewPrefix = "backend.permissions";
     }
@@ -36,65 +37,72 @@ class PermissionsController extends BackendController
 
         $sections = SectionRoutes::get();
 
-        if ($conditions)
-        {
-            $qb = new QuerySelect("role_route_names", "RRN");            
+        if ($conditions || $section_conditions) {
 
-
-            $q = $qb->get();
-
-            d($q); exit;
-
-            $records = DB::select($q);
-
-            dd($records);
-
-           
             $records = RoleRouteName::where($conditions)->with([
-                "role" => function($query)
-                {
-                    $query->select(["id", "name"]);                    
+                "role" => function ($query) {
+                    $query->select(["id", "name", "is_system_admin"]);
                 },
-                "routeName" => function ($query)
-                {
+                "routeName" => function ($query) {
                     $query->select(["id", "name"]);
                 }
             ])->get()->toArray();
 
-            //d($section_conditions);
-           
-            foreach($records as $k => $record)
-            {   
-                if (isset($record['role']) && isset($record['route_name']))
-                {
-                    foreach($sections as $section_name => $actions)
-                    {
-                        foreach($actions as $action_name => $route_list)
-                        {
-                            if (in_array($record['route_name']['name'], $route_list) )
-                            {
+            //d($section_conditions); exit;
+
+            foreach ($records as $k => $record) {
+                if (isset($record['role']) && isset($record['route_name'])) {
+
+                    $records[$k]['section'] = "Section is not set in SectionRoutes.php";                    
+                    $records[$k]['can_be_delete'] = true;
+                    $records[$k]['info'] = "";
+
+                    if (in_array($record['route_name']['name'], SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER)) {                        
+                        $records[$k]['can_be_delete'] = false;
+                        $records[$k]['info'] = "Allow For All Login User";
+                    } 
+
+                    if ($record['role']['is_system_admin'] && in_array($record['route_name']['name'], SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {                        
+                        $records[$k]['can_be_delete'] = false;
+                        $records[$k]['info'] = "Allow For All System Admin";
+                    } 
+
+                    foreach ($sections as $section_name => $actions) {
+                        foreach ($actions as $action_name => $route_list) {
+                            if (in_array($record['route_name']['name'], $route_list)) {
                                 $records[$k]['section'] = $section_name;
                                 $records[$k]['action'] = $action_name;
                             }
                         }
                     }
-                }
-                else
-                {
+
+                    if (isset($section_conditions['section_name']) && $section_conditions['section_name'] != $records[$k]['section']) {
+                        unset($records[$k]);
+                    }
+    
+                    if (isset($section_conditions['action_name']) && $section_conditions['action_name'] != $records[$k]['action']) {
+                        unset($records[$k]);
+                    }
+                    
+                } else {
                     unset($records[$k]);
                 }
+                
             }
 
-            usort($records, function($a, $b){
+            usort($records, function ($a, $b) {
                 return strcmp($a['role']["name"], $b['role']["name"]);
             });
+
+            //d($records); exit;
 
             $this->setForView(compact("records"));
         }
 
         $role_list = Role::getList();
 
-        $section_list = array_combine(array_keys($sections), array_keys($sections));
+        $keys = array_keys($sections);
+        $section_list = array_combine($keys, $keys);
 
         $this->setForView(compact("role_list", "section_list"));
 
@@ -103,26 +111,23 @@ class PermissionsController extends BackendController
 
     public function assign(Request $request)
     {
-        if ($request->isMethod('post'))
-        {
+        if ($request->isMethod('post')) {
             $sections = SectionRoutes::get();
 
             $accessControl = AccessControl::init();
-            $saved_route_name_list = $accessControl->syncRouteNamesToDatabase();
-            
+            $synced_route_name_list = $accessControl->syncRouteNamesToDatabase();
+
             $data = $request->all();
+
+            $role = Role::findOrFail($data['role_id']);
 
             //d($sections);
 
             $choosen_route_list = [];
-            foreach($data['data'] as $section_name => $data_actions)
-            {
-                if (isset($sections[$section_name]))
-                {
-                    foreach($data_actions as $action_name)
-                    {
-                        if ( isset($sections[$section_name][$action_name]))
-                        {
+            foreach ($data['data'] as $section_name => $data_actions) {
+                if (isset($sections[$section_name])) {
+                    foreach ($data_actions as $action_name) {
+                        if (isset($sections[$section_name][$action_name])) {
                             $choosen_route_list = array_merge($choosen_route_list, $sections[$section_name][$action_name]);
                         }
                     }
@@ -133,38 +138,21 @@ class PermissionsController extends BackendController
 
             $roleRouteName = new RoleRouteName();
 
-            $delete_id_list = RoleRouteName::where("role_id", "=", $data['role_id'])->pluck("id", "id");
-            foreach($choosen_route_list as $route_name)
-            {
-                if (!isset($saved_route_name_list[$route_name]))
-                {
-                    die("$route_name not found in saved_route_name_list. may be you forgot to save in SectionRoutes.php");
+            $old_save_id_list = RoleRouteName::where("role_id", "=", $role->id)->pluck("id", "id");
+            foreach ($choosen_route_list as $route_name) {
+                if (!isset($synced_route_name_list[$route_name])) {
+                    die("$route_name not found. may be you forgot to add in SectionRoutes.php");
                 }
 
                 $saved_id = $roleRouteName->insertIgnoreIfExist([
                     "role_id" => $data['role_id'],
-                    "route_name_id" => $saved_route_name_list[$route_name],
+                    "route_name_id" => $synced_route_name_list[$route_name],
                 ]);
 
-                unset($delete_id_list[$saved_id]);
+                unset($old_save_id_list[$saved_id]);
             }
 
-            foreach(SectionRoutes::$allow_routes_for_admin_role as $route_name)
-            {
-                if (!isset($saved_route_name_list[$route_name]))
-                {
-                    die("$route_name not found in saved_route_name_list. may be you forgot to save in SectionRoutes.php");
-                }
-
-                $saved_id = $roleRouteName->insertIgnoreIfExist([
-                    "role_id" => $data['role_id'],
-                    "route_name_id" => $saved_route_name_list[$route_name],
-                ]);
-
-                unset($delete_id_list[$saved_id]);
-            }
-
-            RoleRouteName::destroy($delete_id_list);
+            RoleRouteName::destroy($old_save_id_list);
 
             $user_id_list = User::pluck("id")->toArray();
 
@@ -191,24 +179,19 @@ class PermissionsController extends BackendController
 
         $saved_route_list = [];
 
-        foreach($role_route_names->toArray() as $role_route)
-        {
+        foreach ($role_route_names->toArray() as $role_route) {
             $saved_route_list[] = $role_route['route_name']['name'];
         }
 
         $sections = SectionRoutes::get();
 
-        foreach($sections as $section_name => $actions)
-        {
-            foreach($actions as $action_name => $route_list)
-            {
+        foreach ($sections as $section_name => $actions) {
+            foreach ($actions as $action_name => $route_list) {
                 unset($actions[$action_name]);
 
                 $is_checked = false;
-                foreach($route_list as $route_name)
-                {
-                    if (in_array($route_name, $saved_route_list))
-                    {
+                foreach ($route_list as $route_name) {
+                    if (in_array($route_name, $saved_route_list)) {
                         $is_checked = true;
                     }
                 }
@@ -222,5 +205,31 @@ class PermissionsController extends BackendController
         $this->setForView(compact("sections"));
 
         return $this->view(__FUNCTION__);
+    }
+
+    public function ajax_delete(Request $request)
+    {
+        $respone = ["status" => 0, "msg" => "Unkown Error"];
+
+        try {
+            $ids = $request->get("ids");
+
+            if (!$ids) {
+                throw_exception("Missing ids");
+            }
+
+            foreach ($ids as $id) {
+                $record = RoleRouteName::select('id')->findOrFail($id);
+
+                $record->delete();
+            }
+
+            $respone["status"] = 1;
+            $respone["msg"] = "Success";
+        } catch (Exception $ex) {
+            $respone['msg'] = $ex->getMessage();
+        }
+
+        return $this->responseJson($respone);
     }
 }

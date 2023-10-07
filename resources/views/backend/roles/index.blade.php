@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends($layout)
 
 @section('content')
 <!-- start page title -->
@@ -49,8 +49,8 @@
         <table class="table table-striped table-bordered table-hover mb-0">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
+                    <th><?= sortable_anchor('id', 'ID') ?></th>
+                    <th><?= sortable_anchor('name', 'Name') ?></th>
                     <th>Actions</th>
                 </tr>
             </thead>

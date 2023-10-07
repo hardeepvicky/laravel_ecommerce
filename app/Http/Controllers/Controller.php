@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use App\Models\BaseModel;
 use App\Models\SqlLog;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -18,45 +17,57 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function delete(BaseModel | Model $model)
+    private function _delete(Model $model)
+    {
+        if ( !isset($model->child_model_class))
+        {
+            throw_exception("child_model_class Array is not set in model");
+        }
+
+        foreach($model->child_model_class as $className => $arr)
+        {
+            $child_model = new $className;
+
+            if ($arr['preventDelete'])
+            {
+                $count = $child_model->where($arr['foreignKey'], "=", $model->id)->count();
+
+                if ($count > 0)
+                {
+                    throw_exception("Record has associated data in $className. can't delete");
+                }
+            }
+            else
+            {
+                $this->_delete($child_model);
+
+                $list = $child_model->where($arr['foreignKey'], "=", $model->id)->pluck("id");
+
+                if ($list->count() > 0)
+                {
+                    $list = $list->toArray();
+
+                    if ( !$child_model->destroy($list) )
+                    {
+                        throw_exception("Fail to delete records of $className");
+                    }
+                }
+            }
+        }
+
+        if ( !$model->delete() )
+        {
+            throw_exception("Fail to delete record");
+        }
+    }
+    
+    public function delete(Model $model)
     {
         DB::beginTransaction();
 
         try
         {
-            foreach($model->child_model_class as $className => $arr)
-            {
-                $child_model = new $className;
-
-                if ($arr['preventDelete'])
-                {
-                    $count = $child_model->where($arr['foreignKey'], "=", $model->id)->count();
-
-                    if ($count > 0)
-                    {
-                        throw_exception("Record has associated data in $className. can't delete");
-                    }
-                }
-                else
-                {
-                    $list = $child_model->where($arr['foreignKey'], "=", $model->id)->pluck("id");
-
-                    if ($list->count() > 0)
-                    {
-                        $list = $list->toArray();
-
-                        if ( !$child_model->destroy($list) )
-                        {
-                            throw_exception("Fail to delete records of $className");
-                        }
-                    }
-                }
-            }
-
-            if ( !$model->delete() )
-            {
-                throw_exception("Fail to delete record");
-            }
+            $this->_delete($model);
 
             DB::commit();
 
@@ -183,5 +194,12 @@ class Controller extends BaseController
         }
 
         return true;
+    }
+
+    public function responseJson(Array $response)
+    {
+        $this->saveSqlLog();
+        
+        return $response;
     }
 }

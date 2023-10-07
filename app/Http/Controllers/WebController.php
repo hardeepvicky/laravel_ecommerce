@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Builder;
 
 class WebController extends Controller
 {
-    public $routePrefix, $viewPrefix;
+    /**
+     * variable require for view
+     */
+    public String $routePrefix, $viewPrefix, $layout;
+
+    /**
+     * variable to store data which will pass to view
+     */
     private $data = [];
+
+    public function __construct()
+    {
+        
+    }
 
     protected function setForView(array $array)
     {
@@ -18,6 +32,8 @@ class WebController extends Controller
     protected function view($view_name)
     {
         $this->data['routePrefix'] = $this->routePrefix;
+
+        $this->data['layout'] = $this->layout;
         
         return view($this->viewPrefix . "." . $view_name, $this->data);
     }
@@ -85,5 +101,14 @@ class WebController extends Controller
         $this->setForView($search_variables);
 
         return $conditions;
+    }
+
+    protected function getPaginagteRecords(Builder $builder)
+    {
+        $sort_by = request('sort_by', 'id');
+        $sort_dir = request('sort_dir', 'ASC');
+        $paginate_limit = request('pagination_limit', 20);
+
+        return $builder->orderBy($sort_by, $sort_dir)->paginate($paginate_limit);
     }
 }

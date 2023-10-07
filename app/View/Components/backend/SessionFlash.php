@@ -2,9 +2,9 @@
 
 namespace App\View\Components\backend;
 
-use Illuminate\View\Component;
+use App\View\Components\BaseComponent;
 
-class SessionFlash extends Component
+class SessionFlash extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -13,16 +13,8 @@ class SessionFlash extends Component
      */
     public function __construct()
     {
-        //
-    }
-
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
-    public function render()
-    {
-        return view('components.backend.session-flash');
+        parent::__construct();
+        
+        $this->view_path = "backend.components.session-flash";
     }
 }

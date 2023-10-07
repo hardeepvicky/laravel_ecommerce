@@ -59,8 +59,6 @@
     </tbody>
 </table>
 
-<script src="/js/backend/ajax.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
 <script type="text/javascript">
     $(document).ready(function()
     {

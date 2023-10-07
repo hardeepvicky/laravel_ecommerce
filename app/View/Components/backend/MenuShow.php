@@ -2,10 +2,10 @@
 
 namespace App\View\Components\Backend;
 
-use Illuminate\View\Component;
 use App\Helpers\Menu;
+use App\View\Components\BaseComponent;
 
-class MenuShow extends Component
+class MenuShow extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -14,7 +14,9 @@ class MenuShow extends Component
      */
     public function __construct()
     {
-        //
+        parent::__construct();
+
+        $this->view_path = "backend.components.menu";
     }
 
     /**
@@ -24,8 +26,10 @@ class MenuShow extends Component
      */
     public function render()
     {
-        return view('components.backend.menu-show', [
+        $this->setForView([
             'menu' => Menu::get()
         ]);
+
+        return parent::render();
     }
 }

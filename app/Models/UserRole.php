@@ -10,5 +10,5 @@ class UserRole extends BaseModel
 
     public $fillable = ["role_id", "user_id"];
 
-    public $unique_fields = ["role_id", "user_id"];
+    protected static Array $unique_fields = ["role_id", "user_id"];
 }

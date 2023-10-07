@@ -8,11 +8,28 @@ use Illuminate\Support\Facades\Cache;
 
 class BaseModel extends Model
 {
-    protected $unique_fields = [];
-
+    /**
+     * this variable used in storeing key, value by getList function
+     */
     protected static $cache_list_key = null;
 
-    public $child_model_class = [];
+    /**
+     * name of table fields which uniquly identify the record
+     */
+    protected static Array $unique_fields = [];
+
+    /**
+     * set extra relationship array to overcome problem of accidential delete
+     * this variable used in Controller.php -> delete()
+     */
+    public static Array $child_model_class = [];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        static::$cache_list_key = get_called_class();
+    }
 
     public static function boot()
     {
@@ -23,7 +40,9 @@ class BaseModel extends Model
         });
 
         self::created(function($model){
-            Cache::forget(static::$cache_list_key);
+            if (static::$cache_list_key) {
+                Cache::forget(static::$cache_list_key);
+            }
         });
 
         self::updating(function($model){
@@ -31,15 +50,19 @@ class BaseModel extends Model
         });
 
         self::updated(function($model){
-            Cache::forget(static::$cache_list_key);
+            if (static::$cache_list_key) {
+                Cache::forget(static::$cache_list_key);
+            }
         });
 
         self::deleting(function($model){
             // ... code here
         });
 
-        self::deleted(function($model){
-            Cache::forget(static::$cache_list_key);
+        self::deleted(function($model){            
+            if (static::$cache_list_key) {
+                Cache::forget(static::$cache_list_key);
+            }
         });
     }
 
@@ -75,13 +98,13 @@ class BaseModel extends Model
 
     public function getUniqueId(array $data)
     {
-        if (!$this->unique_fields)
+        if (!static::$unique_fields)
         {
             throw_exception("unique_fields is not set yet");
         }
 
         $conditions = [];
-        foreach($this->unique_fields as $unique_field)
+        foreach(static::$unique_fields as $unique_field)
         {
             if ( !isset($data[$unique_field]) )
             {
@@ -108,7 +131,7 @@ class BaseModel extends Model
         return $record;
     }
 
-    public static function getList(String $id = "id", String $name = "name")
+    public static function getList(String $id = "id", String $value = "name")
     {
         $list = [];
         if ( static::$cache_list_key && Cache::has(static::$cache_list_key) )
@@ -117,7 +140,7 @@ class BaseModel extends Model
         }
         else 
         {
-            $list = static::pluck($name, $id)->toArray();
+            $list = static::pluck($value, $id)->toArray();
 
             if (static::$cache_list_key)
             {

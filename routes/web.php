@@ -28,18 +28,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'role_permission']], function () {    
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name("dashboard");
-
-    Route::resource("users", UsersController::class);
-    Route::resource("roles", RolesController::class);
-
     Route::group(['prefix' => 'permissions', 'as'=>'permissions.'], function () {
         Route::get('index', [PermissionsController::class, 'index'])->name("index");
         Route::any('assign', [PermissionsController::class, 'assign'])->name("assign");
         Route::any('ajax_get_permissions/{id}', [PermissionsController::class, 'ajax_get_permissions'])->name("ajax_get_permissions");
-        Route::any('assign_to_many', [PermissionsController::class, 'assign_to_many'])->name("assign_to_many");
-        Route::delete('destroy/{id}', [PermissionsController::class, 'delete'])->name("destroy");
+        Route::any('assign_to_many', [PermissionsController::class, 'assign_to_many'])->name("assign_to_many");        
+        Route::post('ajax_delete', [PermissionsController::class, 'ajax_delete'])->name("ajax_delete");
     });
+
+    Route::get('dashboard', [DashboardController::class, 'index'])->name("dashboard");
+
+    Route::resource("users", UsersController::class);
+    Route::resource("roles", RolesController::class);
 
     Route::group(['prefix' => 'logs', 'as'=>'logs.'], function () {
         Route::get('sql', [SqlLogsController::class, 'index'])->name('sql.index');

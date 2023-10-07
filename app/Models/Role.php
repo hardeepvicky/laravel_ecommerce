@@ -11,11 +11,16 @@ class Role extends BaseModel
 
     public $fillable = ["name"];
 
-    public $unique_fields = ["name"];
+    /**
+     * name of table fields which uniquly identify the record
+     */
+    protected static Array $unique_fields = ["name"];
 
-    public static $cache_list_key = "RoleList";
-
-    public $child_model_class = [
+    /**
+     * set extra relationship array to overcome problem of accidential delete
+     * this variable used in Controller.php -> delete()
+     */
+    public static Array $child_model_class = [
         UserRole::class => [
             "foreignKey" => "role_id",
             "preventDelete" => true,

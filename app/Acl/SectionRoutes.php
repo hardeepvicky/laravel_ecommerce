@@ -3,17 +3,26 @@ namespace App\Acl;
 
 class SectionRoutes
 {
-    public static $public_routes = [
-        'admin.permissions.ajax_get_permissions'
+    /**
+     * list of routes which are allowed for any login user
+     */
+    public const ALLOW_ROUTES_FOR_ANY_LOGIN_USER = [
+        
     ];
 
-    public static $allow_routes_for_admin_role = [
+    /**
+     * list of routes for system admin role
+     */
+    public const ALLOW_ROUTES_FOR_SYSTEM_ADMIN = [
         'admin.permissions.index',
         'admin.permissions.assign',
-        'admin.permissions.assign_to_many',
-        'admin.permissions.destroy',
+        'admin.permissions.assign_to_many',        
+        'admin.permissions.ajax_delete',
     ];
 
+    /**
+     * function to retrive all sections
+     */
     public static function get()
     {
         $sections = [];
@@ -26,7 +35,7 @@ class SectionRoutes
         return $sections;
     }
 
-    private static function commonRoutes($routePrefix)
+    protected static function commonRoutes($routePrefix)
     {
         $routes =  [
             "Summary" => [$routePrefix . ".index"],

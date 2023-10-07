@@ -1,28 +1,3 @@
-$(document).ajaxStart(function(){
-    $("body").trigger("sr-loader.show");
-});
-
-//Ajax complete
-$(document).ajaxComplete(function(){
-    $("body").trigger("sr-loader.hide");    
-});
-
-$(document).ajaxError(function( event, jqxhr, settings, thrownError ) 
-{
-    $("body").trigger("sr-loader.hide");
-    
-    if (jqxhr.status == 403)
-    {
-        //forbidden
-        bootbox.alert("Session is expired. Please Login");
-    }
-    else if (typeof jqxhr.responseText == "string" && jqxhr.responseText.length > 0)
-    {
-        bootbox.alert(jqxhr.responseText);    
-    }
-    return;
-});
-
 $(document).ready(function()
 {
     $("form").find("div.pristine-error").parents(".form-group").addClass("has-danger");
@@ -35,6 +10,8 @@ $(document).ready(function()
     });
 
     $("body").srLoader();
+
+    //$(".sr-data-table").srDatatable();
 
     $("form.delete").submit(function()
     {
@@ -64,10 +41,13 @@ $(document).ready(function()
         }
     });
 
+
     $(".clear_form_search_conditions").click(function()
     {
         var _form = $(this).closest("form");
-        _form.find(':input').not(':button, :submit, :reset, :hidden').val('').prop('checked', false).prop('selected', false);
+        
+        _form.clearForm();
+        
         _form.trigger("submit");
     });
 });

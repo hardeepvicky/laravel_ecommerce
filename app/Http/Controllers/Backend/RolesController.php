@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Acl\AccessControl;
 use Illuminate\Http\Request;
 use App\Models\Role;
-use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
 
 class RolesController extends BackendController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->routePrefix = "admin.roles";
         $this->viewPrefix = "backend.roles";
     }
@@ -25,7 +25,7 @@ class RolesController extends BackendController
         ]);
 
         //dd($conditions);
-        $records = Role::where($conditions)->orderBy('id', 'desc')->paginate(PAGINATION_LIMIT);
+        $records = $this->getPaginagteRecords(Role::where($conditions));
 
         $this->setForView(compact("records", "modelName"));
 
@@ -38,7 +38,7 @@ class RolesController extends BackendController
 
         $this->setForView(compact("model"));
 
-        return $this->view("add");
+        return $this->view("form");
     }
 
     public function store(Request $request)
@@ -58,7 +58,7 @@ class RolesController extends BackendController
 
         $this->setForView(compact("model"));
 
-        return $this->view("edit");
+        return $this->view("form");
     }
 
     public function update($id, Request $request)

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends($layout)
 
 @section('content')
 <!-- start page title -->
@@ -10,7 +10,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                    <li class="breadcrumb-item">User</li>
+                    <li class="breadcrumb-item">Role</li>
                     <li class="breadcrumb-item active">Create</li>
                 </ol>
             </div>

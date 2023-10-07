@@ -2,9 +2,9 @@
 
 namespace App\View\Components\Backend;
 
-use Illuminate\View\Component;
+use App\View\Components\BaseComponent;
 
-class PaginationLinks extends Component
+class PaginationLinks extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -15,16 +15,8 @@ class PaginationLinks extends Component
         public $records
     )
     {
-        //
-    }
+        parent::__construct();
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
-    public function render()
-    {
-        return view('components.backend.pagination-links');
+        $this->view_path = "backend.components.pagination-links";
     }
 }
