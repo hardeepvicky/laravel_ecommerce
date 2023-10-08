@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\Logs\SqlLogsController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\PermissionsController;
-use App\Http\Controllers\Backend\RolesController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\Logs\SqlLogsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +24,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [DashboardController::class, 'index'])->name('home');
+Route::get('/theme', [DashboardController::class, 'theme']);
+Route::get('/developer-components', [DashboardController::class, 'developer_components']);
+Route::get('/test', [DashboardController::class, 'test']);
 
 Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'role_permission']], function () {    
 

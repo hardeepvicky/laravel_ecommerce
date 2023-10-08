@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card" id="page-summary">
     <div class="card-header">
         <x-backend.pagination-links :records="$records"/>
     </div>

@@ -96,10 +96,6 @@
         <!-- Project related JS -->
         
         <script type="text/javascript"  src="/js/backend/default.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
-        <script type="text/javascript">
-            $("body").srLoader();
-        </script>
     </body>
 
 </html>

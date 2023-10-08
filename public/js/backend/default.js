@@ -9,11 +9,7 @@ $(document).ready(function()
         theme : "bootstrap-5",
     });
 
-    $("body").srLoader();
-
-    //$(".sr-data-table").srDatatable();
-
-    $("form.delete").submit(function()
+    $("form.summary-delete-form").submit(function()
     {
         var _form = $(this);
 

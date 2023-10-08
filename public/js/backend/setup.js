@@ -1,8 +1,12 @@
-$.console = {
-    log: function (title, data) {
-        console.log(title, data);
-
-        console.trace();
+const constants = {
+    swal: {
+        icon: {
+            warning: "warning",
+        },
+        button: {
+            confirm_color: "#2ab57d",
+            cancel_color: "#fd625e",
+        },
     },
 };
 
@@ -41,17 +45,15 @@ $.ajaxSetup({
 });
 
 $(document).ajaxStart(function () {
-    $("body").trigger("sr-loader.show");
+    $.loader.setInfo("Loading...").show();
 });
 
 //Ajax complete
 $(document).ajaxComplete(function () {
-    $("body").trigger("sr-loader.hide");
+    $.loader.hide();
 });
 
 $(document).ajaxError(function (event, xhr, settings, errorString) {
-    $("body").trigger("sr-loader.hide");
-
     if (xhr.status == 403) {
         $.events.onAjaxError(errorString, "Session is expired. Please Login");
     } else if (
