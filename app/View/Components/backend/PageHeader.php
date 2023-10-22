@@ -4,7 +4,7 @@ namespace App\View\Components\Backend;
 
 use App\View\Components\BaseComponent;
 
-class PaginationLinks extends BaseComponent
+class PageHeader extends BaseComponent
 {
     /**
      * Create a new component instance.
@@ -12,11 +12,11 @@ class PaginationLinks extends BaseComponent
      * @return void
      */
     public function __construct(
-        public $records
+        public String $title,
+        public Array $breadcums,
+        public Array $links = [],
     )
     {
-        parent::__construct();
-
-        $this->view_path = "components.backend.pagination-links";
+        $this->view_path = 'components.backend.page-header';
     }
 }

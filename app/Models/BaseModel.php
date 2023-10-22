@@ -24,6 +24,8 @@ class BaseModel extends Model
      */
     public static Array $child_model_class = [];
 
+    protected $guarded = [];
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

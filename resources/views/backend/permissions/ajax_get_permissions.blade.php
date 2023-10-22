@@ -1,3 +1,6 @@
+@extends($layout)
+
+@section('content')
 <label>
     <input type="checkbox" id="select-all">
     <b>Select All</b>
@@ -69,3 +72,5 @@
         });
     });
 </script>
+
+@endsection

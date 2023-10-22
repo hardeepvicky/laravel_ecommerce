@@ -18,6 +18,6 @@ class SummaryCommanActions extends BaseComponent
     {
         parent::__construct();
         
-        $this->view_path = "backend.components.summary-comman-actions";
+        $this->view_path = "components.backend.summary-comman-actions";
     }
 }

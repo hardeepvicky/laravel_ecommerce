@@ -29,14 +29,19 @@ class RolesController extends BackendController
 
         $this->setForView(compact("records", "modelName"));
 
-        return $this->view("index");
+        return $this->view(__FUNCTION__);
     }
 
     public function create()
     {
         $model = new Role();
 
-        $this->setForView(compact("model"));
+        $form = [
+            'url' => route($this->routePrefix . '.store'),
+            'method' => 'POST',            
+        ];
+
+        $this->setForView(compact("model", 'form'));
 
         return $this->view("form");
     }
@@ -56,7 +61,12 @@ class RolesController extends BackendController
     {
         $model = Role::findOrFail($id);
 
-        $this->setForView(compact("model"));
+        $form = [
+            'url' => route($this->routePrefix . '.update', $id),
+            'method' => 'PUT',            
+        ];
+
+        $this->setForView(compact("model", "form"));
 
         return $this->view("form");
     }
@@ -66,7 +76,8 @@ class RolesController extends BackendController
         $model = Role::findOrFail($id);
 
         $validatedData = $request->validate([            
-            'name' => 'required|min:3|unique:roles,name,' . $model->id      
+            'name' => 'required|min:3|unique:roles,name,' . $model->id,
+            "is_system_admin" => ""
         ]);
 
         $model->fill($validatedData);

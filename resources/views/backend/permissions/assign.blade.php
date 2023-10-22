@@ -78,7 +78,10 @@
                         $("#permission_block").html("");
                         if (v)
                         {
-                            $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v);
+                            $.loader.show();
+                            $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v, () => {
+                                $.loader.hide();
+                            });
                         }
                     }
                 });
@@ -88,7 +91,10 @@
                 $("#permission_block").html("");
                 if (v)
                 {
-                    $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v);
+                    $.loader.show();
+                    $("#permission_block").load("/admin/permissions/ajax_get_permissions/" + v, () => {
+                        $.loader.hide();
+                    });
                 }
             }
         });

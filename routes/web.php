@@ -19,7 +19,11 @@ use App\Http\Controllers\Backend\Logs\SqlLogsController;
 */
 
 Route::get('/', function () {
-    return redirect()->route("login");
+    return redirect()->route("home");
+});
+
+Route::get('/phpinfo', function () {
+    phpinfo();
 });
 
 Auth::routes();

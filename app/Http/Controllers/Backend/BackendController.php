@@ -11,6 +11,13 @@ class BackendController extends WebController
     {
         parent::__construct();
         
-        $this->layout = "backend.layouts.default";
+        $request = request();
+
+        if ( $request->ajax() ) {
+            $this->layout = "backend.layouts.ajax";
+        }
+        else {
+            $this->layout = "backend.layouts.main";
+        }
     }
 }

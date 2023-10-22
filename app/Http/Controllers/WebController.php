@@ -21,7 +21,14 @@ class WebController extends Controller
 
     public function __construct()
     {
-        
+        $request = request();
+
+        if ( $request->ajax() ) {
+            $this->layout = "backend.layouts.ajax";
+        }
+        else {
+            $this->layout = "backend.layouts.default";
+        }
     }
 
     protected function setForView(array $array)

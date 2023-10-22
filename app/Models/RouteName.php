@@ -8,7 +8,5 @@ class RouteName extends BaseModel
 {
     use HasFactory;
 
-    public $fillable = ["name"];
-
     protected static Array $unique_fields = ["name"];
 }

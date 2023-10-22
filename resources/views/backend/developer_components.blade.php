@@ -1,4 +1,4 @@
-@extends('backend.layouts.default')
+@extends('backend.layouts.main')
 
 @section('content')
 
@@ -38,8 +38,6 @@
 
                 <span class="btn btn-light" id="show_loader4">Loader With Auto append html and Auto Close</span>
 
-                <hr>
-
                 <style>
                     .custom {
                         background-color: white;
@@ -48,6 +46,9 @@
                 </style>
 
                 <span class="btn btn-light" id="show_loader_custom_css_class">Show Default Loader with custom css class</span>
+
+                <hr>
+
 
                 <script type="text/javascript">
                     $(function() {

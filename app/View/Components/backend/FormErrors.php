@@ -1,22 +1,17 @@
 <?php
 
-namespace App\View\Components\Inputs;
+namespace App\View\Components\Backend;
 
 use Illuminate\View\Component;
 
-class DropDown extends Component
+class FormErrors extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(
-        public String $name,
-        public String $label,        
-        public $value = "",
-        public array $list = []
-    )
+    public function __construct()
     {
         //
     }
@@ -28,6 +23,6 @@ class DropDown extends Component
      */
     public function render()
     {
-        return view('components.inputs.drop-down');
+        return view('components.backend.form-errors');
     }
 }

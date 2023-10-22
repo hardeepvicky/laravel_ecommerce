@@ -15,6 +15,6 @@ class SessionFlash extends BaseComponent
     {
         parent::__construct();
         
-        $this->view_path = "backend.components.session-flash";
+        $this->view_path = "components.backend.session-flash";
     }
 }

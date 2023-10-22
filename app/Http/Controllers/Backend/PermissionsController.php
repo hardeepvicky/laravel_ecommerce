@@ -204,6 +204,8 @@ class PermissionsController extends BackendController
 
         $this->setForView(compact("sections"));
 
+        $this->layout = "backend.layouts.ajax";
+
         return $this->view(__FUNCTION__);
     }
 
@@ -212,17 +214,11 @@ class PermissionsController extends BackendController
         $respone = ["status" => 0, "msg" => "Unkown Error"];
 
         try {
-            $ids = $request->get("ids");
+            $id = $request->get("id");
+            
+            $record = RoleRouteName::select('id')->findOrFail($id);
 
-            if (!$ids) {
-                throw_exception("Missing ids");
-            }
-
-            foreach ($ids as $id) {
-                $record = RoleRouteName::select('id')->findOrFail($id);
-
-                $record->delete();
-            }
+            $record->delete();
 
             $respone["status"] = 1;
             $respone["msg"] = "Success";

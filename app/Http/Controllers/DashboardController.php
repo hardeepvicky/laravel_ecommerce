@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 class DashboardController extends WebController
 {
     public function __construct()
     {
-        parent::__construct();
-        
-        $this->layout = "backend.layouts.default";
+        parent::__construct();        
 
         $this->routePrefix = "";
 
@@ -21,7 +21,18 @@ class DashboardController extends WebController
 
     public function index()
     {
-        return $this->view("admin");
+        $this->layout = "backend.layouts.default";
+        $view_name = "default";
+
+        if (Auth::check())
+        {
+            $this->layout = "backend.layouts.main";
+            $view_name = "admin";
+        }
+
+        $this->setForView(compact("view_name"));
+
+        return $this->view($view_name);
     }
 
     public function test()

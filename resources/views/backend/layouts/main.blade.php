@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
+
     <head>
+
         <meta charset="utf-8" />
         <title>{{ SITE_NAME }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,13 +32,45 @@
     </head>
 
     <body>
-        <div class="page-content">
-            <div class="container-fluid">
+        <!-- Begin page -->
+        <div id="layout-wrapper">
 
-                <x-backend.session-flash />
+            <x-backend.header/>
 
-                @yield('content')
+            <div class="vertical-menu">
 
+                <div data-simplebar class="h-100">
+
+                    <x-backend.menu-show/>
+                </div>
+            </div>
+
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <x-backend.session-flash />
+
+                        @yield('content')
+
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <script>document.write(new Date().getFullYear())</script> © <?= SITE_NAME ?>.
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-sm-end d-none d-sm-block">
+                                    Design & Develop by <a href="#!" class="text-decoration-underline"><?= SITE_DEVELOP_BY ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
 
@@ -66,6 +100,10 @@
 
         <!-- Project related JS -->
         <script type="text/javascript"  src="/js/backend/default.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
+
+        <script type="text/javascript">
+            $.loader.init();
+        </script>
     </body>
 
 </html>

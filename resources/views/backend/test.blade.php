@@ -1,15 +1,9 @@
 @extends('backend.layouts.default')
 
 @section('content')
+<h6>Layout : backend.layouts.default</h6>
+<h6>View : views/backend/test.blade.php</h6>
 
-<h2>
-    File located at views/backend/test.blade.php
-</h2>
-
-<div class="row">
-    <div class="col-xl-12">
-        
-    </div>
-</div>
+Write code here to test the code
 
 @endsection

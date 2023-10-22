@@ -44,16 +44,7 @@ $.ajaxSetup({
     cache: false,
 });
 
-$(document).ajaxStart(function () {
-    $.loader.setInfo("Loading...").show();
-});
-
-//Ajax complete
-$(document).ajaxComplete(function () {
-    $.loader.hide();
-});
-
-$(document).ajaxError(function (event, xhr, settings, errorString) {
+$(document).ajaxError(function (event, xhr, settings, errorString) {    
     if (xhr.status == 403) {
         $.events.onAjaxError(errorString, "Session is expired. Please Login");
     } else if (

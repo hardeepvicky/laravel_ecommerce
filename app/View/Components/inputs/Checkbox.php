@@ -4,7 +4,7 @@ namespace App\View\Components\Inputs;
 
 use Illuminate\View\Component;
 
-class DropDown extends Component
+class Checkbox extends Component
 {
     /**
      * Create a new component instance.
@@ -14,8 +14,7 @@ class DropDown extends Component
     public function __construct(
         public String $name,
         public String $label,        
-        public $value = "",
-        public array $list = []
+        public $value = ""
     )
     {
         //
@@ -28,6 +27,6 @@ class DropDown extends Component
      */
     public function render()
     {
-        return view('components.inputs.drop-down');
+        return view('components.inputs.checkbox');
     }
 }

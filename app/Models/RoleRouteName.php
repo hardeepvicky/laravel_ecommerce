@@ -8,8 +8,6 @@ class RoleRouteName extends BaseModel
 {
     use HasFactory;
 
-    public $fillable = ["role_id", "route_name_id"];
-
     protected static Array $unique_fields = ["role_id", "route_name_id"];
 
     public function role()

@@ -1,46 +1,34 @@
 @extends($layout)
 
 @section('content')
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Role</h4>
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                    <li class="breadcrumb-item">Role</li>
-                    <li class="breadcrumb-item active">Create</li>
-                </ol>
-            </div>
+@php 
+    $breadcums = ["Member Management", "Roles", "Create"];
+    $links = [
+        ["title" => "Summary", "url" => route($routePrefix . ".index")]
+    ];
+@endphp 
 
+<x-backend.page-header title="Role" :breadcums="$breadcums" :links="$links"/>
+
+<form action="{{ $form['url'] }}" method="POST">
+    {!! csrf_field() !!}    
+    {{ method_field($form['method']) }}
+    <div class="row">
+        <div class="offset-lg-4 col-lg-4">
+            <div class="form-group mb-3">
+                <x-inputs.text-field name="name" label="Name" placeholder="Enter Name" :value="$model->name" />
+            </div>  
+            <div class="form-group mb-3">
+                <x-inputs.checkbox name="is_system_admin" label="System Admin" :value="$model->is_system_admin" />
+            </div>            
         </div>
     </div>
-</div>
-<!-- end page title -->
-
-@if ($errors->any())
-    <div class="alert alert-danger">        
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="mt-2 mb-2 d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary" style="margin-right: 5px;">Submit</button>
+        <button type="reset" class="btn btn-secondary">Reset</button>
     </div>
-@endif
+</form>
 
-<div class="row">
-    <div class="col-lg-5">
-        <form action="{{ route($routePrefix . '.store') }}" method="POST">
-            {!! csrf_field() !!}
-            <div class="form-group mb-3">                
-                <x-inputs.text-field name="name" label="Name" placeholder="Enter Name" />
-            </div>            
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary w-md">Submit</button>
-            </div>
-        </form>
-    </div>
-</div>
+
 @endsection

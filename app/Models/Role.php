@@ -9,8 +9,6 @@ class Role extends BaseModel
 {
     use HasFactory;
 
-    public $fillable = ["name"];
-
     /**
      * name of table fields which uniquly identify the record
      */

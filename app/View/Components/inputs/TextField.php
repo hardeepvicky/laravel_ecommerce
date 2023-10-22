@@ -14,7 +14,7 @@ class TextField extends Component
     public function __construct(
         public String $name,
         public String $label,        
-        public String $value = ""        
+        public $value = ""        
     )
     {
         //

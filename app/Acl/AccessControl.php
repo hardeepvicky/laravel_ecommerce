@@ -29,10 +29,6 @@ class AccessControl
             return true;
         }
 
-        if (in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {
-            return true;
-        }
-
         $role_ids = implode(",", $role_id_list);
 
         $q = "
@@ -48,6 +44,12 @@ class AccessControl
         $record = DB::select($q);
 
         if ($record && $record[0]->c > 0) {
+            return true;
+        }
+
+        $system_role_count = Role::where("id", $role_id_list)->where('is_system_admin', 1)->count();
+
+        if ($system_role_count > 0 && in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {
             return true;
         }
 

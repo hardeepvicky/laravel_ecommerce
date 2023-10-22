@@ -62,7 +62,7 @@ class Menu
             "icon" => "menu-icon " . $icon,
             "links" => [
                 self::addLink($routePrefix . ".index", "Summary", FontAwesomeIcon::SUMMARY),
-                self::addLink($routePrefix . ".create", "Add", FontAwesomeIcon::ADD),
+                self::addLink($routePrefix . ".create", "Create", FontAwesomeIcon::ADD),
             ],
         ];
 

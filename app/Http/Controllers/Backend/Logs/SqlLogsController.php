@@ -10,6 +10,7 @@ class SqlLogsController extends BackendController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->routePrefix = "admin.logs.sql";
         $this->viewPrefix = "backend.logs.sql";
     }

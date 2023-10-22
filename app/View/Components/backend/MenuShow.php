@@ -16,7 +16,7 @@ class MenuShow extends BaseComponent
     {
         parent::__construct();
 
-        $this->view_path = "backend.components.menu";
+        $this->view_path = "components.backend.menu";
     }
 
     /**

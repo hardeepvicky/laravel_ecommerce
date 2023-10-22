@@ -15,6 +15,6 @@ class Header extends BaseComponent
     {
         parent::__construct();
 
-        $this->view_path = "backend.components.header";
+        $this->view_path = "components.backend.header";
     }
 }

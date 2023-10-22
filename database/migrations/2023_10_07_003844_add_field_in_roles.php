@@ -14,7 +14,7 @@ class AddFieldInRoles extends Migration
     public function up()
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->string('is_system_admin')->after('name')->default(0);
+            $table->boolean('is_system_admin')->after('name')->default(0);
         });
     }
 

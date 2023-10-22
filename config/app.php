@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
+        Kris\LaravelFormBuilder\FormBuilderServiceProvider::class
     ],
 
     /*
@@ -229,8 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'FormBuilder' => Kris\LaravelFormBuilder\Facades\FormBuilder::class
     ],
     
-    'will_menu_cache' => env('WILL_MENU_CACHE', true),
+    'will_menu_cache' => env('WILL_MENU_CACHE', false),
 ];

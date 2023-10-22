@@ -1,24 +1,15 @@
 @extends($layout)
 
 @section('content')
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Role</h4>
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                    <li class="breadcrumb-item">Role</li>
-                    <li class="breadcrumb-item active">Summary</li>
-                </ol>
-            </div>
+@php 
+    $breadcums = ["Member Management", "Roles", "Summary"];
+    $links = [
+        ["title" => "Create", "url" => route($routePrefix . ".create")]
+    ];
+@endphp 
 
-        </div>
-    </div>
-</div>
-<!-- end page title -->
+<x-backend.page-header title="Role" :breadcums="$breadcums" :links="$links"/>
 
 <div class="card">
     <div class="card-body">
@@ -51,6 +42,7 @@
                 <tr>
                     <th><?= sortable_anchor('id', 'ID') ?></th>
                     <th><?= sortable_anchor('name', 'Name') ?></th>
+                    <th>System Admin</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -59,6 +51,9 @@
                 <tr>
                     <td>{{ $record->id }}</td>
                     <td>{{ $record->name }}</td>
+                    <td>
+                        <x-backend.yes-no-label :value="$record->is_system_admin"/>
+                    </td>
                     <td>
                         <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$routePrefix"/>
                     </td>

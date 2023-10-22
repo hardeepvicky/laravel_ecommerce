@@ -17,6 +17,6 @@ class SummaryDeleteButton extends BaseComponent
     {
         parent::__construct();
         
-        $this->view_path = "backend.components.summary-delete-button";
+        $this->view_path = "components.backend.summary-delete-button";
     }
 }

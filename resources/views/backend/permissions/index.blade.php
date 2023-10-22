@@ -56,7 +56,7 @@
                     <th data-sr-data-table-search="1">Action</th>
                     <th data-sr-data-table-search="1">Role</th>
                     <th>Info</th>
-                    <th>Actions</th>
+                    <th style="width: 8%;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,6 +72,9 @@
                         <button class="btn btn-danger delete-btn" data-id="{{ $record['id'] }}">
                             <i class="bx bx-trash label-icon"></i>
                         </button>
+                        <div class="spinner-border text-primary m-1" style="vertical-align:middle; display:none">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                         @endif
                     </td>
                 </tr>
@@ -86,18 +89,20 @@
     $(document).ready(function() {
         $("button.delete-btn").click(function() {
             var _tr = $(this).closest("tr");
+            
+            $(this).parent().find(".spinner-border").show();
 
             var id = $(this).data("id");
 
             var url = "{{ route($routePrefix . '.ajax_delete') }}";
 
             var requestJson = {
-                ids: [id]
+                id: id
             };
 
             $.post(url, requestJson, function(response) {
                 ajaxHandleResponse(url, response, function(responseJson) {
-                    _tr.remove();
+                    _tr.fadeOut();                   
                 });
             });
 
