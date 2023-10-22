@@ -10,7 +10,7 @@
         <meta content="Hardeep" name="author" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="/assets/images/favicon.ico">
+        <link rel="shortcut icon" href="/favicon.ico">
 
         <link rel="stylesheet"  type="text/css" href="/assets/css/app.min.css"  />
         <link rel="stylesheet"  type="text/css" href="/assets/css/bootstrap.min.css"  />

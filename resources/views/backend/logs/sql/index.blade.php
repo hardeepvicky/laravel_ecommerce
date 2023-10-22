@@ -20,6 +20,8 @@
 </div>
 <!-- end page title -->
 
+
+
 <div class="card">
     <div class="card-body">
         <form method="GET" action="{{ route($routePrefix . '.index') }}">

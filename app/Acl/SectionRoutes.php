@@ -18,7 +18,7 @@ class SectionRoutes
         'admin.permissions.assign',
         'admin.permissions.assign_to_many',        
         'admin.permissions.ajax_delete',
-        //'admin.permissions.ajax_get_permissions',
+        'admin.permissions.ajax_get_permissions',
     ];
 
     /**
