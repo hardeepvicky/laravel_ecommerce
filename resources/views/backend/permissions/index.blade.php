@@ -1,23 +1,14 @@
 @extends($layout)
 
 @section('content')
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Permission Summary</h4>
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item">System Manager</li>
-                    <li class="breadcrumb-item">Permissions</li>
-                    <li class="breadcrumb-item active">Summary</li>
-                </ol>
-            </div>
+@php 
+    $breadcums = ["System Management", "Permissions", "Summary"];
+    $links = [
+        ["title" => "Assign", "url" => route($routePrefix . ".assign")]
+    ];
+@endphp 
 
-        </div>
-    </div>
-</div>
-<!-- end page title -->
+<x-backend.page-header title="Permission Summary" :breadcums="$breadcums" :links="$links"/>
 
 <div class="card">
     <div class="card-body">

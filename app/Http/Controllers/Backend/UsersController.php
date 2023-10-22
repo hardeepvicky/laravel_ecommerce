@@ -37,9 +37,14 @@ class UsersController extends BackendController
     {
         $model = new User();
 
-        $this->setForView(compact("model"));
+        $form = [
+            'url' => route($this->routePrefix . '.store'),
+            'method' => 'POST',            
+        ];
 
-        return $this->view("form");
+        $this->setForView(compact("model", 'form'));
+
+        return $this->view("add");
     }
 
     public function store(Request $request)
@@ -65,9 +70,14 @@ class UsersController extends BackendController
     {
         $model = User::query()->findOrFail($id);
 
+        $form = [
+            'url' => route($this->routePrefix . '.update', $id),
+            'method' => 'PUT',            
+        ];
+
         $role_list = Role::getList();
-        
-        $this->setForView(compact("role_list", "model"));
+
+        $this->setForView(compact("model", "form", "role_list"));
 
         return $this->view("edit");
     }

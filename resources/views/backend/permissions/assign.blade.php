@@ -1,6 +1,15 @@
 @extends($layout)
 
 @section('content')
+@php
+    $breadcums = ["System Management", "Permissions", "Assign"];
+    $links = [
+        ["title" => "Summary", "url" => route($routePrefix . ".index")]
+    ];
+@endphp
+
+<x-backend.page-header title="Permission Assign" :breadcums="$breadcums" :links="$links"/>
+
 <style>
     .first-row
     {
@@ -8,49 +17,33 @@
     }
 </style>
 
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0 font-size-18">Permissions</h4>
+<div class="card">
+    <div class="card-body">
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">                    
-                    <li class="breadcrumb-item">System Manager</li>
-                    <li class="breadcrumb-item">Permissions</li>
-                    <li class="breadcrumb-item active">Assign</li>
-                </ol>
+        <form action="{{ route($routePrefix . '.assign') }}" method="POST">
+            <div class="row">
+                <div class="col-lg-12">
+                    {!! csrf_field() !!}
+                    <div class="row mb-4">
+                        <label class="col-md-2 col-sm-23 col-form-label" style="text-align:right;">Role</label>
+                        <div class="col-md-6 col-sm-12">
+                            <select id="role_id" name="role_id" class ="form-control select2" required="required">
+                                <option value="">Please Select</option>
+                                @foreach($role_list as $k => $t)
+                                    <option value="{{ $k }}">{{$t}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div id="permission_block"></div>
+                    </div>                    
+                </div>
             </div>
-
-        </div>
+        </form>
     </div>
 </div>
-
-<form action="{{ route($routePrefix . '.assign') }}" method="POST">
-    <div class="row">
-        <div class="col-lg-9">            
-            {!! csrf_field() !!}            
-            <div class="row mb-4">
-                <label class="col-sm-3 col-form-label" style="text-align:right;">Role</label>
-                <div class="col-sm-8">
-                    <select id="role_id" name="role_id" class ="form-control select2" required="required">                        
-                        <option value="">Please Select</option>
-                        @foreach($role_list as $k => $t)                            
-                            <option value="{{ $k }}">{{$t}}</option>
-                        @endforeach
-                    </select>
-                </div>            
-            </div>
-            
-            <div class="row mb-4">
-                <div class="offset-lg-2" id="permission_block"></div>
-            </div>
-            <div class="mt-4 offset-md-4">
-                <button type="submit" class="btn btn-primary w-md">Submit</button>
-            </div>
-        </div>
-    </div>
-</form>
 
 <script type="text/javascript">
     $(document).ready(function()
@@ -61,7 +54,7 @@
 
             var v = $(this).val();
             v = v ? v : 0;
-            
+
             if ($("#permission_block").not(":empty").length > 0)
             {
                 Swal.fire({
@@ -71,7 +64,7 @@
                     showCancelButton: true,
                     confirmButtonColor: constants.swal.button.confirm_color,
                     cancelButtonColor: constants.swal.button.cancel_color,
-                    confirmButtonText: "Yes"   
+                    confirmButtonText: "Yes"
                 }).then(function(e) {
                     if (e.value)
                     {

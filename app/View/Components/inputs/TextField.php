@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\inputs;
+namespace App\View\Components\Inputs;
 
 use Illuminate\View\Component;
 

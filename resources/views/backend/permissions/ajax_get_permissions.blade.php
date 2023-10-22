@@ -1,11 +1,19 @@
 @extends($layout)
 
 @section('content')
-<label>
-    <input type="checkbox" id="select-all">
-    <b>Select All</b>
-</label>
-<table class="table table-striped table-bordered table-hover mb-0">
+<div class="row">
+    <div class="col-sm-6">
+        <label class="pointer">
+            <input type="checkbox" id="select-all">
+            <b>Select All</b>
+        </label>
+    </div>
+    <div class="col-sm-6 text-right">
+        <button type="submit" class="btn btn-primary w-md">Submit</button>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered table-hover mt-2 mb-2">
     <thead>
         <tr>
             <th class="text-center">#</th>
@@ -35,7 +43,7 @@
                     <td class="text-center">{{ $i }}</td>
                     <td>
                         <?php if ($a == 1): ?>
-                            <label>
+                            <label class="pointer">
                                 <input type="checkbox"                                     
                                     class="chk-select-all aco_section" 
                                     data-sr-chkselect-children="input.section-<?= $section_name_str ?>">
@@ -46,7 +54,7 @@
                         <?php endif; ?>
                     </td>
                     <td>
-                        <label>
+                        <label class="pointer">
                             <input type="checkbox"     
                                 <?= $action_arr['is_checked'] ? "checked" : "" ?>
                                 class="section-<?= $section_name_str ?> aco_action" 
@@ -61,6 +69,14 @@
         @endforeach    
     </tbody>
 </table>
+
+<div class="row justify-content-center mt-2">
+    <div class="col-sm-3">
+        <div>
+            <button type="submit" class="btn btn-primary w-md">Submit</button>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     $(document).ready(function()

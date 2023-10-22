@@ -11,6 +11,8 @@
 
 <x-backend.page-header title="Role" :breadcums="$breadcums" :links="$links"/>
 
+<x-backend.form-errors />
+
 <form action="{{ $form['url'] }}" method="POST">
     {!! csrf_field() !!}    
     {{ method_field($form['method']) }}

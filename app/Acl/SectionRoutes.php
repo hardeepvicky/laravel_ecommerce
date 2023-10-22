@@ -7,7 +7,7 @@ class SectionRoutes
      * list of routes which are allowed for any login user
      */
     public const ALLOW_ROUTES_FOR_ANY_LOGIN_USER = [
-        
+        'admin.dashboard'
     ];
 
     /**

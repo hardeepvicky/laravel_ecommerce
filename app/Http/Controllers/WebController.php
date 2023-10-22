@@ -113,7 +113,7 @@ class WebController extends Controller
     protected function getPaginagteRecords(Builder $builder)
     {
         $sort_by = request('sort_by', 'id');
-        $sort_dir = request('sort_dir', 'ASC');
+        $sort_dir = request('sort_dir', 'DESC');
         $paginate_limit = request('pagination_limit', 20);
 
         return $builder->orderBy($sort_by, $sort_dir)->paginate($paginate_limit);

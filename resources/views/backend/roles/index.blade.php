@@ -2,12 +2,12 @@
 
 @section('content')
 
-@php 
+@php
     $breadcums = ["Member Management", "Roles", "Summary"];
     $links = [
         ["title" => "Create", "url" => route($routePrefix . ".create")]
     ];
-@endphp 
+@endphp
 
 <x-backend.page-header title="Role" :breadcums="$breadcums" :links="$links"/>
 
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-sm-3">                   
+                <div class="col-sm-3">
                     <div>
                         <button type="submit" class="btn btn-primary w-md">Search</button>
                         <span class="btn btn-light w-md clear_form_search_conditions">Clear</span>
@@ -36,7 +36,7 @@
         <x-backend.pagination-links :records="$records"/>
     </div>
 
-    <div class="card-body">        
+    <div class="card-body">
         <table class="table table-striped table-bordered table-hover mb-0">
             <thead>
                 <tr>
@@ -58,7 +58,7 @@
                         <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$routePrefix"/>
                     </td>
                 </tr>
-                @endforeach    
+                @endforeach
             </tbody>
         </table>
     </div>
