@@ -12,6 +12,19 @@
     text-align: right;
 }
 
+.text-center{
+    text-align: center;
+}
+
 .pointer{
     cursor: pointer;
+}
+
+.hidden{
+    display: none;
+}
+
+.small-img{
+    width: 70px;
+    height: auto;
 }

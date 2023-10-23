@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Acl\AccessControl;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -21,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -42,11 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static Array $child_model_class = [
+    public static array $child_model_class = [
         UserRole::class => [
             "foreignKey" => "user_id",
             "preventDelete" => false,
-        ],       
+        ],
     ];
 
     public function userRole()
@@ -57,5 +59,46 @@ class User extends Authenticatable
     public function role()
     {
         return $this->hasManyThrough(Role::class, UserRole::class);
+    }
+
+    public function setNewRoles($id, $new_role_id_list)
+    {
+        $exist_user_role_list = UserRole::where("user_id", "=", $id)->pluck("role_id", "id")->toArray();
+
+        $is_change_in_role = false;
+
+        foreach ($exist_user_role_list as $exist_role_id) {
+            if (!in_array($exist_role_id, $new_role_id_list)) {
+                //NEW ROLE
+                $is_change_in_role = true;
+            }
+        }
+
+        foreach ($new_role_id_list as $role_id) {
+            if (!in_array($role_id, $exist_user_role_list)) {
+                $is_change_in_role = true;
+            }
+        }
+
+        $userRole = new UserRole();
+        foreach ($new_role_id_list as $role_id) {
+            $user_role_id = $userRole->insertIgnoreIfExist([
+                'user_id' => $id,
+                'role_id' => $role_id
+            ]);
+
+            unset($exist_user_role_list[$user_role_id]);
+        }
+
+        if ($exist_user_role_list) {
+            UserRole::withoutEvents(function () use ($exist_user_role_list) {
+                UserRole::destroy($exist_user_role_list);
+            });
+        }
+
+        if ($is_change_in_role) {
+            $accessControl = AccessControl::init();
+            $accessControl->clearMenuCache($id);
+        }
     }
 }

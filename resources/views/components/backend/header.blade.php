@@ -77,7 +77,12 @@
             @else
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item bg-soft-light border-start border-end" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="/assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                    @php
+                        $user = Auth::user();
+                    @endphp
+                    @if(isset($user->profile_image) && $user->profile_image)
+                        <img class="rounded-circle header-profile-user" src="{{ FileUtility::get($user->profile_image) }}" alt="Header Avatar">
+                    @endif
                     <span class="d-none d-xl-inline-block ms-1 fw-medium">
                         {{ Auth::user()->name }}
                     </span>
@@ -87,15 +92,27 @@
                     <!-- item-->
                     <a class="dropdown-item" href="javascript:void(0);">
                         <i class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Profile
-                    </a>                    
-                    <div class="dropdown-divider"></div>                    
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="dropdown-item">Logout</button>
                     </form>
-                </div>                              
+                </div>
             </div>
             @endguest
         </div>
     </div>
 </header>
+
+<script>
+    $(function(){
+        $("#mode-setting-btn").click(function(){
+            var mode = $("body").attr("data-layout-mode");
+            if (mode)
+            {
+                localStorage.setItem("layout-mode", mode);
+            }
+        });
+    });
+</script>

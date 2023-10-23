@@ -1,5 +1,8 @@
 <?php
+
 namespace App\Helpers;
+
+use Exception;
 
 class FileUtility
 {
@@ -20,8 +23,7 @@ class FileUtility
         $this->maxSize = $maxSize;
         $this->ext = $extensions;
 
-        foreach ($this->ext as $k => $ext)
-        {
+        foreach ($this->ext as $k => $ext) {
             $this->ext[$k] = strtolower(trim($ext));
         }
     }
@@ -38,8 +40,7 @@ class FileUtility
         //validating file
         $this->errors = array();
         $file["name"] = trim($file["name"]);
-        if (!$this->validateFile($file))
-        {
+        if (!$this->validateFile($file)) {
             return false;
         }
 
@@ -56,20 +57,15 @@ class FileUtility
         $this->filename = static::cleanFileName($temp['filename']);
         $this->extension = $temp['extension'];
 
-        if ($filename)
-        {
+        if ($filename) {
             $this->filename = static::cleanFileName($filename);
-            if (strlen($this->filename) > 100)
-            {
+            if (strlen($this->filename) > 100) {
                 $this->filename = substr($this->filename, 0, 100);
             }
 
             $this->file = $this->filename . "." . $this->extension;
-        }
-        else
-        {
-            if (strlen($this->filename) > 100)
-            {
+        } else {
+            if (strlen($this->filename) > 100) {
                 $this->filename = substr($this->filename, 0, 100);
             }
 
@@ -89,8 +85,7 @@ class FileUtility
     {
         $result = true;
 
-        if ($file['size'] > $this->maxSize)
-        {
+        if ($file['size'] > $this->maxSize) {
             $this->errors[] = "File size must not exceeds " . round($this->maxSize / 1024) . " kb";
             $result = false;
         }
@@ -98,17 +93,13 @@ class FileUtility
         $temp = pathinfo($file["name"]);
 
         $this->filename = $temp['filename'];
-        if (!isset($temp['extension']) || !$temp['extension'])
-        {
+        if (!isset($temp['extension']) || !$temp['extension']) {
             $this->errors[] = "Could not find type of file";
             $result = false;
-        }
-        else
-        {
+        } else {
             $this->extension = strtolower($temp['extension']);
 
-            if (!empty($this->ext) && !in_array($this->extension, $this->ext))
-            {
+            if (!empty($this->ext) && !in_array($this->extension, $this->ext)) {
                 $this->errors[] = "Invalid file Type : " . $this->extension;
                 $result = false;
             }
@@ -128,30 +119,22 @@ class FileUtility
     {
         $temp_name = $i > 0 ? $filename . $sep . $i : $filename;
 
-        if (file_exists($dest_path . $temp_name . "." . $ext))
-        {
+        if (file_exists($dest_path . $temp_name . "." . $ext)) {
             return self::getAutoincreamentFileName($filename, $ext, $dest_path, $sep, $i + 1);
-        }
-        else
-        {
+        } else {
             return $temp_name . "." . $ext;
         }
     }
 
     public static function createFolder($path)
     {
-        if (!file_exists($path))
-        {
-            if (!mkdir($path, 0777, TRUE))
-            {
-                throw_exception("Fail to create $path");
-            }            
-        }
-        else
-        {
-            if (!is_readable($path))
-            {
-                throw_exception("$path is not readable");
+        if (!file_exists($path)) {
+            if (!mkdir($path, 0777, TRUE)) {
+                throw new Exception("Fail to create $path");
+            }
+        } else {
+            if (!is_readable($path)) {
+                throw new Exception("$path is not readable");
             }
         }
     }
@@ -161,42 +144,30 @@ class FileUtility
         $files = self::getFileList($path, $exts, $recursive);
 
         $result = true;
-        foreach ($files as $file)
-        {
-            if (unlink($file))
-            {
+        foreach ($files as $file) {
+            if (unlink($file)) {
                 //continue
-            }
-            else
-            {
+            } else {
                 $result = false;
             }
         }
-        
+
         return $result;
     }
 
     public static function getFileList($path, $exts = array(), $recursive = false)
-    {        
+    {
         $files = scandir($path);
         $ret_files = array();
 
-        foreach ($files as $k => $file)
-        {
+        foreach ($files as $k => $file) {
             $f = $path . $file . "/";
 
-            if ($file == '.' || $file == '..')
-            {
-            }            
-            else if ($recursive && is_dir($f))
-            {
-                $ret_files = array_merge($ret_files, self::getFileList($f, $exts, $recursive) );
-            }
-            else if (!empty($exts) && !in_array(pathinfo($file, PATHINFO_EXTENSION), $exts))
-            {
-            }           
-            else
-            {
+            if ($file == '.' || $file == '..') {
+            } else if ($recursive && is_dir($f)) {
+                $ret_files = array_merge($ret_files, self::getFileList($f, $exts, $recursive));
+            } else if (!empty($exts) && !in_array(pathinfo($file, PATHINFO_EXTENSION), $exts)) {
+            } else {
                 $ret_files[] = $path . $file;
             }
         }
@@ -207,9 +178,8 @@ class FileUtility
     public static function read($file)
     {
         $file = explode("?", $file)[0];
-        
-        if (file_exists($file))
-        {
+
+        if (file_exists($file)) {
             return array(
                 "filename" => pathinfo($file, PATHINFO_BASENAME),
                 "content_type" => mime_content_type($file),
@@ -217,123 +187,139 @@ class FileUtility
             );
         }
 
-        if (self::use_s3)
-        {
+        if (self::use_s3) {
             $aws = new AWSFileUtility();
             $result = $aws->read($file);
-            
-            if ($result == false)
-            {
+
+            if ($result == false) {
                 return false;
             }
-            
+
             return array(
                 "filename" => pathinfo($file, PATHINFO_BASENAME),
                 "content_type" => $result["ContentType"],
                 "content" => $result["Body"]
             );
         }
-        
+
         return false;
     }
-    
+
     public static function get($file, $default = true)
     {
         $file = trim($file);
-        if (!$file)
-        {
-            if ($default)
-            {
+        if (!$file) {
+            if ($default) {
                 return SITE_URL . "img/dummy.jpg";
-            }
-            else
-            {
+            } else {
                 return "";
             }
         }
-        
+
         $file2 = explode("?", $file)[0];
-        
-        if (file_exists($file2))
-        {
+
+        if (file_exists($file2)) {
             return SITE_URL . $file;
         }
-        
-        if (self::use_s3)
-        {
+
+        if (self::use_s3) {
             $aws = new AWSFileUtility();
-            
-            if ($aws->isExist($file))
-            {
+
+            if ($aws->isExist($file)) {
                 return AWSFileUtility::get($file);
             }
         }
-        
-        if ($default)
-        {
+
+        if ($default) {
             return SITE_URL . "img/dummy.jpg";
         }
-        
+
         return "";
     }
-    
+
     public static function delete($file, $aws = true)
     {
         $file = explode("?", $file)[0];
-        
-        if (file_exists($file))
-        {
-            if (!unlink($file))
-            {               
+
+        if (file_exists($file)) {
+            if (!unlink($file)) {
                 return false;
             }
         }
-        
-        if (self::use_s3 && $aws)
-        {
+
+        if (self::use_s3 && $aws) {
             $aws = new AWSFileUtility();
-            if ( $aws->isExist($file) ) 
-            {
-                if ( !$aws->delete($file) )
-                {
+            if ($aws->isExist($file)) {
+                if (!$aws->delete($file)) {
                     return false;
                 }
             }
         }
-        
+
         return true;
     }
-    
+
     public static function isExist($file)
     {
         $file = trim($file);
         $file = explode("?", $file)[0];
-        
-        if (!$file)
-        {
+
+        if (!$file) {
             return false;
         }
-        
-        if (file_exists($file))
-        {
+
+        if (file_exists($file)) {
             return true;
-        }
-        else if (self::use_s3)
-        {
+        } else if (self::use_s3) {
             $aws = new AWSFileUtility();
             return $aws->isExist($file);
-        }        
-        
+        }
+
         return false;
     }
-    
-    public static function move($src, $dest)
+
+    public static function move($src, $dest, bool $will_override = false)
     {
-        if (rename($src, $dest))
+        if ( !file_exists($src) )
         {
-            return true;
+            throw new Exception("Src : $src is not exist");
         }
-        
+
+        if ( is_dir($src) )
+        {
+            throw new Exception("Src : $src is a directroy. only file can move");
+        }
+
+        $dest_path = dirname($dest);        
+
+        if ( file_exists($dest) )
+        {
+            if (!$will_override)
+            {
+                $filename = self::cleanFileName(pathinfo($dest, PATHINFO_FILENAME));
+                $ext = pathinfo($dest, PATHINFO_EXTENSION);
+
+                $file = self::getAutoincreamentFileName($filename, $ext, $dest_path);
+
+                $dest = $dest_path . "/" . $file;
+            }
+        }
+        else
+        {
+            $ext = pathinfo($dest, PATHINFO_EXTENSION);
+
+            if (!$ext)
+            {
+                throw new Exception("Dest : $dest have no extension");
+            }
+            
+            self::createFolder($dest_path);
+        }
+
+        if (rename($src, $dest)) {
+            return $dest;
+        }
+
         return false;
     }
 
@@ -342,18 +328,14 @@ class FileUtility
         $side = strtoupper($side);
         $path = trim(str_replace('\\', '/', $path));
 
-        if ($side == 'FIRST' || $side == 'START' || empty($side))
-        {
-            if (substr($path, 0, 1) == "/")
-            {
+        if ($side == 'FIRST' || $side == 'START' || empty($side)) {
+            if (substr($path, 0, 1) == "/") {
                 $path = substr($path, 1, strlen($path));
             }
         }
 
-        if ($side == 'LAST' || $side == 'END' || empty($side))
-        {
-            if (substr($path, -1) == "/")
-            {
+        if ($side == 'LAST' || $side == 'END' || empty($side)) {
+            if (substr($path, -1) == "/") {
                 $path = substr($path, 0, strrpos($path, "/"));
             }
         }
@@ -365,5 +347,39 @@ class FileUtility
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
         return preg_replace('/[^A-Za-z0-9\-_]/', '', $string); // Removes special chars.
+    }
+
+    public static function base64ToFile(String $base64, String $dest_path, String $file): String
+    {
+        $dest_path = Util::removePathSlashs($dest_path);
+
+        self::createFolder($dest_path);
+
+        $filename = self::cleanFileName(pathinfo($file, PATHINFO_FILENAME));
+        $ext = pathinfo($file, PATHINFO_EXTENSION);
+
+        $file = self::getAutoincreamentFileName($filename, $ext, $dest_path);
+
+        $file = $dest_path . "/" . $file;
+
+        $arr = explode(',', $base64);
+
+        if (count($arr) > 1)
+        {
+            $base64 = $arr[1];
+        }
+        else
+        {
+            $base64 = $arr[0];
+        }
+
+        $ifp = fopen($file, 'wb');
+
+        fwrite($ifp, base64_decode($base64));
+
+        // clean up the file resource
+        fclose($ifp);
+
+        return $file;
     }
 }

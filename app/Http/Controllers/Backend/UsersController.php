@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Acl\AccessControl;
+use App\Helpers\FileUtility;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\UserRole;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -88,7 +90,8 @@ class UsersController extends BackendController
 
         $validatedData = $request->validate([
             'name' => 'required',            
-            'email' => 'required|email|unique:users,email,'. $model->id
+            'email' => 'required|email|unique:users,email,'. $model->id,
+            'profile_image' => ''
         ], [
             'name.required' => 'Name is required.',            
             'email.required' => 'Email is required.',
@@ -99,32 +102,24 @@ class UsersController extends BackendController
 
         try
         {
+            if (trim($validatedData['profile_image']))
+            {
+                $ext = pathinfo($validatedData['profile_image'], PATHINFO_EXTENSION);
+                $dest = Config::get("constant.path.user") . $id . "." . $ext;
+
+                $new_file = FileUtility::move($validatedData['profile_image'], $dest, TRUE);
+                if ( $new_file === false )
+                {
+                    throw_exception("Fail To move file from temp folder to users folder");
+                }
+
+                $validatedData['profile_image'] = $new_file . "?" . time();
+            }
+            
             $model->fill($validatedData);
             $model->save();
 
-            $exist_user_role_list = UserRole::where("user_id", "=", $model->id)->pluck("id", "id")->toArray();
-
-            $userRole = new UserRole();
-            foreach($request->get('roles') as $role_id)
-            {
-                $user_role_id = $userRole->insertIgnoreIfExist([
-                    'user_id' => $model->id,
-                    'role_id' => $role_id
-                ]);
-
-                unset($exist_user_role_list[$user_role_id]);
-            }
-
-            if ($exist_user_role_list)
-            {
-                UserRole::withoutEvents(function () use ($exist_user_role_list)
-                {
-                    UserRole::destroy($exist_user_role_list);
-                });
-            }
-            
-            $accessControl = AccessControl::init();
-            $accessControl->clearMenuCache([$model->id]);
+            $model->setNewRoles($model->id, $request->get('roles', []));
 
             DB::commit();
 

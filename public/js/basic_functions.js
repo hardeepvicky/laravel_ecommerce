@@ -1,10 +1,26 @@
 function ajaxHandleResponse(url, response, callback) {
+
     var responseJson = {};
     if (typeof response == "object") {
         responseJson = response;
     } else {
         try {
-            var responseJson = JSON.parse(response);
+
+            if (typeof(response) == "string")
+            {
+                response = response.trim();
+
+                if (response.length == 0)
+                {
+                    $.events.onAjaxError("JSON Parse Error", "Empty Response", {
+                        url: url,
+                    });
+
+                    return false;
+                }
+
+                var responseJson = JSON.parse(response);
+            }
         } catch (e) {
             $.events.onAjaxError("JSON Parse Error", response, {
                 url: url,
@@ -25,7 +41,7 @@ function ajaxHandleResponse(url, response, callback) {
             callback(responseJson);
         }
     } else if (typeof responseJson["msg"] != "undefined") {
-        $.onUserError(responseJson["msg"]);
+        $.events.onUserError(responseJson["msg"]);
     } else {
         $.events.onAjaxError("Missing", "Response JSON Should have msg", {
             url: url,

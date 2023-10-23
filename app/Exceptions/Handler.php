@@ -50,13 +50,24 @@ class Handler extends ExceptionHandler
             {
                 $data['layout'] = 'backend.layouts.default';
             }
+            
 
             if ($request->ajax())
             {
-                return response()->view("errors.ajax.$status_code", $data, $e->getStatusCode());
+                $view_name = "errors.ajax.$status_code";
+                if (!view()->exists($view_name)){
+                    $view_name = "errors.ajax.all";
+                }
+
+                return response()->view($view_name, $data, $e->getStatusCode());
             }
 
-            return response()->view("errors.$status_code", $data, $e->getStatusCode());
+            $view_name = "errors.$status_code";
+            if (!view()->exists($view_name)){
+                $view_name = "errors.all";
+            }
+
+            return response()->view($view_name, $data, $e->getStatusCode());
         });
     }
 }

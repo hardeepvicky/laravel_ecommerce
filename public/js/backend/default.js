@@ -9,6 +9,8 @@ $(document).ready(function()
         theme : "bootstrap-5",
     });
 
+    $(".fancybox").fancybox();
+
     $("form.summary-delete-form").submit(function()
     {
         var _form = $(this);

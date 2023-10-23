@@ -1,3 +1,7 @@
+<?php
+
+use App\Helpers\FileUtility;
+?>
 @extends($layout)
 
 @section('content')
@@ -46,6 +50,7 @@
                     <th><?= sortable_anchor('id', 'ID') ?></th>
                     <th><?= sortable_anchor('name', 'Name') ?></th>
                     <th><?= sortable_anchor('email', 'Email') ?></th>                    
+                    <th>Profile Photo</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -55,6 +60,13 @@
                     <td>{{ $record->id }}</td>
                     <td>{{ $record->name }}</td>
                     <td>{{ $record->email }}</td>
+                    <td>
+                        @if($record->profile_image)                            
+                            <a class="fancybox" data-fancybox="group-{{ $record->id }}" href="{{ FileUtility::get($record->profile_image) }}">
+                                <img class="img-thumbnail rounded-circle avatar-xl" src="{{ FileUtility::get($record->profile_image) }}" />
+                            </a>
+                        @endif
+                    </td>
                     <td>
                         <x-backend.summary-comman-actions :id="$record->id" :routePrefix="$routePrefix" />
                     </td>

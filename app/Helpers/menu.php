@@ -10,6 +10,7 @@ class Menu
 {
     private static $menu = [];
     private static $current_route_name = "";
+
     public static function get()
     {
         $acccessControl = AccessControl::init();
@@ -61,8 +62,8 @@ class Menu
             "title" => $title,
             "icon" => "menu-icon " . $icon,
             "links" => [
-                self::addLink($routePrefix . ".index", "Summary", FontAwesomeIcon::SUMMARY),
-                self::addLink($routePrefix . ".create", "Create", FontAwesomeIcon::ADD),
+                self::addLink($routePrefix . ".index", "Summary", Config::get('constant.font_awesome_icon.summary')),
+                self::addLink($routePrefix . ".create", "Create", Config::get('constant.font_awesome_icon.create')),
             ],
         ];
 
@@ -172,7 +173,7 @@ class Menu
             "title" => "Permissions",
             "icon" => "fas fa-bars menu-icon",
             "links" => [
-                self::addLink($routePrefix . ".index", "Summary", FontAwesomeIcon::SUMMARY),
+                self::addLink($routePrefix . ".index", "Summary", Config::get('constant.font_awesome_icon.summary')),
                 self::addLink($routePrefix . ".assign", "Assign", 'bx bx-grid-alt'),
                 self::addLink($routePrefix . ".assign_to_many", "Assign To Many", 'bx bx-grid-alt'),
             ],
@@ -194,7 +195,7 @@ class Menu
             "title" => "Developer",
             "icon" => "fas fa-bars menu-icon",
             "links" => [
-                self::addLink($routePrefix . ".sql.index", "SQL", FontAwesomeIcon::SUMMARY)
+                self::addLink($routePrefix . ".sql.index", "SQL", Config::get('constant.font_awesome_icon.summary'))
             ],
         ];
 

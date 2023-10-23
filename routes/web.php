@@ -32,6 +32,8 @@ Route::get('/home', [DashboardController::class, 'index'])->name('home');
 Route::get('/theme', [DashboardController::class, 'theme']);
 Route::get('/developer-components', [DashboardController::class, 'developer_components']);
 Route::get('/test', [DashboardController::class, 'test']);
+Route::post('/ajax_upload', [DashboardController::class, 'ajax_upload']);
+Route::post('/ajax_upload_base64', [DashboardController::class, 'ajax_upload_base64']);
 
 Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'role_permission']], function () {    
 
