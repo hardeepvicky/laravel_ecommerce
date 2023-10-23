@@ -17,6 +17,23 @@ function throw_exception($msg)
     throw new Exception($msg);
 }
 
+function get_url_params_in_array()
+{
+    $url_arr = explode("?", $_SERVER["REQUEST_URI"]);
+
+    $query_params = [];
+    if (isset($url_arr[1])) {
+        $query_list = explode("&", $url_arr[1]);
+
+        foreach ($query_list as $str) {
+            list($k, $v) = explode("=", $str);
+            $query_params[$k] = $v;
+        }
+    }
+
+    return $query_params;
+}
+
 function get_url($extra_params = [])
 {
     $url_arr = explode("?", $_SERVER["REQUEST_URI"]);
@@ -49,11 +66,20 @@ function get_url($extra_params = [])
 
 function sortable_url($sort_by)
 {
-    $query_params = [];
-    $query_params['sort_by'] = $sort_by;
-    $query_params['sort_dir'] = 'ASC';
+    $url_params = get_url_params_in_array();
+    $params = [];
+    $params['sort_by'] = $sort_by;
+    $params['sort_dir'] = 'ASC';
 
-    return get_url($query_params);
+    if ( isset($url_params['sort_dir']) )
+    {
+        if ($url_params['sort_dir'] == 'ASC')
+        {
+            $params['sort_dir'] = 'DESC';
+        }
+    }
+
+    return get_url($params);
 }
 
 function sortable_anchor(String $sort_by, String $title, array $attrs = [])
@@ -90,29 +116,4 @@ function sortable_anchor(String $sort_by, String $title, array $attrs = [])
     $html .= '</a>';
 
     return '<a href="' . $url . '">' . $html . '</a>';
-}
-
-function get_next_tab($tabs, $tab, &$is_last_tab)
-{
-    $keys = array_keys($tabs);
-
-    if (!$tab) {
-        return 0;
-    }
-
-    $next_index = $current_index = 0;
-    for ($i = 0; $i < count($keys); $i++) {
-        if ($keys[$i] == $tab) {
-            $current_index = $i;
-            if ($i < count($keys) - 1) {
-                $next_index = $i + 1;
-            } else {
-                $next_index = $i;
-            }
-        }
-    }
-
-    $is_last_tab = $current_index == (count($keys) - 1);
-
-    return $keys[$next_index];
 }

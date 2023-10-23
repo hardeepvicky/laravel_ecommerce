@@ -52,12 +52,12 @@ class WebController extends Controller
         
         if ($cache_prefix)
         {
-            $cache_key = "search_" . str_replace($cache_prefix, ".", "-") . "_" . auth()->id();
+            $cache_key = "search_" . str_replace(".", "_", $cache_prefix) . "_" . auth()->id();
         }
 
         $request_params = request()->all();
 
-        if (!$request_params && isset($cache_key))
+        if (empty($request_params) && isset($cache_key))
         {
             if ( Cache::has($cache_key) )
             {
@@ -102,9 +102,20 @@ class WebController extends Controller
 
         if (isset($cache_key))
         {
-            Cache::put($cache_key, $search_variables, CACHE_SEARCH_CONDITIONS_TIME);
+            if ( !Cache::put($cache_key, $search_variables, CACHE_SEARCH_CONDITIONS_TIME) )
+            {
+                throw_exception("Fail to put cache");
+            }
         }
 
+        if ( !isset($this->data['search']) )
+        {
+            $this->data['search'] = [];
+        }
+        
+        //require if getConditions function called two times
+        $this->data['search'] = array_merge($this->data['search'], $search_variables);
+        
         $this->setForView($search_variables);
 
         return $conditions;

@@ -53,19 +53,18 @@ class PermissionsController extends BackendController
             foreach ($records as $k => $record) {
                 if (isset($record['role']) && isset($record['route_name'])) {
 
-                    $records[$k]['section'] = "Section is not set in SectionRoutes.php";                    
-                    $records[$k]['can_be_delete'] = true;
-                    $records[$k]['info'] = "";
+                    $records[$k]['section'] = "Section is not set in SectionRoutes.php";
+                    $records[$k]['can_be_delete'] = true;                    
 
-                    if (in_array($record['route_name']['name'], SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER)) {                        
+                    if (in_array($record['route_name']['name'], SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER)) {
                         $records[$k]['can_be_delete'] = false;
-                        $records[$k]['info'] = "Allow For All Login User";
-                    } 
+                        $records[$k]['role']['name'] = "Allow For All Login User";
+                    }
 
-                    if ($record['role']['is_system_admin'] && in_array($record['route_name']['name'], SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {                        
+                    if ($record['role']['is_system_admin'] && in_array($record['route_name']['name'], SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {
                         $records[$k]['can_be_delete'] = false;
-                        $records[$k]['info'] = "Allow For All System Admin";
-                    } 
+                        $records[$k]['role']['name'] = "Allow For All System Admin";
+                    }
 
                     foreach ($sections as $section_name => $actions) {
                         foreach ($actions as $action_name => $route_list) {
@@ -79,22 +78,53 @@ class PermissionsController extends BackendController
                     if (isset($section_conditions['section_name']) && $section_conditions['section_name'] != $records[$k]['section']) {
                         unset($records[$k]);
                     }
-    
+
                     if (isset($section_conditions['action_name']) && $section_conditions['action_name'] != $records[$k]['action']) {
                         unset($records[$k]);
                     }
-                    
+
                 } else {
                     unset($records[$k]);
                 }
-                
+
             }
 
             usort($records, function ($a, $b) {
                 return strcmp($a['role']["name"], $b['role']["name"]);
             });
 
-            //d($records); exit;
+            foreach(SectionRoutes::ALLOW_ROUTES_FOR_ANY_LOGIN_USER as $route_name)
+            {
+                $records[] = [
+                    'section' => '',
+                    'action' => $route_name,
+                    'can_be_delete' => false,                    
+                    'role' => [
+                        'name' => 'Allow For All Login User'
+                    ]
+                ];
+            }
+
+            //d($conditions); exit;
+            if ($conditions && isset($conditions["role_id"]) && $conditions["role_id"])
+            {
+                $role = Role::findOrFail($conditions["role_id"]); 
+                if ($role->is_system_admin)
+                {
+                    foreach(SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN as $route_name)
+                    {
+                        $records[] = [
+                            'section' => '',
+                            'action' => $route_name,
+                            'can_be_delete' => false,                    
+                            'role' => [
+                                'name' => 'Allow For All System Admin User'
+                            ]
+                        ];
+                    }
+                }
+            }
+
 
             $this->setForView(compact("records"));
         }
@@ -215,7 +245,7 @@ class PermissionsController extends BackendController
 
         try {
             $id = $request->get("id");
-            
+
             $record = RoleRouteName::select('id')->findOrFail($id);
 
             $record->delete();

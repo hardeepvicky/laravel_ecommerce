@@ -3,13 +3,11 @@
 @section('content')
 
 @php 
-    $breadcums = ["System Management", "Permissions", "Assign"];
-    $links = [
-        ["title" => "Assign", "url" => route($routePrefix . ".assign")]
-    ];
+    $breadcums = ["Logs", "Developer", "SQL"];
+    $links = [];
 @endphp 
 
-<x-backend.page-header title="Permissions" :breadcums="$breadcums" :links="$links"/>
+<x-backend.page-header title="SQL Logs" :breadcums="$breadcums" :links="$links"/>
 
 
 <div class="card">

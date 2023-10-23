@@ -45,8 +45,7 @@
                     <th class="text-center" data-sr-data-table-search-clear="1">#</th>
                     <th data-sr-data-table-search="1">Section</th>
                     <th data-sr-data-table-search="1">Action</th>
-                    <th data-sr-data-table-search="1">Role</th>
-                    <th>Info</th>
+                    <th data-sr-data-table-search="1">Role</th>                    
                     <th style="width: 8%;">Actions</th>
                 </tr>
             </thead>
@@ -56,8 +55,7 @@
                     <td class="text-center">{{ $i + 1 }}</td>
                     <td>{{ $record['section'] ?? "" }}</td>
                     <td>{{ $record['action'] ?? "" }}</td>
-                    <td>{{ $record['role']['name'] }}</td>
-                    <td>{{ $record['info'] }}</td>
+                    <td>{{ $record['role']['name'] }}</td>                    
                     <td>
                         @if ($record['can_be_delete'])
                         <button class="btn btn-danger delete-btn" data-id="{{ $record['id'] }}">
