@@ -49,7 +49,8 @@ class RolesController extends BackendController
     public function store(Request $request)
     {
         $validatedData = $request->validate([            
-            'name' => 'required|min:3|unique:roles'
+            'name' => 'required|min:3|unique:roles',
+            "is_system_admin" => ""
         ]);
   
         Role::create($validatedData);

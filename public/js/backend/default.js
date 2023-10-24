@@ -11,6 +11,20 @@ $(document).ready(function()
 
     $(".fancybox").fancybox();
 
+    $(".date-picker").datepickerExtend();
+
+    $(".date-month-picker").datepickerExtend({
+        format: "M-yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+
+    $(".date-time-picker").datetimepickerExtend();
+
+    $('.time-picker').timepicker({
+        defaultTime: ""
+    });
+
     $("form.summary-delete-form").submit(function()
     {
         var _form = $(this);

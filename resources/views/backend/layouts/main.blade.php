@@ -23,6 +23,12 @@
         <link rel="stylesheet"  type="text/css" href="/assets/libs/Croppie-2.6.4/croppie.css" />
         <link rel="stylesheet"  type="text/css" href="/assets/libs/fancybox/dist/jquery.fancybox.min.css" />
 
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-dialog/bootstrap-dialog.min.css"/>
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
+
         <!-- Project related CSS -->
         <link rel="stylesheet"  type="text/css" href="/libs/loader/loader.css?<?= BACKEND_CSS_JS_VERSION ?>" />
         <link rel="stylesheet"  type="text/css" href="/css/backend/default.css?<?= BACKEND_CSS_JS_VERSION ?>" />

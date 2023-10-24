@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DateUtility;
 use App\Models\BaseModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -41,7 +42,7 @@ class WebController extends Controller
         $this->data['routePrefix'] = $this->routePrefix;
 
         $this->data['layout'] = $this->layout;
-        
+
         return view($this->viewPrefix . "." . $view_name, $this->data);
     }
 
@@ -49,7 +50,7 @@ class WebController extends Controller
     {
         $conditions = [];
         $search_variables = [];
-        
+
         if ($cache_prefix)
         {
             $cache_key = "search_" . str_replace(".", "_", $cache_prefix) . "_" . auth()->id();
@@ -64,38 +65,91 @@ class WebController extends Controller
                 $request_params = Cache::get($cache_key);
             }
         }
-        
+
         foreach($array as $row)
         {
+            if (!isset($row['field']))
+            {
+                throw_exception("field key in not set in argument array");
+            }
+
+            if (!isset($row['type']))
+            {
+                throw_exception("type key in not set in argument array");
+            }
+
             $field = $row['field'];
-            $view_field = $row['view_field'] ?? $row['field'];            
-            $search_variables[$view_field] = $request_params[$view_field] ?? "";
+            $view_field = $row['view_field'] ?? $row['field'];
+            $search_variables[$view_field] = "";
 
             if ( !isset($request_params[$view_field]) )
             {
                 continue;
             }
-            
-            $value = trim($request_params[$view_field]);
 
-            if (strlen($value) > 0)
+            $value = $search_variables[$view_field] = $request_params[$view_field];
+
+            if (is_string($value))
             {
+                $value = trim($value);
+            }
+
+            if (is_array($value))
+            {
+                if (!empty($value))
+                {
+                    $op = "IN";
+
+                    foreach($value as $k => $v)
+                    {
+                        if (is_string($v))
+                        {
+                            $v = trim($v);
+                        }
+
+                        $arr = $this->_parseConditionValue($v, $row['type']);
+                        $value[$k] = $arr['value'];
+                    }
+
+                    $parse_value = implode(",", $value);
+                    if ($return_key_value_pair_conditions)
+                    {
+                        if ($op && $op != "=")
+                        {
+                            $conditions[$field . " " . $op] = $parse_value;
+                        }
+                        else 
+                        {
+                            $conditions[$field] = $parse_value;
+                        }
+                    }
+                    else
+                    {
+                        $conditions[]= [$field, $op, $parse_value];
+                    }
+                }
+            }
+            else if (strlen($value) > 0)
+            {
+                $arr = $this->_parseConditionValue($value, $row['type']);
+
+                $parse_value = $arr['value'];
+                $op = $arr['op'];
+
                 if ($return_key_value_pair_conditions)
                 {
-                    $conditions[$field] = $value;                    
+                    if ($op && $op != "=")
+                    {
+                        $conditions[$field . " " . $op] = $parse_value;
+                    }
+                    else 
+                    {
+                        $conditions[$field] = $parse_value;
+                    }
                 }
                 else
                 {
-                    switch($row['type'])
-                    {
-                        case "string":
-                            $conditions[]= [$field, 'LIKE', "%" . $value . "%"];
-                            break;
-                        
-                        default:
-                            $conditions[]= [$field, '=', $value];
-                        break;
-                    }
+                    $conditions[]= [$field, $op, $parse_value];
                 }
             }
         }
@@ -112,13 +166,100 @@ class WebController extends Controller
         {
             $this->data['search'] = [];
         }
-        
+
         //require if getConditions function called two times
         $this->data['search'] = array_merge($this->data['search'], $search_variables);
-        
+
         $this->setForView($search_variables);
 
         return $conditions;
+    }
+    
+    private function _parseConditionValue($value, String $type)
+    {
+        $data_type = gettype($value);
+
+        $type = strtolower(trim($type));
+
+        if (in_array($type, ["string", "date", "from_date", "to_date", "datetime", "from_datetime", "to_datetime"]))
+        {
+            if ($data_type != "string")
+            {
+                throw_exception("input value is not typeof string");
+            }
+        }
+
+        $parse_value = null;
+        $op = '=';
+        
+        switch($type)
+        {
+            case "string":
+                $parse_value = "%" . $value . "%";
+                $op = 'LIKE';
+                break;
+
+            case "date":
+                $parse_value = DateUtility::getDate($value, DateUtility::DATE_FORMAT);                
+                break;
+
+            case "from_date":
+                $parse_value = DateUtility::getDate($value, DateUtility::DATE_FORMAT);
+                $op = '>=';
+                break;
+
+            case "to_date":
+                $parse_value = DateUtility::getDate($value, DateUtility::DATE_FORMAT);
+                $op = '<=';
+                break;
+
+            case "from_datetime":
+                $parse_value = DateUtility::getDate($value);
+                $op = '>=';
+                break;
+
+            case "to_datetime":
+                $parse_value = DateUtility::getDate($value);
+                $op = '<=';
+                break;
+
+            case "int":
+                $parse_value = (int) $value;                        
+                break;
+            
+            case "from_int":
+                $parse_value = (int) $value;
+                $op = '>=';
+                break;
+
+            case "to_int":
+                $parse_value = (int) $value;
+                $op = '<=';
+            break;
+
+            case "float":
+                $parse_value = (float) $value;                        
+                break;
+
+            case "from_float":
+                $parse_value = (float) $value;
+                $op = '>=';
+                break;
+
+            case "to_float":
+                $parse_value = (float) $value;
+                $op = '<=';
+                break;
+
+            default:
+                $parse_value = $value;
+            break;
+        }
+
+        return [
+            "value" => $parse_value,
+            "op" => $op
+        ];
     }
 
     protected function getPaginagteRecords(Builder $builder)

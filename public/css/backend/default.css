@@ -28,3 +28,18 @@
     width: 70px;
     height: auto;
 }
+
+.form-buttons{
+    margin-top: .5rem !important;
+    margin-bottom: .5rem !important;    
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-pack: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+}
+
+.form-buttons button{
+    margin-right: 0.5rem;
+}

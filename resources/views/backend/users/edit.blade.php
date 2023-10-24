@@ -45,8 +45,8 @@
         </div>
     </div>
 </div>
-<div class="mt-2 mb-2 d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary" style="margin-right: 5px;">Submit</button>
+<div class="form-buttons">
+    <button type="submit" class="btn btn-primary">Submit</button>
     <button type="reset" class="btn btn-secondary">Reset</button>
 </div>
 {{ Form::close() }}

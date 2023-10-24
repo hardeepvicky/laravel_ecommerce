@@ -63,7 +63,7 @@ use App\Helpers\FileUtility;
                     <td>
                         @if($record->profile_image)                            
                             <a class="fancybox" data-fancybox="group-{{ $record->id }}" href="{{ FileUtility::get($record->profile_image) }}">
-                                <img class="img-thumbnail rounded-circle avatar-xl" src="{{ FileUtility::get($record->profile_image) }}" />
+                                <img class="img-thumbnail rounded-circle avatar-md" src="{{ FileUtility::get($record->profile_image) }}" />
                             </a>
                         @endif
                     </td>

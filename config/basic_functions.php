@@ -14,7 +14,11 @@ function d($array)
 
 function throw_exception($msg)
 {
-    throw new Exception($msg);
+    $callBy = debug_backtrace()[1];
+
+    $call_fn_name = $callBy['function'];
+
+    throw new Exception($call_fn_name . "() : " . $msg);
 }
 
 function get_url_params_in_array()
@@ -115,5 +119,5 @@ function sortable_anchor(String $sort_by, String $title, array $attrs = [])
 
     $html .= '</a>';
 
-    return '<a href="' . $url . '">' . $html . '</a>';
+    return $html;
 }
