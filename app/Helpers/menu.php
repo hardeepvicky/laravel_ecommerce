@@ -13,6 +13,7 @@ class Menu
 
     public static function get()
     {
+        self::$menu = [];
         $acccessControl = AccessControl::init();
 
         $cache_key = $acccessControl->getMenuCacheKey(Auth::user()->id);

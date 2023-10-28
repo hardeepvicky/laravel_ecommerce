@@ -44,7 +44,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static array $child_model_class = [
+    public array $child_model_class = [
         UserRole::class => [
             "foreignKey" => "user_id",
             "preventDelete" => false,
@@ -98,7 +98,7 @@ class User extends Authenticatable
 
         if ($is_change_in_role) {
             $accessControl = AccessControl::init();
-            $accessControl->clearMenuCache($id);
+            $accessControl->clearMenuCache([$id]);
         }
     }
 }

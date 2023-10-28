@@ -102,7 +102,8 @@ class UsersController extends BackendController
 
         try
         {
-            if (trim($validatedData['profile_image']))
+            $validatedData['profile_image'] = trim($validatedData['profile_image']);
+            if ($validatedData['profile_image'])
             {
                 $ext = pathinfo($validatedData['profile_image'], PATHINFO_EXTENSION);
                 $dest = Config::get("constant.path.user") . $id . "." . $ext;
@@ -114,6 +115,10 @@ class UsersController extends BackendController
                 }
 
                 $validatedData['profile_image'] = $new_file . "?" . time();
+            }
+            else
+            {
+                unset($validatedData['profile_image']);
             }
             
             $model->fill($validatedData);

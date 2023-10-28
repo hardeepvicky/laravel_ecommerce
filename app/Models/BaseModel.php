@@ -22,7 +22,7 @@ class BaseModel extends Model
      * set extra relationship array to overcome problem of accidential delete
      * this variable used in Controller.php -> delete()
      */
-    public static Array $child_model_class = [];
+    public Array $child_model_class = [];
 
     protected $guarded = [];
 
@@ -58,7 +58,7 @@ class BaseModel extends Model
         });
 
         self::deleting(function($model){
-            // ... code here
+            // ... code here            
         });
 
         self::deleted(function($model){            

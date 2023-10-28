@@ -19,8 +19,6 @@ class SqlLogsController extends BackendController
     {
         $modelName = "SqlLog";
 
-        throw_exception("texs");
-
         $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "route_name_or_url", "type" => "string", "view_field" => "route_name_or_url"],
             ["field" => "created", "type" => "from_date", "view_field" => "from_date"],

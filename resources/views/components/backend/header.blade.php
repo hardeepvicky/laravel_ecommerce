@@ -1,3 +1,38 @@
+<style>
+    .search-menu-link-block
+    {
+        width: 50vw;
+        max-width: 600px;
+    }
+
+    .search-menu-link-block ul
+    {
+        width: 50vw;
+        max-width: 600px;        
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        position: fixed;
+        z-index: 1;        
+        background-color: var(--bs-topbar-search-bg);
+        border: var(--bs-border-color) solid var(--bs-border-color);
+        border-radius: 0 0 5px 5px;
+    }
+
+    .search-menu-link-block ul li
+    {
+        padding : 8px;
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    .search-menu-link-block ul li a{
+        display: block;
+    }
+
+    .search-menu-link-block ul li:hover{
+        background-color: var(--bs-border-color);
+    }
+</style>
 <header id="page-topbar">
     <div class="navbar-header">
         <div class="d-flex">
@@ -27,10 +62,11 @@
             </button>
 
             <!-- App Search-->
-            <form class="app-search d-none d-lg-block">
+            <form class="app-search d-none d-lg-block search-menu-link-block">
                 <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <button class="btn btn-primary" type="button"><i class="bx bx-search-alt align-middle"></i></button>
+                    <input id="search_menu_link" type="text" class="form-control" placeholder="Search Menu Link">
+                    <ul id="search_menu_autocomplete">
+                    </ul>
                 </div>
             </form>
         </div>
@@ -114,5 +150,131 @@
                 localStorage.setItem("layout-mode", mode);
             }
         });
+    });
+</script>
+
+<script type="text/javascript">
+    //search menu link
+    var menu_autocomplete_list = JSON.parse('<?= json_encode($menu_autocomplete_list) ?>');
+    console.log(menu_autocomplete_list);
+    $(document).ready(function()
+    {
+        function search_simple(search_text, limit)
+        {
+            var list = []
+            for (var i in menu_autocomplete_list)
+            {
+                var link = menu_autocomplete_list[i];
+
+                if (link['title'].toLowerCase().indexOf(search_text) >= 0)
+                {
+                    list.push(link);
+                }
+
+                if (list.length > limit)
+                {
+                    return list;
+                }
+            }
+
+            return list;
+        }
+
+        function search_list_in_string(search_list, limit)
+        {
+            var list = [];
+            for (var i in menu_autocomplete_list)
+            {
+                var link = menu_autocomplete_list[i];
+
+                var is_all_part_found = true;
+                for(var a in search_list)
+                {
+                    var part = search_list[a].trim();
+
+                    if (part.length >= 2)
+                    {
+                        if (link['title'].toLowerCase().indexOf(part) == -1)
+                        {
+                            is_all_part_found = false;
+                        }
+                    }
+                }
+
+                if (is_all_part_found)
+                {
+                    list.push(link);
+                }
+
+                if (list.length > limit)
+                {
+                    return list;
+                }
+            }
+
+            return list;
+        }
+
+        function show_autocomplete_list(search_text)
+        {
+            search_text = search_text.toLowerCase();
+            var list = search_simple(search_text, 10);
+
+            if (list.length < 10)
+            {
+                var sub_parts = search_text.split(" ");
+                var list2 = search_list_in_string(sub_parts, 10);
+
+                for (var a in list2)
+                {
+                    var link2 = list2[a];
+                    var is_found = false;
+                    for (var i in list)
+                    {
+                        var link = list[a];
+
+                        if (link['title'] == link2['title'])
+                        {
+                            is_found = true;
+                        }
+                    }
+
+                    if (!is_found)
+                    {
+                        list.push(link2);
+                    }
+                }
+            }
+
+            var html = "";
+            for (var i in list)
+            {
+                var link = list[i];
+                html += "<li>"
+                    html += '<a href="' + link["url"] + '">' + link["title"] + '</a>';
+                html += "</li>";
+            }
+
+            $("#search_menu_autocomplete").html(html).show();
+        }
+
+        $("#search_menu_link").keyup(function(e)
+        {
+            if (e.key == "Escape")
+            {
+               $(this).val("");
+            }
+
+            if ($(this).val().length > 2)
+            {
+                show_autocomplete_list($(this).val());
+            }
+            else
+            {
+                $("#search_menu_autocomplete").html("").hide();
+            }
+        });
+
+        $("#search_menu_autocomplete").hide();
     });
 </script>

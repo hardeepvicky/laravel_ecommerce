@@ -21,16 +21,15 @@ class Controller extends BaseController
     {
         if ( !isset($model->child_model_class))
         {
-            throw_exception("child_model_class Array is not set in model");
+            $class_name = get_class($model);
+            throw_exception("child_model_class Array is not set in model $class_name");
         }
 
         foreach($model->child_model_class as $className => $arr)
         {
-            $child_model = new $className;
-
             if ($arr['preventDelete'])
             {
-                $count = $child_model->where($arr['foreignKey'], "=", $model->id)->count();
+                $count = $className::where($arr['foreignKey'], $model->id)->count();
 
                 if ($count > 0)
                 {
@@ -39,17 +38,13 @@ class Controller extends BaseController
             }
             else
             {
-                $this->_delete($child_model);
+                $child_records = $className::where($arr['foreignKey'], $model->id)->get();
 
-                $list = $child_model->where($arr['foreignKey'], "=", $model->id)->pluck("id");
-
-                if ($list->count() > 0)
+                if ($child_records->count() > 0)
                 {
-                    $list = $list->toArray();
-
-                    if ( !$child_model->destroy($list) )
+                    foreach($child_records as $child_record)
                     {
-                        throw_exception("Fail to delete records of $className");
+                        $this->_delete($child_record);
                     }
                 }
             }
@@ -57,7 +52,8 @@ class Controller extends BaseController
 
         if ( !$model->delete() )
         {
-            throw_exception("Fail to delete record");
+            $class_name = get_class($model);
+            throw_exception("Fail to delete record of $class_name");
         }
     }
     
@@ -76,6 +72,7 @@ class Controller extends BaseController
         catch(\Exception $ex)
         {
             DB::rollBack();
+            $this->saveSqlLog();
             throw $ex;
         }
     }
@@ -125,7 +122,7 @@ class Controller extends BaseController
 
             $query = trim(preg_replace('/\s+/', ' ', $query));
             
-            $sql_row = implode(",", [$query, $row["time"]]);
+            $sql_row = implode(", ", [$query, $row["time"]]);
 
             $sql_list[] = $sql_row;
 
