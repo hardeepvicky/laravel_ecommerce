@@ -94,6 +94,8 @@ File: Main Css File
   --bs-input-placeholder-color: #74788d;
   --bs-input-group-addon-bg: #e9e9ef;
   --bs-input-check-border: var(--bs-input-border);
+  --primary-bg-color : #5156be;
+  --primary-color : #FFF;
 }
 
 [data-layout-mode=dark] {
@@ -726,27 +728,27 @@ body[data-layout=horizontal] .footer {
 }
 
 .mm-active > a {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
 }
 .mm-active > a i {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
 }
 .mm-active > a svg {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
   fill: var(--bs-sidebar-menu-item-active-effact-color);
 }
 .mm-active .active {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
 }
 .mm-active .active i {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
 }
 .mm-active .active svg {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
   fill: var(--bs-sidebar-menu-item-active-effact-color);
 }
 .mm-active > i {
-  color: var(--bs-sidebar-menu-item-active-color) !important;
+  color: var(--bs-sidebar-menu-item-active-color);
 }
 
 .sidebar-alert {

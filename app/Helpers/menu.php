@@ -156,7 +156,7 @@ class Menu
     {
         $links = [];        
         $links[] = self::getControllerLinks("admin.users", "Users", "fas fa-users");
-        $links[] = self::getControllerLinks("admin.roles", "Roles", "fas fa-table");
+        $links[] = self::getControllerLinks("admin.roles", "Roles", "fas fa-cube");
 
         self::$menu[] = [
             'title' => 'Member Manager',
@@ -170,9 +170,10 @@ class Menu
         $links = [];        
         
         $routePrefix = "admin.permissions";
+
         $links[] = [
             "title" => "Permissions",
-            "icon" => "fas fa-bars menu-icon",
+            "icon" => "fas fa-cube menu-icon",
             "links" => [
                 self::addLink($routePrefix . ".index", "Summary", Config::get('constant.font_awesome_icon.summary')),
                 self::addLink($routePrefix . ".assign", "Assign", 'bx bx-grid-alt'),
@@ -194,7 +195,7 @@ class Menu
         
         $links[] = [
             "title" => "Developer",
-            "icon" => "fas fa-bars menu-icon",
+            "icon" => "fas fa-cube menu-icon",
             "links" => [
                 self::addLink($routePrefix . ".sql.index", "SQL", Config::get('constant.font_awesome_icon.summary'))
             ],

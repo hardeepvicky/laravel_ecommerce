@@ -21,9 +21,9 @@ $(document).ready(function()
 
     $(".date-time-picker").datetimepickerExtend();
 
-    $('.time-picker').timepicker({
-        defaultTime: ""
-    });
+    // $('.time-picker').timepicker({
+    //     defaultTime: ""
+    // });
 
     $("form.summary-delete-form").submit(function()
     {

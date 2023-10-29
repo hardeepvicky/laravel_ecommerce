@@ -27,7 +27,7 @@ use App\Helpers\FileUtility;
 
             </div>
             <div class="row justify-content-center">
-                <div class="col-sm-3">                   
+                <div class="col-sm-6 col-md-4">
                     <div>
                         <button type="submit" class="btn btn-primary w-md">Search</button>
                         <span class="btn btn-light w-md clear_form_search_conditions">Clear</span>

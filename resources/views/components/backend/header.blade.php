@@ -1,36 +1,59 @@
 <style>
     .search-menu-link-block
     {
-        width: 50vw;
-        max-width: 600px;
+        width: 60vw;
+        max-width: 700px;
     }
 
-    .search-menu-link-block ul
+    #search_menu_autocomplete
     {
-        width: 50vw;
-        max-width: 600px;        
-        list-style: none;
+        width: 60vw;
+        height: 50vh;
+        max-width: 700px;
         padding: 0;
         margin: 0;
         position: fixed;
-        z-index: 1;        
+        z-index: 1;
         background-color: var(--bs-topbar-search-bg);
-        border: var(--bs-border-color) solid var(--bs-border-color);
+        border: 1px solid var(--bs-border-color);
         border-radius: 0 0 5px 5px;
+        display: none;
     }
 
-    .search-menu-link-block ul li
+    #search_menu_autocomplete ul
     {
-        padding : 8px;
-        border-bottom: 1px solid var(--bs-border-color);
+        width: 100%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
     }
 
-    .search-menu-link-block ul li a{
+    #search_menu_autocomplete ul li
+    {
+        padding : 0;
+        margin: 0;
+        border-bottom: 2px solid var(--bs-border-color);
+    }
+
+    #search_menu_autocomplete ul li a{
+        padding : 8px 10px;
         display: block;
     }
 
-    .search-menu-link-block ul li:hover{
-        background-color: var(--bs-border-color);
+    #search_menu_autocomplete ul li:hover a
+    {
+        background-color: color-mix(in srgb,var(--bs-link-color),#FFF 70%);
+    }
+
+    [data-layout-mode=dark] #search_menu_autocomplete ul li:hover a
+    {
+        background-color: color-mix(in srgb,var(--bs-topbar-search-bg),#000 20%);
+    }
+
+    #search_menu_autocomplete ul li:hover a
+    {
+        font-weight: bold;
+        transition: font-weight 0.5s;
     }
 </style>
 <header id="page-topbar">
@@ -65,31 +88,17 @@
             <form class="app-search d-none d-lg-block search-menu-link-block">
                 <div class="position-relative">
                     <input id="search_menu_link" type="text" class="form-control" placeholder="Search Menu Link">
-                    <ul id="search_menu_autocomplete">
-                    </ul>
+                    <div id="search_menu_autocomplete" class="simplebar-content-wrapper">
+                        <div class="simplebar-content">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
 
         <div class="d-flex">
-
-            <div class="dropdown d-inline-block d-lg-none ms-2">
-                <button type="button" class="btn header-item" id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i data-feather="search" class="icon-lg"></i>
-                </button>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-search-dropdown">
-
-                    <form class="p-3">
-                        <div class="form-group m-0">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search ..." aria-label="Search Result">
-
-                                <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
             <div class="dropdown d-none d-sm-inline-block">
                 <button type="button" class="btn header-item" id="mode-setting-btn">
@@ -159,7 +168,9 @@
     console.log(menu_autocomplete_list);
     $(document).ready(function()
     {
-        function search_simple(search_text, limit)
+        new SimpleBar(document.getElementById('search_menu_autocomplete'));
+
+        function search_simple(search_text)
         {
             var list = []
             for (var i in menu_autocomplete_list)
@@ -170,17 +181,12 @@
                 {
                     list.push(link);
                 }
-
-                if (list.length > limit)
-                {
-                    return list;
-                }
             }
 
             return list;
         }
 
-        function search_list_in_string(search_list, limit)
+        function search_list_in_string(search_list)
         {
             var list = [];
             for (var i in menu_autocomplete_list)
@@ -205,11 +211,6 @@
                 {
                     list.push(link);
                 }
-
-                if (list.length > limit)
-                {
-                    return list;
-                }
             }
 
             return list;
@@ -217,13 +218,12 @@
 
         function show_autocomplete_list(search_text)
         {
-            search_text = search_text.toLowerCase();
-            var list = search_simple(search_text, 10);
+            var list = search_simple(search_text);
 
-            if (list.length < 10)
+            var sub_parts = search_text.split(" ");
+            if (sub_parts.length > 1)
             {
-                var sub_parts = search_text.split(" ");
-                var list2 = search_list_in_string(sub_parts, 10);
+                var list2 = search_list_in_string(sub_parts);
 
                 for (var a in list2)
                 {
@@ -231,7 +231,7 @@
                     var is_found = false;
                     for (var i in list)
                     {
-                        var link = list[a];
+                        var link = list[i];
 
                         if (link['title'] == link2['title'])
                         {
@@ -255,7 +255,8 @@
                 html += "</li>";
             }
 
-            $("#search_menu_autocomplete").html(html).show();
+            $("#search_menu_autocomplete ul").html(html);
+            $("#search_menu_autocomplete").show();
         }
 
         $("#search_menu_link").keyup(function(e)
@@ -265,16 +266,16 @@
                $(this).val("");
             }
 
-            if ($(this).val().length > 2)
+            if ($(this).val().length >= 1)
             {
-                show_autocomplete_list($(this).val());
+                var search_text = $(this).val().trim().toLowerCase();
+                show_autocomplete_list(search_text);
             }
             else
             {
-                $("#search_menu_autocomplete").html("").hide();
+                $("#search_menu_autocomplete ul").html("");
+                $("#search_menu_autocomplete").hide();
             }
         });
-
-        $("#search_menu_autocomplete").hide();
     });
 </script>

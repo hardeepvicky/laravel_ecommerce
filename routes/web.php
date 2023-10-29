@@ -49,7 +49,7 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'rol
 
     Route::resource("users", UsersController::class);
     Route::resource("roles", RolesController::class);
-
+    
     Route::group(['prefix' => 'logs', 'as'=>'logs.'], function () {
         Route::get('sql', [SqlLogsController::class, 'index'])->name('sql.index');
     });

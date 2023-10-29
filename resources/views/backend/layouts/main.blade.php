@@ -23,8 +23,7 @@
         <link rel="stylesheet"  type="text/css" href="/assets/libs/Croppie-2.6.4/croppie.css" />
         <link rel="stylesheet"  type="text/css" href="/assets/libs/fancybox/dist/jquery.fancybox.min.css" />
 
-        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
-        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-dialog/bootstrap-dialog.min.css"/>
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />        
         <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
         <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
         <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
@@ -88,7 +87,7 @@
             </div>
         </div>
 
-        <!-- Theme Required File -->
+        <!-- Theme Required File -->        
         <script type="text/javascript" src="/assets/libs/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="/assets/libs/bootbox/5.5.3/bootbox.min.js"></script>
@@ -97,6 +96,10 @@
         <script type="text/javascript" src="/assets/libs/node-waves/waves.min.js"></script>
         <script type="text/javascript" src="/assets/libs/feather-icons/feather.min.js"></script>
         <script type="text/javascript" src="/assets/js/app.js"></script>
+
+        <script type="text/javascript" src="/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>        
+        <script type="text/javascript" src="/assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/libs/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
         <script type="text/javascript" src="/assets/libs/select2/select2.min.js"></script>
         <script type="text/javascript" src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>

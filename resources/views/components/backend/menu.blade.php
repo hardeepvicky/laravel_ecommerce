@@ -1,3 +1,16 @@
+<style>
+    #sidebar-menu ul li.mm-active a.active{
+        background-color: var(--primary-bg-color);
+        color: var(--primary-color);
+    }
+    #sidebar-menu ul li.mm-active a.active *{
+        color: var(--primary-color);
+    }
+
+    .metismenu > li.mm-active {
+        border-right: 1px solid var(--primary-bg-color);        
+    }
+</style>
 <div id="sidebar-menu">
     <!-- Left Menu Start -->
     <ul class="metismenu list-unstyled" id="side-menu">
