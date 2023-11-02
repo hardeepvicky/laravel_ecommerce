@@ -6,16 +6,16 @@ use App\Http\Controllers\Backend\BackendController;
 use App\Models\SqlLog;
 use Illuminate\Support\Facades\Route;
 
-class SqlLogsController extends BackendController
+class DeveloperLogsController extends BackendController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->routePrefix = "admin.logs.sql";
-        $this->viewPrefix = "backend.logs.sql";
+        $this->routePrefix = "admin.logs.developer";
+        $this->viewPrefix = "backend.logs.developer";
     }
 
-    public function index()
+    public function sql()
     {
         $modelName = "SqlLog";
 
@@ -29,6 +29,6 @@ class SqlLogsController extends BackendController
 
         $this->setForView(compact("records", "modelName"));
 
-        return $this->view("index");
+        return $this->view(__FUNCTION__);
     }
 }

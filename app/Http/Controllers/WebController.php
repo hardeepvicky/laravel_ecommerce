@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\DateUtility;
-use App\Models\BaseModel;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -54,19 +52,52 @@ class WebController extends Controller
 
     protected function getPageTitle()
     {
-        $page_title = get_class($this);
+        $action = request()->route()->getAction();
 
-        if(strpos($page_title, "\\") >= 0)
+        $action_arr = explode("@", $action['controller']);
+
+        $controller_name = $action_arr[0];
+
+        if(strpos($controller_name, "\\") >= 0)
         {
-            $arr = explode("\\", $page_title);
+            $arr = explode("\\", $controller_name);
 
             if ($arr)
             {
-                $page_title = end($arr);
+                $controller_name = end($arr);
             }
         }
         
-        $page_title = str_replace("Controller", "", $page_title);
+        $controller_name = str_replace("Controller", "", $controller_name);
+
+        //make space after any Captilize word
+        $controller_name = trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $controller_name));
+
+        //now extract action
+
+        $method_name = $action_arr[1];
+
+        $method_arr = explode("_", $method_name);
+
+        if (count($method_arr) > 1)
+        {
+            foreach($method_arr as $k => $v)
+            {
+                $method_arr[$k] = ucfirst($v);
+            }
+
+            $method_name = implode(" ", $method_arr);
+        }
+
+        //make space after any Captilize word
+        $method_name = ucfirst(trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $method_name)));
+
+        if ($method_name == "Index")
+        {
+            $method_name = "Summary";
+        }
+
+        $page_title = $controller_name . " | " . $method_name;
 
         return $page_title;
     }

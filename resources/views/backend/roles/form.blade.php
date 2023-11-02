@@ -4,7 +4,7 @@
 
 <?php
     $page_header_links = [
-        ["title" => "Create", "url" => route($routePrefix . ".create")]
+        ["title" => "Summary", "url" => route($routePrefix . ".index")]
     ];
 ?>
 

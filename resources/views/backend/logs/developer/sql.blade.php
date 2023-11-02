@@ -2,17 +2,16 @@
 
 @section('content')
 
-@php
-    $breadcums = ["Logs", "Developer", "SQL"];
-    $links = [];
-@endphp
+<?php
+    $page_header_links = [];
+?>
 
-<x-backend.page-header title="SQL Logs" :breadcums="$breadcums" :links="$links"/>
+@include($common_elements_path . ".page_header")
 
 
 <div class="card">
     <div class="card-body">
-        <form method="GET" action="{{ route($routePrefix . '.index') }}">
+        <form method="GET" action="{{ route($routePrefix . '.sql') }}">
             <div class="row mb-4">
                 <div class="col-md-4">
                     <x-inputs.text-field name="route_name_or_url" label="Route Name or URL" :value="$route_name_or_url" autocomplete="off" />

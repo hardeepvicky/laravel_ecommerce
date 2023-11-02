@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\Logs\DeveloperLogsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
@@ -46,9 +47,16 @@ Route::group(['prefix' => 'public', 'as'=>'public.'], function () {
 
 Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'role_permission']], function () {
 
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    $name = "dashboard";
+    Route::get($name, [DashboardController::class, 'index'])->name($name);
+
+    /*** Controller Routes ***/
+    Route::resource("users", UsersController::class);
+    Route::resource("roles", RolesController::class);
+
 
     Route::group(['prefix' => 'permissions', 'as'=>'permissions.'], function () {
+
         $name = "index";
         Route::get($name, [PermissionsController::class, $name])->name($name);
 
@@ -68,11 +76,12 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'rol
         Route::post($name, [PermissionsController::class, $name])->name($name);
     });
 
-    Route::resource("users", UsersController::class);
-
-    Route::resource("roles", RolesController::class);
-
     Route::group(['prefix' => 'logs', 'as'=>'logs.'], function () {
-        Route::get('sql', [SqlLogsController::class, 'index'])->name('sql.index');
+        
+        Route::group(['prefix' => 'developer', 'as'=>'developer.'], function () {
+
+            $name = "sql";
+            Route::get($name, [DeveloperLogsController::class, $name])->name($name);
+        });
     });
 });

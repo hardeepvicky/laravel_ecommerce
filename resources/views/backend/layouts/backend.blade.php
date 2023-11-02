@@ -48,11 +48,11 @@
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            @include("backend.common_elements.header");
+            @include("backend.common_elements.header")
 
             <div class="vertical-menu">
                 <div data-simplebar class="h-100">
-                    @include("backend.common_elements.menu");
+                    @include("backend.common_elements.menu")
                 </div>
             </div>
 

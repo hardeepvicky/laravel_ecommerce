@@ -30,8 +30,11 @@ class SectionRoutes
         $sections["Dashboard"] = self::dashboard();
         $sections["Users"] = self::users();
         $sections["Roles"] = self::roles();
-        $sections["Logs"] = self::logs();
+
+        $sections["User Logs"] = self::user_logs();
+        $sections["System Logs"] = self::system_logs();
         $sections["Developer Logs"] = self::developer_logs();
+
 
         return $sections;
     }
@@ -83,9 +86,9 @@ class SectionRoutes
         return $routes;
     }
 
-    private static function logs()
+    private static function user_logs()
     {
-        $routePrefix = "admin.logs";
+        $routePrefix = "admin.logs.user";
 
         $routes =  [
             "Email" => []
@@ -94,12 +97,23 @@ class SectionRoutes
         return $routes;
     }
 
-    private static function developer_logs()
+    private static function system_logs()
     {
-        $routePrefix = "admin.logs";
+        $routePrefix = "admin.logs.system";
 
         $routes =  [
-            "Sql" => [$routePrefix . ".sql.index"],
+            "Cron" => []
+        ];
+
+        return $routes;
+    }
+
+    private static function developer_logs()
+    {
+        $routePrefix = "admin.logs.developer";
+
+        $routes =  [
+            "Sql" => [$routePrefix . ".sql"],
         ];
 
         return $routes;
