@@ -13,7 +13,7 @@ class WebController extends Controller
     /**
      * variable require for view
      */
-    public String $routePrefix, $viewPrefix, $layout;
+    public String $routePrefix, $viewPrefix, $layout, $page_title;
 
     /**
      * variable to store data which will pass to view
@@ -22,14 +22,6 @@ class WebController extends Controller
 
     public function __construct()
     {
-        $request = request();
-
-        if ( $request->ajax() ) {
-            $this->layout = "backend.layouts.ajax";
-        }
-        else {
-            $this->layout = "backend.layouts.default";
-        }
     }
 
     protected function setForView(array $array)
@@ -39,18 +31,40 @@ class WebController extends Controller
 
     protected function beforeViewRender()
     {
-
+        $this->page_title = $this->getPageTitle();
     }
 
     protected function view($view_name)
     {
         $this->beforeViewRender();
-        
+
+        $this->data['viewPrefix'] = $this->viewPrefix;
+
         $this->data['routePrefix'] = $this->routePrefix;
 
         $this->data['layout'] = $this->layout;
 
+        $this->data['page_title'] = $this->page_title;
+
+        //d($this->data); exit;
+
         return view($this->viewPrefix . "." . $view_name, $this->data);
+    }
+
+    protected function getPageTitle()
+    {
+        $page_title = get_class($this);
+
+        $arr = explode("\\", $page_title);
+
+        if ($arr)
+        {
+            $page_title = end($arr);
+        }
+        
+        $page_title = str_replace("Controller", "", $page_title);
+
+        return $page_title;
     }
 
     protected function getConditions($cache_prefix, array $array, bool $return_key_value_pair_conditions = false)

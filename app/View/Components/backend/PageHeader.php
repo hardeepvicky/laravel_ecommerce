@@ -12,8 +12,7 @@ class PageHeader extends BaseComponent
      * @return void
      */
     public function __construct(
-        public String $title,
-        public Array $breadcums,
+        public String $title,        
         public Array $links = [],
     )
     {

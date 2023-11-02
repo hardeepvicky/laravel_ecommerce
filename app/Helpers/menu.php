@@ -20,7 +20,7 @@ class Menu
         self::$current_route_name = strtolower(trim($current_route_name));        
     }
 
-    
+
     public static function get($auth_user_id)
     {
         self::$menus = [];
@@ -249,7 +249,7 @@ class Menu
     private static function getControllerLinks(String $routePrefix, String $title, String $icon)
     {
         $links = [
-            "title" => $title,
+            "title" => $title,            
             "icon" => "menu-icon " . $icon,
             "links" => [
                 self::getLink($routePrefix . ".index", "Summary", Config::get('constant.font_awesome_icon.summary'), [

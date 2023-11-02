@@ -4,7 +4,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>{{ SITE_NAME }}</title>
+        <title>{{ $page_title }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Test Laravel" name="description" />
         <meta content="Hardeep" name="author" />

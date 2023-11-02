@@ -2,14 +2,13 @@
 
 @section('content')
 
-@php 
-    $breadcums = ["Member Management", "Roles", "Create"];
-    $links = [
-        ["title" => "Summary", "url" => route($routePrefix . ".index")]
+<?php
+    $page_header_links = [
+        ["title" => "Create", "url" => route($routePrefix . ".create")]
     ];
-@endphp 
+?>
 
-<x-backend.page-header title="Role" :breadcums="$breadcums" :links="$links"/>
+@include($common_elements_path . ".page_header")
 
 <x-backend.form-errors />
 
