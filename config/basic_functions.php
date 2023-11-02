@@ -6,7 +6,7 @@ function d($array)
 {
     $callBy = debug_backtrace()[0];
     echo "<pre>";
-    echo "<b>" . $callBy['file'] . " At Line : " . $callBy['line'] . "</b>";
+    echo "<b>" . $callBy['file'] . "</b> At Line : " . $callBy['line'];
     echo "<br/>";
     print_r($array);
     echo "</pre>";
@@ -16,9 +16,23 @@ function throw_exception($msg)
 {
     $callBy = debug_backtrace()[1];
 
-    $call_fn_name = $callBy['function'];
+    $prefix = "";
 
-    throw new Exception($call_fn_name . "() : " . $msg);
+    if (isset($callBy['class']))
+    {
+        $call_class_name = $callBy['class'];
+
+        $prefix .= $call_class_name . "->";
+    }
+
+    if (isset($callBy['function']))
+    {
+        $call_fn_name = $callBy['function'];
+
+        $prefix .= $call_fn_name . "() : ";
+    }
+
+    throw new Exception($prefix . $msg);
 }
 
 function get_url_params_in_array()

@@ -37,8 +37,15 @@ class WebController extends Controller
         $this->data = array_merge($this->data, $array);
     }
 
+    protected function beforeViewRender()
+    {
+
+    }
+
     protected function view($view_name)
     {
+        $this->beforeViewRender();
+        
         $this->data['routePrefix'] = $this->routePrefix;
 
         $this->data['layout'] = $this->layout;

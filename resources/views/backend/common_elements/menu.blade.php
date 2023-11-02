@@ -14,7 +14,7 @@
 <div id="sidebar-menu">
     <!-- Left Menu Start -->
     <ul class="metismenu list-unstyled" id="side-menu">
-        @foreach($menu as $sub_menu)
+        @foreach($menus as $sub_menu)
         <li>
             <a href="javascript: void(0);" class="has-arrow">
                 <i class="{{ $sub_menu['icon'] }}"></i>

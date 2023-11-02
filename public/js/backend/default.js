@@ -63,3 +63,43 @@ $(document).ready(function()
         _form.trigger("submit");
     });
 });
+
+
+
+$.blackdrop = {
+    obj : null,
+    events : [],
+    init : function ()
+    {
+        var _this = this;
+        _this.obj = $("body").find(".black_drop_container:first");
+
+        if (this.obj.length == 0)
+        {
+            var html = '<div class="black_drop_container" style="display:none;"></div>';
+            $("body").prepend(html);
+            _this.obj = $("body").find(".black_drop_container:first");
+        }
+
+        _this.obj.click(function(){
+            _this.hide();
+        });
+    },
+    onClick : function(fn)
+    {
+        if (typeof fn != "function")
+        {
+            console.error("blackDrop -> onClick() : argument should be function type");
+        }
+
+        this.obj.click(fn);
+    },
+    show : function()
+    {   
+        this.obj.show();
+    },
+    hide : function ()
+    {
+        this.obj.hide();
+    }
+}

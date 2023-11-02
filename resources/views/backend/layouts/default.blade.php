@@ -10,7 +10,7 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="/favicon.ico">
 
-        <link rel="stylesheet"  type="text/css" href="/assets/css/app.min.css"  />
+        <link rel="stylesheet"  type="text/css" href="/assets/css/app.css"  />
         <link rel="stylesheet"  type="text/css" href="/assets/css/bootstrap.min.css"  />
         <link rel="stylesheet"  type="text/css" href="/assets/css/preloader.min.css"/>
         <link rel="stylesheet"  type="text/css" href="/assets/css/icons.min.css" />

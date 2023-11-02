@@ -5,6 +5,7 @@
         max-width: 700px;
     }
 
+    
     #search_menu_autocomplete
     {
         width: 60vw;
@@ -87,7 +88,7 @@
             <!-- App Search-->
             <form class="app-search d-none d-lg-block search-menu-link-block">
                 <div class="position-relative">
-                    <input id="search_menu_link" type="text" class="form-control" placeholder="Search Menu Link">
+                    <input id="search_menu" type="text" class="form-control" placeholder="Search Menu Link">
                     <div id="search_menu_autocomplete" class="simplebar-content-wrapper">
                         <div class="simplebar-content">
                             <ul>
@@ -164,7 +165,7 @@
 
 <script type="text/javascript">
     //search menu link
-    var menu_autocomplete_list = JSON.parse('<?= json_encode($menu_autocomplete_list) ?>');
+    var menu_autocomplete_list = JSON.parse('<?= json_encode($header_menu_list) ?>');
     console.log(menu_autocomplete_list);
     $(document).ready(function()
     {
@@ -256,26 +257,48 @@
             }
 
             $("#search_menu_autocomplete ul").html(html);
-            $("#search_menu_autocomplete").show();
+            $("#search_menu_autocomplete").show();            
         }
 
-        $("#search_menu_link").keyup(function(e)
+        function hide_autocomplete_list()
         {
-            if (e.key == "Escape")
-            {
-               $(this).val("");
-            }
+            $("#search_menu_autocomplete ul").html("");
+            $("#search_menu_autocomplete").hide();
+        }
 
-            if ($(this).val().length >= 1)
+        function show_or_hide_search_menu_autocomplete()
+        {
+            var search = $("input#search_menu").val();
+            if (search.length >= 1)
             {
-                var search_text = $(this).val().trim().toLowerCase();
-                show_autocomplete_list(search_text);
+                search = search.trim().toLowerCase();
+                show_autocomplete_list(search);
+                $.blackdrop.show();
             }
             else
             {
-                $("#search_menu_autocomplete ul").html("");
-                $("#search_menu_autocomplete").hide();
+                hide_autocomplete_list();
+                $.blackdrop.hide();
             }
+        }
+
+        $("input#search_menu").keyup(function(e)
+        {
+            if (e.key == "Escape")
+            {
+                $(this).val("");
+            }
+
+            show_or_hide_search_menu_autocomplete();
+        });
+
+        $("input#search_menu").focus(function(){
+            show_or_hide_search_menu_autocomplete();
+        });
+
+        $.blackdrop.init();
+        $.blackdrop.onClick(function(){
+            $("#search_menu_autocomplete").hide();            
         });
     });
 </script>
