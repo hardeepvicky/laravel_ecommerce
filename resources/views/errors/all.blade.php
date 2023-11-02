@@ -6,7 +6,15 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                @include('errors.ajax.' . $status_code)
+                <?php
+                    $ajax_view_name = 'errors.ajax.' . $status_code;
+
+                    if (!view()->exists($ajax_view_name))
+                    {
+                        $ajax_view_name = 'errors.ajax.all';
+                    }
+                ?>
+                @include($ajax_view_name)
             </div>
         </div>
     </div>

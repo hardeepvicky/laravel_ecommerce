@@ -2,19 +2,11 @@
 
 @section('content')
 
-<style>
-    .help-links *
-    {
-        margin-left: 1em;
-    }
-
-
-</style>
 <div class="my-2 pt-2">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                @include('errors.ajax.' . $status_code)
+                @include('errors.ajax.404')
                 <div class="text-center">
                     <div class="help-links">
                         <a href="/home" class="btn btn-light">Goto Home</a>

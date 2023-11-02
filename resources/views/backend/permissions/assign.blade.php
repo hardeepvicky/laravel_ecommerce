@@ -1,14 +1,14 @@
 @extends($layout)
 
 @section('content')
-@php
-    $breadcums = ["System Management", "Permissions", "Assign"];
-    $links = [
+
+<?php
+    $page_header_links = [
         ["title" => "Summary", "url" => route($routePrefix . ".index")]
     ];
-@endphp
+?>
 
-<x-backend.page-header title="Permission Assign" :breadcums="$breadcums" :links="$links"/>
+@include($common_elements_path . ".page_header")
 
 <style>
     .first-row

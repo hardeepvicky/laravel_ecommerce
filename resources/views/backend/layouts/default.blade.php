@@ -17,9 +17,9 @@
 
         <link rel="stylesheet"  type="text/css" href="/assets/libs/select2/select2.min.css" />
         <link rel="stylesheet"  type="text/css" href="/assets/libs/select2/select2-bootstrap.min.css"/>
-        
+
         <link rel="stylesheet"  type="text/css" href="/assets/libs/sweetalert2/sweetalert2.min.css" />
-        
+
         <!-- Project related CSS -->
         <link rel="stylesheet"  type="text/css" href="/libs/loader/loader.css?<?= BACKEND_CSS_JS_VERSION ?>" />
         <link rel="stylesheet"  type="text/css" href="/css/backend/default.css?<?= BACKEND_CSS_JS_VERSION ?>" />
@@ -51,21 +51,17 @@
         <script type="text/javascript" src="/assets/js/app.js"></script>
 
         <!-- Component File -->
-        <script type="text/javascript" src="/assets/libs/select2/select2.min.js"></script>        
+        <script type="text/javascript" src="/assets/libs/select2/select2.min.js"></script>
         <script type="text/javascript" src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
-        
+
 
         <!-- Basic JS Required -->
         <script type="text/javascript" src="/js/basic_functions.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
         <script type="text/javascript" src="/js/jquery-input-validate.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
         <script type="text/javascript" src="/js/jquery-extend.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        <script type="text/javascript" src="/js/bootstrap-extend.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
 
         <!--- Libs Made by developer -->
         <script type="text/javascript" src="/libs/loader/loader.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
-        <!-- Project related JS -->
-        <script type="text/javascript"  src="/js/backend/default.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
     </body>
 
 </html>

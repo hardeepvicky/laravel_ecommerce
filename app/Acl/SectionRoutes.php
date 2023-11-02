@@ -7,7 +7,6 @@ class SectionRoutes
      * list of routes which are allowed for any login user
      */
     public const ALLOW_ROUTES_FOR_ANY_LOGIN_USER = [
-        'admin.dashboard'
     ];
 
     /**
@@ -16,7 +15,7 @@ class SectionRoutes
     public const ALLOW_ROUTES_FOR_SYSTEM_ADMIN = [
         'admin.permissions.index',
         'admin.permissions.assign',
-        'admin.permissions.assign_to_many',        
+        'admin.permissions.assign_to_many',
         'admin.permissions.ajax_delete',
         'admin.permissions.ajax_get_permissions',
     ];
@@ -28,6 +27,7 @@ class SectionRoutes
     {
         $sections = [];
 
+        $sections["Dashboard"] = self::dashboard();
         $sections["Users"] = self::users();
         $sections["Roles"] = self::roles();
         $sections["Logs"] = self::logs();
@@ -41,11 +41,11 @@ class SectionRoutes
         $routes =  [
             "Summary" => [$routePrefix . ".index"],
             "Add" => [
-                $routePrefix . ".create", 
+                $routePrefix . ".create",
                 $routePrefix . ".store"
             ],
             "Edit" => [
-                $routePrefix . ".edit", 
+                $routePrefix . ".edit",
                 $routePrefix . ".update"
             ],
             "Delete" => [$routePrefix . ".destroy"]
@@ -54,10 +54,21 @@ class SectionRoutes
         return $routes;
     }
 
+    private static function dashboard()
+    {
+        $routePrefix = "admin.dashboard";
+
+        $routes =  [
+            "Dashbaord" => [$routePrefix],
+        ];
+
+        return $routes;
+    }
+
     private static function users()
     {
         $routePrefix = "admin.users";
-        
+
         $routes = self::commonRoutes($routePrefix);
 
         return $routes;
@@ -66,7 +77,7 @@ class SectionRoutes
     private static function roles()
     {
         $routePrefix = "admin.roles";
-        
+
         $routes = self::commonRoutes($routePrefix);
 
         return $routes;
@@ -75,7 +86,7 @@ class SectionRoutes
     private static function logs()
     {
         $routePrefix = "admin.logs";
-        
+
         $routes =  [
             "Email" => []
         ];
@@ -86,13 +97,13 @@ class SectionRoutes
     private static function developer_logs()
     {
         $routePrefix = "admin.logs";
-        
+
         $routes =  [
-            "Sql" => [$routePrefix . ".sql.index"],            
+            "Sql" => [$routePrefix . ".sql.index"],
         ];
 
         return $routes;
     }
 
-    
+
 }

@@ -48,9 +48,8 @@ class Handler extends ExceptionHandler
 
             if ($status_code == 404)
             {
-                $data['layout'] = 'backend.layouts.default';
+                $data['layout'] = 'backend.layouts.backend';
             }
-            
 
             if ($request->ajax())
             {

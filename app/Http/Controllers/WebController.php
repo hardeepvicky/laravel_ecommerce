@@ -22,6 +22,7 @@ class WebController extends Controller
 
     public function __construct()
     {
+        
     }
 
     protected function setForView(array $array)
@@ -44,7 +45,7 @@ class WebController extends Controller
 
         $this->data['layout'] = $this->layout;
 
-        //$this->data['page_title'] = $this->page_title;
+        $this->data['page_title'] = $this->page_title;
 
         //d($this->data); exit;
 

@@ -5,14 +5,16 @@ use App\Helpers\FileUtility;
 @extends($layout)
 
 @section('content')
-@php 
-    $breadcums = ["Member Management", "Users", "Summary"];
-    $links = [
+
+
+<?php
+    $page_header_links = [
         ["title" => "Create", "url" => route($routePrefix . ".create")]
     ];
-@endphp 
+?>
 
-<x-backend.page-header title="User Summary" :breadcums="$breadcums" :links="$links"/>
+@include($common_elements_path . ".page_header")
+
 
 <div class="card">
     <div class="card-body">

@@ -1,14 +1,14 @@
 @extends($layout)
 
 @section('content')
-@php
-    $breadcums = ["Member Management", "Users", "Summary", "Edit"];
-    $links = [
+
+<?php
+    $page_header_links = [
         ["title" => "Summary", "url" => route($routePrefix . ".index")]
     ];
-@endphp
+?>
 
-<x-backend.page-header title="User Edit" :breadcums="$breadcums" :links="$links" />
+@include($common_elements_path . ".page_header")
 
 <x-backend.form-errors />
 

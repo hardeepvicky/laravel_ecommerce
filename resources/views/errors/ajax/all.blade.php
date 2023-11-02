@@ -3,5 +3,5 @@
     <h4 class="text-uppercase">{{ $exception->getMessage() }}</h4>
     <h6>
         {{ Request::url() }}
-    </h6>
+    </h6>    
 </div>
