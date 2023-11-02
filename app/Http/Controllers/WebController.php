@@ -38,13 +38,13 @@ class WebController extends Controller
     {
         $this->beforeViewRender();
 
-        $this->data['viewPrefix'] = $this->viewPrefix;
-
         $this->data['routePrefix'] = $this->routePrefix;
+
+        $this->data['viewPrefix'] = $this->viewPrefix;
 
         $this->data['layout'] = $this->layout;
 
-        $this->data['page_title'] = $this->page_title;
+        //$this->data['page_title'] = $this->page_title;
 
         //d($this->data); exit;
 
@@ -55,11 +55,14 @@ class WebController extends Controller
     {
         $page_title = get_class($this);
 
-        $arr = explode("\\", $page_title);
-
-        if ($arr)
+        if(strpos($page_title, "\\") >= 0)
         {
-            $page_title = end($arr);
+            $arr = explode("\\", $page_title);
+
+            if ($arr)
+            {
+                $page_title = end($arr);
+            }
         }
         
         $page_title = str_replace("Controller", "", $page_title);

@@ -16,6 +16,7 @@ class RolesController extends BackendController
         $this->viewPrefix = "backend.roles";
     }
 
+
     public function index()
     {
         $modelName = "Role";

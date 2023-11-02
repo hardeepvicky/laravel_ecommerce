@@ -4,7 +4,7 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>{{ $page_title }}</title>
+        <title<?php echo isset($page_title) ? $page_title : "Page Title is not set"; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Test Laravel" name="description" />
         <meta content="Hardeep" name="author" />
