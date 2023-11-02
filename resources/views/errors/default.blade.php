@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <?php
-                    $ajax_view_name = 'errors.ajax.' . $status_code;
+                    $ajax_view_name = 'errors.ajax.' . $error_code;
 
                     if (!view()->exists($ajax_view_name))
                     {

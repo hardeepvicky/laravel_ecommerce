@@ -38,7 +38,7 @@ class RolePermission
 
         if (!$accessControl->isAllow($route_name, $role_id_list))
         {
-            abort(401, 'You are not authorize to access this page or feature');
+            abort(401);
         }
 
         return $next($request);

@@ -2,9 +2,12 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\Menu;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request as HttpRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,32 +41,56 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (HttpException $e, HttpRequest $request) {
 
-            $status_code = $e->getStatusCode();
+            $error_code = $e->getStatusCode();
 
-            $data = [
-                'exception' => $e,
-                'status_code' => $status_code,
-                'layout' => 'backend.layouts.error',
-            ];
+            $error_msg = $e->getMessage();
 
-            if ($status_code == 404)
-            {
-                $data['layout'] = 'backend.layouts.backend';
-            }
+            $request = request();
+
+            $current_url = $request->url();
+
+            $current_route_name = Route::currentRouteName();
+
+            $data = compact("error_code", "error_msg", "current_url", "current_route_name");
+
+            if ()
+
+            $data['layout'] = 'backend.layouts.error';
 
             if ($request->ajax())
             {
-                $view_name = "errors.ajax.$status_code";
+                $view_name = "errors.ajax.$error_code";
                 if (!view()->exists($view_name)){
-                    $view_name = "errors.ajax.all";
+                    $view_name = "errors.ajax.default";
                 }
 
                 return response()->view($view_name, $data, $e->getStatusCode());
             }
 
-            $view_name = "errors.$status_code";
-            if (!view()->exists($view_name)){
-                $view_name = "errors.all";
+            if ($error_code == 401)
+            {
+                $data['layout'] = 'backend.layouts.backend';
+
+                Menu::setCurrentRouteName($current_route_name);
+
+                $menus = Menu::get(Auth::user()->id);
+
+                $header_menu_list = Menu::getList($menus);
+
+                $common_elements_path = "backend.common_elements";
+
+                $breadcums = Menu::getBreadcums($menus);
+
+                $data = array_merge($data, compact("menus", "header_menu_list", "common_elements_path", "breadcums"));
+
+                $view_name = "errors.401";
+            }
+            else
+            {
+                $view_name = "errors.$error_code";
+                if (!view()->exists($view_name)){
+                    $view_name = "errors.default";
+                }
             }
 
             return response()->view($view_name, $data, $e->getStatusCode());

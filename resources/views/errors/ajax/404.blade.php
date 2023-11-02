@@ -2,6 +2,6 @@
     <h1 class="display-1 fw-semibold">401</h1>
     <h4 class="text-uppercase">Page Not Found</h4>
     <h6>
-        {{ Request::url() }}
+        {{ $current_url }}
     </h6>
 </div>

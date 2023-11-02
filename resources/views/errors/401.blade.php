@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                @include('errors.ajax.' . $status_code)                
+                @include('errors.ajax.401')
             </div>
         </div>
     </div>
