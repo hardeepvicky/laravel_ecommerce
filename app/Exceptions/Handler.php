@@ -53,47 +53,50 @@ class Handler extends ExceptionHandler
 
             $data = compact("error_code", "error_msg", "current_url", "current_route_name");
 
-            if ()
-
             $data['layout'] = 'backend.layouts.error';
+            $view_name = "errors.ajax.default";
 
             if ($request->ajax())
             {
-                $view_name = "errors.ajax.$error_code";
-                if (!view()->exists($view_name)){
-                    $view_name = "errors.ajax.default";
+                if (view()->exists($view_name))
+                {
+                    $view_name = "errors.ajax.$error_code";
                 }
 
                 return response()->view($view_name, $data, $e->getStatusCode());
             }
-
-            if ($error_code == 401)
-            {
-                $data['layout'] = 'backend.layouts.backend';
-
-                Menu::setCurrentRouteName($current_route_name);
-
-                $menus = Menu::get(Auth::user()->id);
-
-                $header_menu_list = Menu::getList($menus);
-
-                $common_elements_path = "backend.common_elements";
-
-                $breadcums = Menu::getBreadcums($menus);
-
-                $data = array_merge($data, compact("menus", "header_menu_list", "common_elements_path", "breadcums"));
-
-                $view_name = "errors.401";
-            }
             else
             {
-                $view_name = "errors.$error_code";
-                if (!view()->exists($view_name)){
-                    $view_name = "errors.default";
-                }
-            }
+                $view_name = "errors.default";
 
-            return response()->view($view_name, $data, $e->getStatusCode());
+                if ($error_code == 401)
+                {
+                    $data['layout'] = 'backend.layouts.backend';
+                    
+                    $view_name = "errors.401";
+
+                    Menu::setCurrentRouteName($current_route_name);
+
+                    $menus = Menu::get(Auth::user()->id);
+
+                    $header_menu_list = Menu::getList($menus);
+
+                    $common_elements_path = "backend.common_elements";
+
+                    $breadcums = Menu::getBreadcums($menus);
+
+                    $data = array_merge($data, compact("menus", "header_menu_list", "common_elements_path", "breadcums"));
+                }
+                else
+                {
+                    if (view()->exists($view_name))
+                    {
+                        $view_name = "errors.$error_code";
+                    }
+                }
+
+                return response()->view($view_name, $data, $error_code);
+            }
         });
     }
 }
