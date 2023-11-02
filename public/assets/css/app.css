@@ -4921,7 +4921,3 @@ body[data-layout=horizontal] .chat-conversation {
 }-tab-box .nav-link {
   border-color: var(--bs-gray-300);
 }
-
-.form-control:focus{
-  
-}

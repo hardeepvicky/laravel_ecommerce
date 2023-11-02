@@ -5,7 +5,13 @@
         max-width: 700px;
     }
 
-    
+    #search_menu:focus
+    {
+        color: var(--bs-body-color);
+        background-color: var(--bs-topbar-search-bg);
+        border-color: var(--bs-search-border-color);
+    }
+
     #search_menu_autocomplete
     {
         width: 60vw;
