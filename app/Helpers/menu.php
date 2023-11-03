@@ -16,6 +16,7 @@ class Menu
     public static function setCurrentRouteName(String $current_route_name)
     {
         self::$current_route_name = strtolower(trim($current_route_name));        
+        BaseMenu::setCurrentRouteName(self::$current_route_name);
     }
 
     public static function get($auth_user_id)
@@ -243,29 +244,51 @@ class BaseMenu
 
     public static function getLink(String $route_name, String $title, String $icon, Array $related_links = [])
     {
-        $arr = [
+        $link = [
             "title" => $title,
             "icon" => "child-menu-icon " . $icon,
             "route_name" => trim($route_name),
             "related_links" => $related_links
         ];
 
-        $arr['is_active'] = strtolower($arr['route_name']) == self::$current_route_name;
+        $link['is_active'] = self::isActiveLink($link);
 
-        return $arr;
+        return $link;
     }
 
     public static function addRelatedLink(String $route_name, String $title, Array $related_links = [])
     {
-        $arr = [
+        $link = [
             "title" => $title,
             "route_name" => trim($route_name),
             "related_links" => $related_links
         ];
 
-        $arr['is_active'] = strtolower($arr['route_name']) == self::$current_route_name;
+        $link['is_active'] = self::isActiveLink($link);
 
-        return $arr;
+        return $link;
+    }
+
+    public static function isActiveLink(Array $link)
+    {
+        if ($link['route_name'] == self::$current_route_name)
+        {
+            return true;
+        }
+        else if (isset($link["related_links"]) && is_array($link["related_links"]))
+        {
+            foreach($link["related_links"] as $related_link)
+            {
+                $is_active = self::isActiveLink($related_link);
+
+                if ($is_active)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public static function getControllerDefaultLinks(String $routePrefix, String $title, String $icon = "")

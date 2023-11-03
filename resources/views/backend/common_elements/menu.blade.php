@@ -65,3 +65,10 @@
         <li>        
     </ul>
 </div>
+
+<script>
+    $(function(){
+        $("a.active").parents("li").addClass("mm-active");
+        $("a.active").parents("ul").addClass("mm-show");
+    });
+</script>
