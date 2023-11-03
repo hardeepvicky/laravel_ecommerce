@@ -44,7 +44,7 @@
 
 <script>
     $(function(){
-        $(".data-table").dataTable();
+        $(".data-table").idataTable();
     });
 </script>
 

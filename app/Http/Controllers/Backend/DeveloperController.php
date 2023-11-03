@@ -21,14 +21,7 @@ class DeveloperController extends BackendController
 
     public function laravel_routes_index()
     {
-        $temp = LaravelExtend::getRoutes();
-
-        $routes = [];
-        for($i = 1; $i <= 50; $i++)
-        {
-            $routes = array_merge($routes, $temp);
-        }
-        
+        $routes = LaravelExtend::getRoutes();
 
         $this->setForView(compact("routes"));
 

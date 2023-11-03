@@ -1,13 +1,15 @@
 /***
- * Author : Hardee Singh
- * Email : hardeepvicky1@gmail.com
- * Depends : constants, jquery, jquery-extend, fontawesome
+ * @author : Hardee Singh
+ * @email : hardeepvicky1@gmail.com
+ * @created : 03-Nov-2023
+ * 
+ * Depends : constants, jquery, fontawesome
  */
 
 jQuery.fn.extend({
-    dataTable: function ()
+    idataTable: function ()
     {
-        const feature = "data-table";
+        const feature = "i-data-table";
         const css_classes = {
             search_block : 'search-block',
 
@@ -67,7 +69,7 @@ jQuery.fn.extend({
                         new_html +=
                             `
                             <div class="${css_classes.search_block}">
-                                <input class="${css_classes.search_input} data-table-visibility-hidden" type="text" data-col-index="${index}"/>
+                                <input class="${css_classes.search_input} i-data-table-visibility-hidden" type="text" data-col-index="${index}"/>
                                 <div class="search-right-icons">
                                     <span class="${css_classes.search_opener} ${search_icon_disable_css_class}" title="${search_icon_disable_css_class}" data-col-index="${index}">
                                         <i class="${constants.fontawsome.icon.search}"></i>
@@ -129,15 +131,15 @@ jQuery.fn.extend({
 
                                 log(`Rows : ${row_counter}, Hide Rows : ${hide_counter}`);
 
-                                _table.find('> tbody > tr').removeClass("data-table-display-none");
-                                _table.find('> tbody > tr').has(`td.${css_classes.will_hide}`).addClass("data-table-display-none");
+                                _table.find('> tbody > tr').removeClass("i-data-table-display-none");
+                                _table.find('> tbody > tr').has(`td.${css_classes.will_hide}`).addClass("i-data-table-display-none");
                             }
 
                             _th.find(`.${css_classes.search_opener}`).click(function ()
                             {
                                 var search_input = _th.find(`.${css_classes.search_input}`);
 
-                                search_input.toggleClass("data-table-visibility-hidden");
+                                search_input.toggleClass("i-data-table-visibility-hidden");
                             });
 
                             _th.find(`.${css_classes.search_input}`).keyup(function (event)
@@ -157,7 +159,7 @@ jQuery.fn.extend({
 
                                     search_apply(col_index);
 
-                                    $(this).addClass("data-table-visibility-hidden");
+                                    $(this).addClass("i-data-table-visibility-hidden");
                                 }
                             });
 
@@ -165,7 +167,7 @@ jQuery.fn.extend({
                             {
                                 var search_input = $(this).closest("th").find(`.${css_classes.search_input}`);
                                 search_input.val("");
-                                search_input.addClass("data-table-visibility-hidden");
+                                search_input.addClass("i-data-table-visibility-hidden");
 
                                 var col_index = $(this).data("col-index");
                                 search_apply(col_index);

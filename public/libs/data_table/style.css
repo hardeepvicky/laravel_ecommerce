@@ -1,4 +1,11 @@
-.data-table-applied
+/***
+ * @author : Hardee Singh
+ * @email : hardeepvicky1@gmail.com
+ * @created : 03-Nov-2023
+ * 
+ */
+
+.i-data-table-applied
 {
     --disable-bg : #CCC;
     --disable-color : #AAA;
@@ -17,28 +24,28 @@
     --sort-icon-color : #fff;
 }
 
-.data-table-applied *
+.i-data-table-applied *
 {
     box-sizing: border-box;
 }
 
-.data-table-display-none
+.i-data-table-display-none
 {
     display: none;
 }
 
-.data-table-visibility-hidden
+.i-data-table-visibility-hidden
 {
     visibility: hidden;
 }
 
-.data-table-applied th
+.i-data-table-applied th
 {
     position: relative;
 }
 
 
-.data-table-applied .search-block
+.i-data-table-applied .search-block
 {
     position: absolute;
     z-index: 2;
@@ -50,7 +57,7 @@
     text-align: right;
 }
 
-.data-table-applied .search-block input.search-input
+.i-data-table-applied .search-block input.search-input
 {
     display: inline-block;
     width : calc(100% - 90px);
@@ -60,19 +67,19 @@
     color : var(--search-input-color);
 }
 
-.data-table-applied .search-block input.search-input:focus
+.i-data-table-applied .search-block input.search-input:focus
 {
     outline: none;
 }
 
-.data-table-applied .search-block .search-right-icons
+.i-data-table-applied .search-block .search-right-icons
 {
     display: inline-block;    
     width: 86px;
     text-align: right;
 }
 
-.data-table-applied .search-block .search-right-icons span{
+.i-data-table-applied .search-block .search-right-icons span{
     font-size: 0.9em;
     margin-right: 2px;
     padding : 0.5em;
@@ -80,25 +87,25 @@
     cursor: pointer;
 }
 
-.data-table-applied .search-block .search-right-icons .search-icon
+.i-data-table-applied .search-block .search-right-icons .search-icon
 {
     background-color: var(--search-icon-bg);
     color : var(--search-icon-color);
 }
 
-.data-table-applied .search-block .search-right-icons .search-clear-icon
+.i-data-table-applied .search-block .search-right-icons .search-clear-icon
 {
     background-color: var(--search-clear-icon-bg);
     color : var(--search-clear-icon-color);
 }
 
-.data-table-applied .search-block .search-right-icons .sort-icon
+.i-data-table-applied .search-block .search-right-icons .sort-icon
 {
     background-color: var(--sort-icon-bg);
     color : var(--sort-icon-color);
 }
 
-.data-table-applied .search-block .search-right-icons span.disable
+.i-data-table-applied .search-block .search-right-icons span.disable
 {
     background-color: var(--disable-bg);
     color : var(--disable-color);
