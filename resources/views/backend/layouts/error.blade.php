@@ -57,10 +57,6 @@
 
         <!--- Libs Made by developer -->
         <script type="text/javascript" src="/libs/loader/loader.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
-        <!-- Project related JS -->
-        <script type="text/javascript"  src="/js/backend/default.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        
     </body>
 
 </html>

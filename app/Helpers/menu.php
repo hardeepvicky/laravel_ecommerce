@@ -41,6 +41,7 @@ class Menu
         self::$menus[] = (new MemberMenu)->get();
         self::$menus[] = (new SystemMenu)->get();
         self::$menus[] = (new LogMenu)->get();
+        self::$menus[] = (new DeveloperMenu)->get();
 
         //d(self::$menus); exit;
 
@@ -217,6 +218,11 @@ class BaseMenu
 
     private static $current_route_name = "";
 
+    const LINK_TYPE_SUMMARY = "summary";
+    const LINK_TYPE_ADD = "add";
+    const LINK_TYPE_EDIT = "edit";
+    const LINK_TYPE_DELETE = "add";
+
     public static function setCurrentRouteName(String $current_route_name)
     {
         self::$current_route_name = strtolower(trim($current_route_name));        
@@ -242,8 +248,13 @@ class BaseMenu
     }
 
 
-    public static function getLink(String $route_name, String $title, String $icon, Array $related_links = [])
-    {
+    public static function getLink(String $route_name, $title, String $icon, Array $related_links = [], String $link_type = "")
+    {        
+        if (!$title)
+        {
+            $title = self::getLinkTitleFromRouteName($route_name, $link_type);
+        }
+
         $link = [
             "title" => $title,
             "icon" => "child-menu-icon " . $icon,
@@ -306,6 +317,32 @@ class BaseMenu
         ];
 
         return $links;
+    }
+
+    public static function getLinkTitleFromRouteName(String $route_name, String $link_type)
+    {
+        $title = $route_name;
+
+        $arr = explode(".", $route_name);
+
+        if (count($arr) > 1)
+        {
+            $title = end($arr);
+        }        
+
+        $title = str_replace("_", " ", $title);
+
+        switch($link_type)
+        {
+            case self::LINK_TYPE_SUMMARY:
+                if ($title == "index")
+                {
+                    $title = "Summary";
+                }
+                break;
+        }
+
+        return $title;
     }
 }
 
@@ -382,6 +419,21 @@ class LogMenu extends BaseMenu
         ];
 
         return self::getModule("Develoepr Logs", self::ICON_MENU_ROOT_CHILD, $links);
+    }
+}
+
+
+class DeveloperMenu extends BaseMenu
+{
+    public static function get() : Array
+    {
+        $links = [];
+
+            $routePrefix = "admin.developer";
+            
+            $links[] = self::getLink($routePrefix . ".laravel_routes_index", null, self::ICON_MENU_SUMMARY, [], self::LINK_TYPE_SUMMARY);
+
+        return self::getModule("Developer", null, $links);
     }
 }
 

@@ -34,6 +34,7 @@ class SectionRoutes
         $sections["User Logs"] = self::user_logs();
         $sections["System Logs"] = self::system_logs();
         $sections["Developer Logs"] = self::developer_logs();
+        $sections["Developer"] = self::developer();
 
 
         return $sections;
@@ -119,5 +120,16 @@ class SectionRoutes
         return $routes;
     }
 
+
+    private static function developer()
+    {
+        $routePrefix = "admin.developer";
+
+        $routes = [];
+
+        $routes["Laravel Routes Summary"] = [$routePrefix . ".laravel_routes_index"];
+        
+        return $routes;
+    }
 
 }

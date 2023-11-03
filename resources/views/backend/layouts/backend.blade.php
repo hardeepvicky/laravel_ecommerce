@@ -23,18 +23,16 @@
         <link rel="stylesheet"  type="text/css" href="/assets/libs/Croppie-2.6.4/croppie.css" />
         <link rel="stylesheet"  type="text/css" href="/assets/libs/fancybox/dist/jquery.fancybox.min.css" />
 
-        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />        
+        <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
         <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker3.min.css" />
         <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
         <link rel="stylesheet" type="text/css"  href="/assets/libs/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
 
         <!-- Project related CSS -->
-        <link rel="stylesheet"  type="text/css" href="/libs/loader/loader.css?<?= BACKEND_CSS_JS_VERSION ?>" />
-        <link rel="stylesheet"  type="text/css" href="/css/backend/default.css?<?= BACKEND_CSS_JS_VERSION ?>" />
+        <link rel="stylesheet"  type="text/css" href="/css/backend/default.css?<?= BACKEND_CSS_VERSION ?>" />
 
         <!-- Pre javascript -->
         <script src="/assets/libs/jquery/jquery.min.js"></script>
-        <script src="/js/backend/setup.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
     </head>
 
     <body>
@@ -85,7 +83,7 @@
             </div>
         </div>
 
-        <!-- Theme Required File -->        
+        <!-- Theme Required File -->
         <script type="text/javascript" src="/assets/libs/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript" src="/assets/libs/bootbox/5.5.3/bootbox.min.js"></script>
@@ -95,7 +93,7 @@
         <script type="text/javascript" src="/assets/libs/feather-icons/feather.min.js"></script>
         <script type="text/javascript" src="/assets/js/app.js"></script>
 
-        <script type="text/javascript" src="/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>        
+        <script type="text/javascript" src="/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
         <script type="text/javascript" src="/assets/libs/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
         <script type="text/javascript" src="/assets/libs/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -104,21 +102,21 @@
         <script type="text/javascript" src="/assets/libs/Croppie-2.6.4/croppie.min.js"></script>
         <script type="text/javascript" src="/assets/libs/fancybox/dist/jquery.fancybox.min.js"></script>
 
-        <!-- Basic JS Required -->
-        <script type="text/javascript" src="/js/basic_functions.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        <script type="text/javascript" src="/js/jquery-input-validate.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        <script type="text/javascript" src="/js/jquery-extend.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        <script type="text/javascript" src="/js/bootstrap-extend.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
         <!--- Libs Made by developer -->
-        <script type="text/javascript" src="/libs/loader/loader.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
+        <script src="/libs/constants.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+        <script src="/libs/events.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+        <script src="/libs/jquery-input-validate.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+        <script src="/libs/date-util.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+        <script src="/libs/jquery_extend.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+        <script src="/libs/bootstrap_extend.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+
+        <link href="/libs/loader/loader.css?<?= BACKEND_JS_VERSION ?>" rel="stylesheet" type="text/css" />
+        <script src="/libs/loader/loader.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+
+        <link href="/libs/data_table/style.css?<?= BACKEND_JS_VERSION ?>" rel="stylesheet" type="text/css"  />
+        <script src="/libs/data_table/script.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
 
         <!-- Project related JS -->
-        <script type="text/javascript"  src="/js/backend/default.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
-        <script type="text/javascript">
-            $.loader.init();
-        </script>
+        <script type="text/javascript" src="/js/backend/backend.js?<?= BACKEND_JS_VERSION ?>"></script>
     </body>
-
 </html>

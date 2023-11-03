@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Backend\DeveloperController;
 use App\Http\Controllers\Backend\Logs\DeveloperLogsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\RolesController;
@@ -54,7 +55,6 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'rol
     Route::resource("users", UsersController::class);
     Route::resource("roles", RolesController::class);
 
-
     Route::group(['prefix' => 'permissions', 'as'=>'permissions.'], function () {
 
         $name = "index";
@@ -83,5 +83,12 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'rol
             $name = "sql";
             Route::get($name, [DeveloperLogsController::class, $name])->name($name);
         });
+    });
+
+    $prefix = "developer";
+    Route::group(['prefix' => $prefix, 'as'=> "$prefix."], function () {
+
+        $name = "laravel_routes_index";
+        Route::get($name, [DeveloperController::class, $name])->name($name);
     });
 });

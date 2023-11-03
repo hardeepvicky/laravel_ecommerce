@@ -1,0 +1,85 @@
+.data-table-applied 
+{
+    --search-icon-bg : #ccccff;
+    --search-icon-color : #fff;
+
+    --search-clear-icon-bg : #E08283;
+    --search-clear-icon-color : #fff;
+
+    --search-input-bg : #ccccff;
+    --search-input-color : #000;
+    --search-input-border-color : #bcbcff;
+}
+
+.data-table-applied *
+{
+    box-sizing: border-box;
+}
+
+.hidden
+{
+    display: none;
+}
+
+.data-table-applied th
+{
+    position: relative;
+}
+
+
+.data-table-applied .search-block
+{
+    position: absolute;
+    z-index: 2;
+    top : 50%;
+    right: 1px;
+    transform : translateY(-50%);    
+
+    width : 80%;    
+
+    display: flex;
+    justify-content: end;
+}
+
+.data-table-applied .search-block .search-input
+{
+    width : 70%;
+    padding : 0.2em 0.5em;
+    border: 1px solid var(--search-input-border-color);
+    background-color: var(--search-icon-bg);
+    color : var(--search-input-color);
+}
+
+.data-table-applied .search-block .search-input:focus
+{
+    outline: 0;
+}
+
+.data-table-applied .search-block .search-right-icons
+{
+    padding: 2px 5px;
+    text-align: right;    
+}
+
+.data-table-applied .search-block .search-right-icons span{
+    font-size: 0.9em;
+    margin-right: 2px;
+}
+
+.data-table-applied .search-block .search-right-icons .search-icon
+{
+    width : 2em;
+    padding : 0.5em;
+    cursor: pointer;
+    background-color: var(--search-icon-bg);
+    color : var(--search-icon-color);
+}
+
+.data-table-applied .search-block .search-right-icons .search-clear-icon
+{
+    width : 2em;
+    padding : 0.5em;
+    cursor: pointer;
+    background-color: var(--search-clear-icon-bg);
+    color : var(--search-clear-icon-color);
+}

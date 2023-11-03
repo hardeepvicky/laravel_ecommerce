@@ -57,9 +57,7 @@
 
         <!-- Basic JS Required -->
         <script type="text/javascript" src="/js/basic_functions.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        <script type="text/javascript" src="/js/jquery-input-validate.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-        <script type="text/javascript" src="/js/jquery-extend.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
-
+        
         <!--- Libs Made by developer -->
         <script type="text/javascript" src="/libs/loader/loader.js?<?= BACKEND_CSS_JS_VERSION ?>"></script>
     </body>
