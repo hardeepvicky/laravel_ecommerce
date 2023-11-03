@@ -160,6 +160,8 @@ $(document).ready(function()
     //     defaultTime: ""
     // });
 
+    $(".i-data-table").idataTable();
+
     $("form.summary-delete-form").submit(function()
     {
         var _form = $(this);

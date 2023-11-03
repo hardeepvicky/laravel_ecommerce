@@ -335,12 +335,11 @@ class BaseMenu
         switch($link_type)
         {
             case self::LINK_TYPE_SUMMARY:
-                if ($title == "index")
-                {
-                    $title = "Summary";
-                }
+                $title = str_replace("index", "summary", $title);
                 break;
         }
+
+        $title = ucwords($title);
 
         return $title;
     }

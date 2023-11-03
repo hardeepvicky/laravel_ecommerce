@@ -113,8 +113,8 @@
         <link href="/libs/loader/loader.css?<?= BACKEND_JS_VERSION ?>" rel="stylesheet" type="text/css" />
         <script src="/libs/loader/loader.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
 
-        <link href="/libs/data_table/style.css?<?= BACKEND_JS_VERSION ?>" rel="stylesheet" type="text/css"  />
-        <script src="/libs/data_table/script.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+        <link href="/libs/i-data-table/style.css?<?= BACKEND_JS_VERSION ?>" rel="stylesheet" type="text/css"  />
+        <script src="/libs/i-data-table/script.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
 
         <!-- Project related JS -->
         <script type="text/javascript" src="/js/backend/backend.js?<?= BACKEND_JS_VERSION ?>"></script>

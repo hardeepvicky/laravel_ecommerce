@@ -12,7 +12,7 @@
 
 <div class="card">
     <div class="card-body">
-        <table class="table table-striped table-bordered table-hover data-table">
+        <table class="table table-striped table-bordered table-hover i-data-table">
             <thead>
                 <tr>
                     <th data-all-clear="1">#</th>
@@ -41,11 +41,5 @@
         
     </div>
 </div>
-
-<script>
-    $(function(){
-        $(".data-table").idataTable();
-    });
-</script>
 
 @endsection

@@ -73,29 +73,20 @@ class WebController extends Controller
         //make space after any Captilize word
         $controller_name = trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $controller_name));
 
+        $controller_name = ucwords($controller_name);
+
         //now extract action
 
         $method_name = $action_arr[1];
 
-        $method_arr = explode("_", $method_name);
-
-        if (count($method_arr) > 1)
-        {
-            foreach($method_arr as $k => $v)
-            {
-                $method_arr[$k] = ucfirst($v);
-            }
-
-            $method_name = implode(" ", $method_arr);
-        }
+        $method_name = str_replace("_", " ", $method_name);
 
         //make space after any Captilize word
-        $method_name = ucfirst(trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $method_name)));
+        $method_name = trim(preg_replace('/(?<!\ )[A-Z]/', ' $0', $method_name));
 
-        if ($method_name == "Index")
-        {
-            $method_name = "Summary";
-        }
+        $method_name = str_replace("index", "summary", $method_name);
+
+        $method_name = ucwords($method_name);
 
         $page_title = $controller_name . " | " . $method_name;
 
