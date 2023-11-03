@@ -9,12 +9,16 @@ jQuery.fn.extend({
     {
         const feature = "data-table";
         const css_classes = {
+            search_block : 'search-block',
+
+            search_input : 'search-input',
             search_opener : 'search-icon',
             search_clear : 'search-clear-icon',
-            search_block : 'search-block',
-            search_input : 'search-input',
+            sort : "sort-icon",
+
             search_all_clear : 'search-all-clear-icon',
-            will_hide : "will-hide"
+            will_hide : "will-hide",
+            hidden : "data-table-hidden"
         };
 
         function log(msg)
@@ -64,25 +68,44 @@ jQuery.fn.extend({
                     }
                     */
 
-                    if (will_search)
+                    if (will_search || sort_type)
                     {
-                        var icon = constants.fontawsome.icon.search;
-                        var icon2 = constants.fontawsome.icon.cross;
+                        var search_icon_disable_css_class = "disable";
+                        if (will_search)
+                        {
+                            search_icon_disable_css_class = "";
+                        }
+
+                        var clear_icon_disable_css_class = "disable";
+                        if (will_search)
+                        {
+                            clear_icon_disable_css_class = "";
+                        }
+
+                        var sort_icon_disable_css_class = "disable";
+                        if (sort_type)
+                        {
+                            sort_icon_disable_css_class = "";
+                        }
+
                         new_html +=
                             `
                             <div class="${css_classes.search_block}">
-                                <input class="${css_classes.search_input}" type="text" data-col-index="${index}"/>                            
+                                <input class="${css_classes.search_input} ${css_classes.hidden}" type="text" data-col-index="${index}"/>
                                 <div class="search-right-icons">
-                                    <span class="${css_classes.search_opener}" data-col-index="${index}">
-                                        <i class="${icon}"></i>
+                                    <span class="${css_classes.search_opener} ${search_icon_disable_css_class}" title="${search_icon_disable_css_class}" data-col-index="${index}">
+                                        <i class="${constants.fontawsome.icon.search}"></i>
                                     </span>
-                                    <span class="${css_classes.search_clear}" data-col-index="${index}">
-                                        <i class="${icon2}"></i>
+                                    <span class="${css_classes.search_clear}  ${clear_icon_disable_css_class}" title="${clear_icon_disable_css_class}" data-col-index="${index}">
+                                        <i class="${constants.fontawsome.icon.cross}"></i>
+                                    </span>
+                                    <span class="${css_classes.sort} ${sort_icon_disable_css_class}" title="${sort_icon_disable_css_class}" data-col-index="${index}">
+                                        <i class="${constants.fontawsome.icon.sort}"></i>
                                     </span>
                                 </div>
                             </div>
                         `;
-                    }                    
+                    }
 
                     if (old_html.length != new_html.length)
                     {
@@ -112,7 +135,7 @@ jQuery.fn.extend({
 
                                         if (_td_text.indexOf(search_text) < 0)
                                         {
-                                            _td.addClass(css_classes.will_hide);                                            
+                                            _td.addClass(css_classes.will_hide);
                                         }
                                         else
                                         {
@@ -125,15 +148,15 @@ jQuery.fn.extend({
                                     }
                                 });
 
-                                _table.find('> tbody > tr').removeClass("hidden");
-                                _table.find('> tbody > tr').has(`td.${css_classes.will_hide}`).addClass("hidden");
+                                _table.find('> tbody > tr').removeClass(css_classes.hidden);
+                                _table.find('> tbody > tr').has(`td.${css_classes.will_hide}`).addClass(css_classes.hidden);
                             }
 
                             _th.find(`.${css_classes.search_opener}`).click(function ()
                             {
-                                var selector = _th.find(`.${css_classes.search_block}`);
+                                var selector = _th.find(`.${css_classes.search_input}`);
 
-                                selector.toggleClass("hidden");
+                                selector.toggleClass(css_classes.hidden);
                             });
 
                             _th.find(`.${css_classes.search_input}`).keyup(function (event)
@@ -150,12 +173,12 @@ jQuery.fn.extend({
                                 if (keycode == 27)
                                 {
                                     $(this).val("");
-                                    
+
                                     search_apply(col_index);
 
                                     var search_block = $(this).parent();
 
-                                    search_block.addClass("hidden");
+                                    search_block.addClass(css_classes.hidden);
                                 }
                             });
 
@@ -163,14 +186,12 @@ jQuery.fn.extend({
                             {
                                 var search_input = $(this).closest("th").find(`.${css_classes.search_input}`);
                                 search_input.val("");
+                                search_input.addClass(css_classes.hidden);
 
                                 var col_index = $(this).data("col-index");
                                 search_apply(col_index);
-
-                                var search_block = $(this).closest("th").find(`.${css_classes.search_block}`); 
-                                search_block.addClass("hidden");
                             });
-                        }                        
+                        }
                     }
 
                     /*
@@ -199,7 +220,7 @@ jQuery.fn.extend({
                         });
                     }
 
-                    
+
                         /*
                         _th.find(`.${css_classes.search_opener}`).click(function ()
                         {
