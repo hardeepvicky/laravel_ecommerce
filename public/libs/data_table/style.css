@@ -22,7 +22,12 @@
     box-sizing: border-box;
 }
 
-.data-table-hidden
+.data-table-display-none
+{
+    display: none;
+}
+
+.data-table-visibility-hidden
 {
     visibility: hidden;
 }
@@ -45,7 +50,7 @@
     text-align: right;
 }
 
-.data-table-applied .search-block .search-input
+.data-table-applied .search-block input.search-input
 {
     display: inline-block;
     width : calc(100% - 90px);
@@ -53,6 +58,11 @@
     border: 1px solid var(--search-input-border-color);
     background-color: var(--search-input-bg);
     color : var(--search-input-color);
+}
+
+.data-table-applied .search-block input.search-input:focus
+{
+    outline: none;
 }
 
 .data-table-applied .search-block .search-right-icons
