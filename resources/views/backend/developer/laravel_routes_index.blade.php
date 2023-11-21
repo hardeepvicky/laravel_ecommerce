@@ -15,8 +15,8 @@
         <table class="table table-striped table-bordered table-hover i-data-table">
             <thead>
                 <tr>
-                    <th data-all-clear="1">#</th>
-                    <th data-search="1">URL</th>
+                    <th style="width:150px;" data-sort="numeric">#</th>
+                    <th data-search="1" data-sort="text">URL</th>
                     <th data-search="1">Route Name</th>
                     <th data-search="1">Action</th>
                 </tr>

@@ -29,28 +29,31 @@ class AccessControl
             return true;
         }
 
-        $role_ids = implode(",", $role_id_list);
+        if ($role_id_list)
+        {
+            $role_ids = implode(",", $role_id_list);
 
-        $q = "
-            SELECT
-                COUNT(1) AS c
-            FROM
-                role_route_names RRN
-                INNER JOIN route_names RR ON RR.id = RRN.route_name_id
-            WHERE
-                RRN.role_id IN ($role_ids) AND RR.name = '$route_name';
-        ";
+            $q = "
+                SELECT
+                    COUNT(1) AS c
+                FROM
+                    role_route_names RRN
+                    INNER JOIN route_names RR ON RR.id = RRN.route_name_id
+                WHERE
+                    RRN.role_id IN ($role_ids) AND RR.name = '$route_name';
+            ";
 
-        $record = DB::select($q);
+            $record = DB::select($q);
 
-        if ($record && $record[0]->c > 0) {
-            return true;
-        }
+            if ($record && $record[0]->c > 0) {
+                return true;
+            }
 
-        $system_role_count = Role::where("id", $role_id_list)->where('is_system_admin', 1)->count();
+            $system_role_count = Role::where("id", $role_id_list)->where('is_system_admin', 1)->count();
 
-        if ($system_role_count > 0 && in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {
-            return true;
+            if ($system_role_count > 0 && in_array($route_name, SectionRoutes::ALLOW_ROUTES_FOR_SYSTEM_ADMIN)) {
+                return true;
+            }
         }
 
         return false;

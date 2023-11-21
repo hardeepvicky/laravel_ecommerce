@@ -40,7 +40,7 @@ jQuery.fn.extend({
                     var _th = $(this);
                     var will_all_clear = _th.getBoolFromData("all-clear", false);
                     var will_search = _th.getBoolFromData("search", false);                    
-                    var sort = _th.getBoolFromData("sort", "");
+                    var sort = _th.data("sort");
 
                     var old_html = _th.html();
 
@@ -171,6 +171,80 @@ jQuery.fn.extend({
 
                                 var col_index = $(this).data("col-index");
                                 search_apply(col_index);
+                            });
+                        }
+
+                        if (sort)
+                        {
+                            _th.find(`.${css_classes.sort}`).click(function ()
+                            {
+                                var col_index = $(this).data("col-index");
+                                var sort_dir = $(this).attr("data-sort-dir");
+                                console.log(sort_dir);
+                                if (sort_dir)
+                                {
+                                    sort_dir = sort_dir == "asc" ? "desc" : "asc";
+                                }
+                                else
+                                {
+                                    sort_dir = "asc";
+                                }
+
+                                var list = [];
+                                _table.find("> tbody > tr").each(function (row_index)
+                                {
+                                    var _td = $(this).find(`> td:eq(${col_index})`);
+
+                                    _td_text = _td.text().toLowerCase();
+
+                                    list.push({
+                                        "row_index" : row_index,
+                                        "text" : _td_text
+                                    });
+                                });
+
+                                if (sort == "numeric")
+                                {
+                                    list.sort(function(a, b){
+                                        if (a['text'] === b['text']) {
+                                            return 0;
+                                        }
+
+                                        a['text'] = parseFloat(a['text']);
+                                        b['text'] = parseFloat(b['text']);
+
+                                        
+                                        var r = a['text'] < b['text'] ? -1 : 1;
+
+                                        return sort_dir == "asc" ? r : r * -1;
+                                    });
+                                }
+                                else
+                                {
+                                    list.sort(function(a, b){
+                                        if (a['text'] === b['text']) {
+                                            return 0;
+                                        }
+
+                                        var r = a.text.localeCompare(b.text);
+                                        
+                                        return sort_dir == "asc" ? r : r * -1;
+                                    });
+                                }
+
+                                var tr_html = "";
+                                for (var i in list)
+                                {
+                                    var arr = list[i];
+
+                                    var h = _table.find(`> tbody > tr:eq(${arr['row_index']})`)[0].outerHTML;
+
+                                    tr_html += h;
+                                }
+
+                                _table.find(`> tbody`).html(tr_html);
+
+                                $(this).attr("data-sort-dir", sort_dir);
                             });
                         }
                     }

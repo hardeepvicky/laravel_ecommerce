@@ -1,4 +1,4 @@
-@extends($layout)
+@extends('backend.layouts.login')
 
 @section('content')
 <div class="container">
