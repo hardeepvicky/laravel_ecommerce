@@ -16,7 +16,6 @@ jQuery.fn.extend({
             search_input : 'search-input',
             search_opener : 'search-icon',
             search_clear : 'search-clear-icon',
-            search_all_clear : 'search-all-clear-icon',
             sort : "sort-icon",
 
             will_hide : "will-hide",
@@ -46,7 +45,7 @@ jQuery.fn.extend({
 
                     var new_html = old_html;
 
-                    if (will_search || sort)
+                    if (will_search)
                     {
                         var search_icon_disable_css_class = "disable";
                         if (will_search)
@@ -78,6 +77,19 @@ jQuery.fn.extend({
                                         <i class="${constants.fontawsome.icon.cross}"></i>
                                     </span>
                                     <span class="${css_classes.sort} ${sort_icon_disable_css_class}" title="${sort_icon_disable_css_class}" data-col-index="${index}">
+                                        <i class="${constants.fontawsome.icon.sort}"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    else if (sort)
+                    {
+                        new_html +=
+                            `
+                            <div class="${css_classes.search_block}">                                
+                                <div class="search-right-icons" style="width:28px;">                                    
+                                    <span class="${css_classes.sort}" data-col-index="${index}">
                                         <i class="${constants.fontawsome.icon.sort}"></i>
                                     </span>
                                 </div>

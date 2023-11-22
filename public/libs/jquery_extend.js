@@ -1316,7 +1316,7 @@ jQuery.fn.extend({
 
         csv = csv.join("\n");
 
-        $.download.csv(filename, csv);
+        $.sr.download.csv(filename, csv);
     },
     srTableCSVExport: function () {
         var feature = "sr-table-csv-export";
