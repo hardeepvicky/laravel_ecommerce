@@ -174,7 +174,7 @@
                 $("#crop_image_preview").show();
                 $("#profile_photo_block").hide();
 
-                var url = '/ajax_upload_base64';
+                var url = '/public/ajax_upload_base64';
                 var data = {
                     "base64" : resp, "filename" : get_file_name()
                 };

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class BaseModel extends Model
 {
@@ -156,5 +157,14 @@ class BaseModel extends Model
     public static function getFileSavePath()
     {
         throw_exception("getFileSavePath function not declare in Model");
+    }
+
+    public function getNextId()
+    {
+        $table = $this->getTable();
+        $statement = DB::select("SHOW TABLE STATUS LIKE '" . $table . "'");
+        $nextId = $statement[0]->Auto_increment;
+
+        return $nextId;
     }
 }

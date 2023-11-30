@@ -23,16 +23,6 @@ class UsersController extends BackendController
 
     public function index()
     {
-
-        $to = "hardeepvicky1@gmail.com";
-        $subject = "My subject";
-        $txt = "Hello world!";
-        $headers = "From: webmaster@localhost.com";
-
-        $result = mail($to,$subject,$txt,$headers);
-
-        dump($result); exit;
-
         $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "name", "type" => "string", "view_field" => "name"],
             ["field" => "email", "type" => "string", "view_field" => "email"],
@@ -51,7 +41,7 @@ class UsersController extends BackendController
 
         $form = [
             'url' => route($this->routePrefix . '.store'),
-            'method' => 'POST',            
+            'method' => 'POST',
         ];
 
         $this->setForView(compact("model", 'form'));
@@ -71,10 +61,10 @@ class UsersController extends BackendController
             'email.required' => 'Email is required.',
             'email.email' => 'Email must be email address.'
         ]);
-  
+
         $validatedData['password'] = bcrypt($validatedData['password']);
         User::create($validatedData);
-            
+
         return back()->with('success', 'User created successfully.');
     }
 
@@ -84,7 +74,7 @@ class UsersController extends BackendController
 
         $form = [
             'url' => route($this->routePrefix . '.update', $id),
-            'method' => 'PUT',            
+            'method' => 'PUT',
         ];
 
         $role_list = Role::getList();
@@ -99,11 +89,11 @@ class UsersController extends BackendController
         $model = User::findOrFail($id);
 
         $validatedData = $request->validate([
-            'name' => 'required',            
+            'name' => 'required',
             'email' => 'required|email|unique:users,email,'. $model->id,
             'profile_image' => ''
         ], [
-            'name.required' => 'Name is required.',            
+            'name.required' => 'Name is required.',
             'email.required' => 'Email is required.',
             'email.email' => 'Email must be email address.'
         ]);
@@ -130,7 +120,7 @@ class UsersController extends BackendController
             {
                 unset($validatedData['profile_image']);
             }
-            
+
             $model->fill($validatedData);
             $model->save();
 
@@ -153,9 +143,9 @@ class UsersController extends BackendController
     public function destroy($id)
     {
         try
-        {       
-            $model = User::findOrFail($id); 
-            
+        {
+            $model = User::findOrFail($id);
+
             $this->delete($model);
 
             $this->saveSqlLog();
