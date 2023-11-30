@@ -2,6 +2,7 @@
 
 namespace App\Acl;
 
+use App\Helpers\LaravelExtend;
 use App\Helpers\RoleType;
 use App\Models\Role;
 use App\Models\RouteName;
@@ -112,13 +113,12 @@ class AccessControl
 
     public function syncRouteNamesToDatabase()
     {
-        $routeCollection = \Illuminate\Support\Facades\Route::getRoutes();
-
+        $routes = LaravelExtend::getRoutes();
+        
         $route_list = [];
-        foreach ($routeCollection as $route) {
-            $name = trim($route->getName());
-            if ($name) {
-                $route_list[] = $name;
+        foreach ($routes as $route) {            
+            if ($route['name']) {
+                $route_list[] = $route['name'];
             }
         }
 

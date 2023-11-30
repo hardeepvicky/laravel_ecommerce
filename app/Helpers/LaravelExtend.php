@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Helpers;
 
@@ -10,19 +10,12 @@ class LaravelExtend
 
         $routes = [];
         foreach ($routeCollections as $routeObj) {
-            
-            // d(get_class_methods($routeObj));
-            // d($routeObj->getActionName()); 
-            // d($routeObj->getActionMethod()); 
-            // d($routeObj->getName()); 
-            // d($routeObj->uri); 
-            
-            // exit;
 
             $route = [
                 'url' => $routeObj->uri,
                 'route_name' => $routeObj->getName(),
-                "action" => $routeObj->getActionName(),                
+                "action" => $routeObj->getActionName(),
+                "name" => $routeObj->getName()
             ];
 
             $routes[] = $route;
