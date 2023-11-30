@@ -162,6 +162,8 @@ $(document).ready(function()
 
     $(".i-data-table").idataTable();
 
+    $(".table-export-csv").srTableCSVExport();
+
     $("form.summary-delete-form").submit(function()
     {
         var _form = $(this);

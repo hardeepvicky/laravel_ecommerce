@@ -12,11 +12,12 @@
 
 <div class="card">
     <div class="card-body">
-        <table class="table table-striped table-bordered table-hover i-data-table">
+        <span class="btn btn-secondary table-export-csv" data-sr-table-csv-export-target="table#summary" data-sr-table-csv-export-filename="Laravel-Routes">Export CSV (JS)</span>
+        <table class="table table-striped table-bordered table-hover i-data-table mt-3" id="summary">
             <thead>
                 <tr>
-                    <th data-all-clear="1">#</th>
-                    <th data-search="1">URL</th>
+                    <th style="width:50px;" data-sort="numeric">#</th>
+                    <th data-search="1" data-sort="text">URL</th>
                     <th data-search="1">Route Name</th>
                     <th data-search="1">Action</th>
                 </tr>
