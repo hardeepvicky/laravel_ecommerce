@@ -23,6 +23,16 @@ class UsersController extends BackendController
 
     public function index()
     {
+
+        $to = "hardeepvicky1@gmail.com";
+        $subject = "My subject";
+        $txt = "Hello world!";
+        $headers = "From: webmaster@localhost.com";
+
+        $result = mail($to,$subject,$txt,$headers);
+
+        dump($result); exit;
+
         $conditions = $this->getConditions(Route::currentRouteName(), [
             ["field" => "name", "type" => "string", "view_field" => "name"],
             ["field" => "email", "type" => "string", "view_field" => "email"],

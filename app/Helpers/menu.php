@@ -417,7 +417,7 @@ class LogMenu extends BaseMenu
             self::getLink($routePrefix . ".sql", "SQL", self::ICON_MENU_SUMMARY)
         ];
 
-        return self::getModule("Develoepr Logs", self::ICON_MENU_ROOT_CHILD, $links);
+        return self::getModule("Developer Logs", self::ICON_MENU_ROOT_CHILD, $links);
     }
 }
 
