@@ -11,7 +11,7 @@
 
                     if (!view()->exists($ajax_view_name))
                     {
-                        $ajax_view_name = 'errors.ajax.all';
+                        $ajax_view_name = 'errors.ajax.default';
                     }
                 ?>
                 @include($ajax_view_name)

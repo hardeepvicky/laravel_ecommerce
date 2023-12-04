@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Acl\AccessControl;
+use App\Helpers\FileUtility;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -100,5 +101,20 @@ class User extends Authenticatable
             $accessControl = AccessControl::init();
             $accessControl->clearMenuCache([$id]);
         }
+    }
+
+    public function getProfileImage()
+    {
+        if ($this->profile_image)
+        {
+            return FileUtility::get($this->profile_image);
+        }
+
+        if ($this->avatar)
+        {
+            return $this->avatar;
+        }
+        
+        return null;
     }
 }

@@ -23,7 +23,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <x-inputs.text-field type="password" name="password" label="Password" placeholder="Enter Password" />                            
+                            <x-inputs.text-field type="password" name="password" label="Password" placeholder="Enter Password" />
                         </div>
                         <div class="mb-3">
                             <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Log In</button>
@@ -47,7 +47,7 @@
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="javascript:void()" class="social-list-item bg-danger text-white border-danger">
+                                <a href="{{ url('public/auth/google_sign_in') }}" class="social-list-item bg-danger text-white border-danger">
                                     <i class="mdi mdi-google"></i>
                                 </a>
                             </li>

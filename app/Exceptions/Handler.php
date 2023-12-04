@@ -86,14 +86,7 @@ class Handler extends ExceptionHandler
                     $breadcums = Menu::getBreadcums($menus);
 
                     $data = array_merge($data, compact("menus", "header_menu_list", "common_elements_path", "breadcums"));
-                }
-                else
-                {
-                    if (view()->exists($view_name))
-                    {
-                        $view_name = "errors.$error_code";
-                    }
-                }
+                }                
 
                 return response()->view($view_name, $data, $error_code);
             }

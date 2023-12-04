@@ -132,8 +132,8 @@
                     @php
                         $user = Auth::user();
                     @endphp
-                    @if(isset($user->profile_image) && $user->profile_image)
-                        <img class="rounded-circle header-profile-user" src="{{ FileUtility::get($user->profile_image) }}" alt="Header Avatar">
+                    @if($user->getProfileImage())
+                        <img class="rounded-circle header-profile-user" src="{{ $user->getProfileImage() }}" alt="">
                     @endif
                     <span class="d-none d-xl-inline-block ms-1 fw-medium">
                         {{ Auth::user()->name }}

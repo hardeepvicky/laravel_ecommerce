@@ -44,6 +44,9 @@ Route::get('/test', [HomeController::class, 'test']);
 Route::group(['prefix' => 'public', 'as'=>'public.'], function () {
     Route::post('ajax_upload', [PublicController::class, 'ajax_upload']);
     Route::post('ajax_upload_base64', [PublicController::class, 'ajax_upload_base64']);
+
+    Route::get('auth/google_sign_in', [PublicController::class, 'google_sign_in']);
+    Route::any('auth/google_callback', [PublicController::class, 'google_callback']);
 });
 
 Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'role_permission']], function () {

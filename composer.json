@@ -7,14 +7,15 @@
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
+        "getbrevo/brevo-php": "1.x.x",
         "guzzlehttp/guzzle": "^7.0.1",
         "hardeep-vicky/php-query-builder": "^1.1",
         "kris/laravel-form-builder": "^1.52",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
+        "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4",
-        "getbrevo/brevo-php": "1.x.x"
+        "laravel/ui": "^3.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
