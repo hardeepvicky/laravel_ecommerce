@@ -156,6 +156,10 @@ $(document).ready(function()
 
     $(".date-time-picker").datetimepickerExtend();
 
+    $(".css-toggler").cssClassToggle();
+
+    $(".ajax-load").ajaxLoad();
+
     // $('.time-picker').timepicker({
     //     defaultTime: ""
     // });

@@ -33,7 +33,7 @@ class SectionRoutes
 
         $sections["User Logs"] = self::user_logs();
         $sections["System Logs"] = self::system_logs();
-        $sections["Developer Logs"] = self::developer_logs();
+        
         $sections["Developer"] = self::developer();
 
 
@@ -92,7 +92,7 @@ class SectionRoutes
         $routePrefix = "admin.logs.user";
 
         $routes =  [
-            "Email" => []
+            "Email" => [$routePrefix . ".email"],
         ];
 
         return $routes;
@@ -103,23 +103,12 @@ class SectionRoutes
         $routePrefix = "admin.logs.system";
 
         $routes =  [
-            "Cron" => []
-        ];
-
-        return $routes;
-    }
-
-    private static function developer_logs()
-    {
-        $routePrefix = "admin.logs.developer";
-
-        $routes =  [
+            "Cron" => [],
             "Sql" => [$routePrefix . ".sql"],
         ];
 
         return $routes;
     }
-
 
     private static function developer()
     {

@@ -1,15 +1,17 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DeveloperController;
-use App\Http\Controllers\Backend\Logs\DeveloperLogsController;
+use App\Http\Controllers\Backend\Logs\SystemLogsController;
+use App\Http\Controllers\Backend\Logs\UserLogsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UsersController;
 use App\Http\Controllers\Backend\PermissionsController;
-use App\Http\Controllers\Backend\Logs\SqlLogsController;
 use App\Http\Controllers\Backend\PublicController;
 use App\Http\Controllers\HomeController;
+use App\Jobs\backend\JobSendEmailOnRegisration;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,11 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('email-test', function(){    
+    dispatch(new JobSendEmailOnRegisration("Hardeep Singh", "hardeepvicky1@gmail.com", 123456));
+    dd('done');
+});
 
 Route::get('/', function () {
     return redirect()->route("home");
@@ -40,6 +47,9 @@ Route::get('/theme', [HomeController::class, 'theme']);
 Route::get('/developer-components', [HomeController::class, 'developer_components']);
 Route::get('/test', [HomeController::class, 'test']);
 
+Route::get('/backend/ajax_send_email_otp/{id}', [RegisterController::class, 'ajax_send_email_otp']);
+Route::get('/backend/email_otp_verify/{uid}', [RegisterController::class, 'email_otp_verify']);
+Route::post('/backend/ajax_email_otp_verify', [RegisterController::class, 'ajax_email_otp_verify']);
 
 Route::group(['prefix' => 'public', 'as'=>'public.'], function () {
     Route::post('ajax_upload', [PublicController::class, 'ajax_upload']);
@@ -47,6 +57,8 @@ Route::group(['prefix' => 'public', 'as'=>'public.'], function () {
 
     Route::get('auth/google_sign_in', [PublicController::class, 'google_sign_in']);
     Route::any('auth/google_callback', [PublicController::class, 'google_callback']);
+
+    Route::any('backend_user_email_otp_verify', [PublicController::class, 'backend_user_email_otp_verify']);
 });
 
 Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'role_permission']], function () {
@@ -81,10 +93,16 @@ Route::group(['prefix' => 'admin', 'as'=>'admin.', 'middleware' => ['auth', 'rol
 
     Route::group(['prefix' => 'logs', 'as'=>'logs.'], function () {
         
-        Route::group(['prefix' => 'developer', 'as'=>'developer.'], function () {
+        Route::group(['prefix' => 'user', 'as'=>'user.'], function () {
+
+            $name = "email";
+            Route::get($name, [UserLogsController::class, $name])->name($name);
+        });
+
+        Route::group(['prefix' => 'system', 'as'=>'system.'], function () {
 
             $name = "sql";
-            Route::get($name, [DeveloperLogsController::class, $name])->name($name);
+            Route::get($name, [SystemLogsController::class, $name])->name($name);
         });
     });
 

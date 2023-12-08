@@ -31,8 +31,12 @@ return [
     ],
 
     'google' => [
-        'client_id' => '1029637666252-646s0dn2988ok7qe335ceaul9ant313v.apps.googleusercontent.com',
-        'client_secret' => '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',
-        'redirect' => 'http://localhost:8000/public/auth/google_callback',
-      ],
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URL'),
+    ],
+    'recaptcha' => [
+        'key' => env('RECAPTCHA_SITE_KEY'),
+        'secret' => env('RECAPTCHA_SITE_SECRET'),
+    ]
 ];

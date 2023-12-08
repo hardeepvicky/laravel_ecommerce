@@ -101,6 +101,7 @@
         <script type="text/javascript" src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
         <script type="text/javascript" src="/assets/libs/Croppie-2.6.4/croppie.min.js"></script>
         <script type="text/javascript" src="/assets/libs/fancybox/dist/jquery.fancybox.min.js"></script>
+        <script type="text/javascript" src="/assets/libs/jquery.form.min.js"></script>
 
         <!--- Libs Made by developer -->
         <script src="/libs/constants.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>

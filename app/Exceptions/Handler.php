@@ -58,11 +58,6 @@ class Handler extends ExceptionHandler
 
             if ($request->ajax())
             {
-                if (view()->exists($view_name))
-                {
-                    $view_name = "errors.ajax.$error_code";
-                }
-
                 return response()->view($view_name, $data, $e->getStatusCode());
             }
             else

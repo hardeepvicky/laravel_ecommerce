@@ -1,9 +1,11 @@
 <?php
 
+namespace App\StaticClasses;
+
 class UserType
 {
-    const BACKEND = 1;
-    const CUSTOMER = 2;
+    const BACKEND = "backend";
+    const CUSTOMER = "customer";
 
     const List = [
         self::BACKEND => "Backend",

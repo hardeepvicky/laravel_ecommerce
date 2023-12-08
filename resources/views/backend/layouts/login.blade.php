@@ -5,10 +5,12 @@
     <head>
 
         <meta charset="utf-8" />
-        <title>Login | Minia - Minimal Admin & Dashboard Template</title>
+        <title<?php echo isset($page_title) ? $page_title : "Page Title is not set"; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-        <meta content="Themesbrand" name="author" />
+        <meta content="Test Laravel" name="description" />
+        <meta content="Hardeep" name="author" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
+        
         <!-- App favicon -->
         <link rel="shortcut icon" href="/favicon.ico">
 
@@ -21,6 +23,10 @@
         <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <!-- App Css-->
         <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet"  type="text/css" href="/assets/libs/sweetalert2/sweetalert2.min.css" />
+
+        <!-- Pre javascript -->
+        <script src="/assets/libs/jquery/jquery.min.js"></script>
 
     </head>
 
@@ -30,7 +36,7 @@
         <div class="auth-page">
             <div class="container-fluid p-0">
                 <div class="row g-0">
-                    <div class="col-xxl-3 col-lg-4 col-md-5">
+                    <div class="col-xxl-3 col-lg-4 col-md-5">                        
                         @yield('content')
                     </div>
                     <!-- end col -->
@@ -164,6 +170,17 @@
         <!-- password addon init -->
         <script src="/assets/js/pages/pass-addon.init.js"></script>
 
+        <script type="text/javascript" src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+        <script type="text/javascript" src="/assets/libs/jquery.form.min.js"></script>
+
+        <script src="/libs/jquery_extend.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+
+        <link href="/libs/loader/loader.css?<?= BACKEND_JS_VERSION ?>" rel="stylesheet" type="text/css" />
+        <script src="/libs/loader/loader.js?<?= BACKEND_JS_VERSION ?>" type="text/javascript" ></script>
+
+        <script>
+            $.loader.init();
+        </script>
     </body>
 
 </html>

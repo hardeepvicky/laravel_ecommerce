@@ -9,5 +9,10 @@ return [
     'font_awesome_icon' => [
         'summary' => 'fas fa-table',
         'create' => 'fas fa-plus-circle',
+    ],
+
+    'user_type' => [
+        'backend' => 'backend',
+        'customer' => 'customer',        
     ]
 ];

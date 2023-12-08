@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Acl\AccessControl;
 use App\Helpers\FileUtility;
+use App\Helpers\Util;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_image',
+        'uid',
     ];
 
     /**
@@ -116,5 +118,10 @@ class User extends Authenticatable
         }
         
         return null;
+    }
+
+    public static function generateUID()
+    {
+        return Util::getRandomString(10) . time();
     }
 }

@@ -390,34 +390,30 @@ class LogMenu extends BaseMenu
 
         $links[] = self::user_logs();
         $links[] = self::system_logs();
-        $links[] = self::developer_logs();
 
         return self::getModule("Log Manager", null, $links);
     }
 
     public static function user_logs()
     {
-        $links = [];
+        $routePrefix = "admin.logs.user";
+
+        $links = [
+            self::getLink($routePrefix . ".email", "Email", self::ICON_MENU_SUMMARY)
+        ];
 
         return self::getModule("User Logs", self::ICON_MENU_ROOT_CHILD, $links);
     }
 
     public static function system_logs()
     {
-        $links = [];
-
-        return self::getModule("System Logs", self::ICON_MENU_ROOT_CHILD, $links);
-    }
-
-    public static function developer_logs()
-    {
-        $routePrefix = "admin.logs.developer";
+        $routePrefix = "admin.logs.system";
 
         $links = [
             self::getLink($routePrefix . ".sql", "SQL", self::ICON_MENU_SUMMARY)
         ];
 
-        return self::getModule("Developer Logs", self::ICON_MENU_ROOT_CHILD, $links);
+        return self::getModule("System Logs", self::ICON_MENU_ROOT_CHILD, $links);
     }
 }
 

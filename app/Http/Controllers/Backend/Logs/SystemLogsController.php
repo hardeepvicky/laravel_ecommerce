@@ -6,13 +6,13 @@ use App\Http\Controllers\Backend\BackendController;
 use App\Models\SqlLog;
 use Illuminate\Support\Facades\Route;
 
-class DeveloperLogsController extends BackendController
+class SystemLogsController extends BackendController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->routePrefix = "admin.logs.developer";
-        $this->viewPrefix = "backend.logs.developer";
+        $this->routePrefix = "admin.logs.system";
+        $this->viewPrefix = "backend.logs.system";
     }
 
     public function sql()

@@ -1,6 +1,7 @@
 @extends('backend.layouts.login')
 
 @section('content')
+<script async src="https://www.google.com/recaptcha/api.js"></script>
 <div class="auth-full-page-content d-flex p-sm-5 p-4">
     <div class="w-100">
         <div class="d-flex flex-column h-100">
@@ -13,9 +14,10 @@
                 @csrf
                 <div class="auth-content my-auto">
                     <div class="text-center">
-                        <h5 class="mb-0">Welcome Back !</h5>
-                        <p class="text-muted mt-2">Sign in to continue to Minia.</p>
-                    </div>
+                        <h5 class="mb-0">Backend Registration !</h5>
+                        <p class="text-muted mt-2">Sign Up to continue to Minia.</p>
+                        <x-backend.session-flash />
+                    </div>                    
                     <form class="mt-4 pt-2" action="index.html">
                         <div class="mb-3">
                             <x-inputs.text-field type="text" name="name" label="Name" placeholder="Enter Name" />
@@ -31,6 +33,10 @@
 
                         <div class="mb-3">
                             <x-inputs.text-field type="password" name="password_confirmation" label="Confirm Password" placeholder="Enter Confirm Password" />                            
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="g-recaptcha mt-4" data-sitekey={{config('services.recaptcha.key')}}></div>
                         </div>
 
                         <div class="mb-3">
