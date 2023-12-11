@@ -19,7 +19,8 @@
 <div class="row">
     <div class="offset-lg-4 col-lg-4">
         <div class="form-group mb-3">
-            <x-inputs.drop-down name="type" label="Type" class="select2" :list="{{ config('constant.user_type') }}" value="{{ $model->type }}" />
+            <?php $list = config('constant.user_type.list'); ?>
+            <x-inputs.drop-down name="type" label="Type" class="select2" :list="$list" value="{{ $model->type }}" />
         </div>        
         <div class="form-group mb-3">
             <x-inputs.text-field name="name" label="Name" placeholder="Enter Name" value="{{ $model->name }}" />

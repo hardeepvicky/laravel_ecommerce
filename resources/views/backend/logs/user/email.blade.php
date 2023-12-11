@@ -66,9 +66,9 @@
                     <td>{{ $record->to_email }}</td>
                     <td>{{ $record->subject }}</td>
                     <td>
-                        <span class="btn btn-info btn-sm "
+                        <span class="btn btn-info btn-sm css-toggler ajax-load"
                             data-sr-css-class-toggle-target="#record-{{ $record->id }}" data-sr-css-class-toggle-class="hidden"
-                            data-sr-ajax-load-url="" data-sr-ajax-load-target=""
+                            data-sr-ajax-load-url="/{{ $record->content_file }}" data-sr-ajax-load-target="#record-{{ $record->id }} .details"
                         >
                             Details
                         </span>
@@ -76,7 +76,7 @@
                 </tr>
                 <tr id="record-{{ $record->id }}" class="hidden">
                     <td></td>
-                    <td style="background-color:#EEE" colspan="5">
+                    <td class="details" style="background-color:#EEE" colspan="5">
 
                     </td>
                     <td></td>

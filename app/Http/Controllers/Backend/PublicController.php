@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-use UserType;
 
 class PublicController extends BackendController
 {
@@ -87,7 +86,7 @@ class PublicController extends BackendController
                 $newUser->oauth_uid = $google_user->id;
                 $newUser->avatar = $google_user->avatar;
                 $newUser->password = encrypt('admin@123');
-                $newUser->type = UserType::BACKEND;
+                $newUser->type = config("constant.user_type.backend");
                 $newUser->email_verified_at = date('Y-m-d H:i:s');
 
                 if (!$newUser->save())

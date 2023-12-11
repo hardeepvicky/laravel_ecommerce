@@ -13,6 +13,18 @@ return [
 
     'user_type' => [
         'backend' => 'backend',
-        'customer' => 'customer',        
+        'customer' => 'customer',
+        'list' => [
+            'backend' => 'Backend',
+            'customer' => 'Customer',
+        ]
+    ],
+
+    'email_type' => [
+        'backend_registration' => 'backend_registration',
+
+        'list' => [
+            'backend_registration' => 'Backend Registration',
+        ]
     ]
 ];

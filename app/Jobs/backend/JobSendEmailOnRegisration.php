@@ -3,7 +3,6 @@
 namespace App\Jobs\backend;
 
 use App\Helpers\EmailHelper;
-use App\StaticClasses\EmailType;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -39,7 +38,7 @@ class JobSendEmailOnRegisration implements ShouldQueue
     {
         $emaiHelper = new EmailHelper(EmailHelper::EMAIL_VIA_BREVO);
 
-        $emaiHelper->setType(EmailType::BACKEND_REGISTRATION);
+        $emaiHelper->setType(config("constant.email_type.backend_registration"));
 
         $emaiHelper->setTo($this->email, $this->name);
 

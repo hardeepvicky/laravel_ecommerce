@@ -563,6 +563,10 @@ jQuery.fn.extend({
                 if (auto_load) {
                     $(this).trigger(events.get);
                 }
+
+                $(this).click(function () {
+                    $(this).trigger(events.get);
+                });
             }
         });
     },

@@ -7,7 +7,6 @@ use App\Helpers\Util;
 use App\Http\Controllers\Controller;
 use App\Jobs\backend\JobSendEmailOnRegisration;
 use App\Models\User;
-use App\StaticClasses\UserType;
 use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -84,12 +83,13 @@ class RegisterController extends Controller
             $this->validator($data)->validate();
 
             $user = User::create([
-                'type' => UserType::BACKEND,
+                'type' => config("constant.user_type.backend"),
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 "uid" => User::generateUID()
             ]);
+
 
             $this->_sendEmail($user);
 

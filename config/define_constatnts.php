@@ -19,4 +19,4 @@ define("CACHE_MODEL_LIST_TIME", 60 * 24);
 define("CACHE_MENU_TIME", 60 * 24 * 365);
 
 define("BACKEND_CSS_VERSION", "03-Nov-2023");
-define("BACKEND_JS_VERSION", "22-Nov-2023");
+define("BACKEND_JS_VERSION", "11-Dec-2023");
