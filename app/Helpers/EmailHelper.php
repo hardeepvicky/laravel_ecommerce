@@ -186,8 +186,6 @@ class EmailHelper
 
     private function _sendViaBrevo($to_list)
     {
-        $endpoint = 'https://api.brevo.com/v3/smtp/email';
-
         $api_key = env('BREVO_API_KEY');
         
         if (!$api_key)
@@ -207,46 +205,30 @@ class EmailHelper
             'htmlContent' => $this->html
         );
 
-        //Set cURL options
+        $config = \Brevo\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', $api_key);
 
-        $options = array(
-            CURLOPT_URL => $endpoint,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => json_encode($data),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HTTPHEADER => array(
-                'accept: application/json',
-                'api-key: ' . $api_key,
-                'content-type: application/json'
-            )
-        );
+        $apiInstance = new \Brevo\Client\Api\TransactionalEmailsApi(new \GuzzleHttp\Client(), $config);
 
-        
-        $curl = curl_init();
-        
-        curl_setopt_array($curl, $options);
-        
-        $response = curl_exec($curl);
+        $sendSmtpEmail = new \Brevo\Client\Model\SendSmtpEmail([
+            'subject' => $this->subject,
+            'sender' => ['name' => $this->from_name, 'email' => $this->from_email],
+            'replyTo' => ['name' => $this->from_name, 'email' => $this->from_email],
+            'to' => $to_list,
+            'htmlContent' => $this->html,          
+        ]);
 
-        if ($response === false) {
-
-            throw new Exception(curl_error($curl));
-
-        } else {
-
-            curl_close($curl);
-
-            $response_data = json_decode($response, true);
-
-            if (isset($response_data['message']))
-            {
-                dd($response_data);
-            }
-
-            if (isset($response_data['messageId'])) 
+        try
+        {
+            $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+            
+            $msg_id = $result->getMessageId();
+            if ($msg_id)
             {
                 return true;
             }
+
+        } catch (Exception $ex) {
+            throw $ex;
         }
 
         return false;

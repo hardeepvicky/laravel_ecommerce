@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\SmsHelper;
+use App\Helpers\WhatsAppHelper;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DeveloperController;
@@ -25,9 +27,23 @@ use App\Jobs\backend\JobSendEmailOnRegisration;
 */
 
 Route::get('email-test', function(){    
-    dispatch(new JobSendEmailOnRegisration("Hardeep Singh", "hardeepvicky1@gmail.com", 123456));
+    dispatch(new JobSendEmailOnRegisration("Hardeep Singh", "hardeepvicky1@gmail.com", 123456, "http://localhost:8000"));
     dd('done');
 });
+
+Route::get('whatsapp-test', function(){    
+    $whatsappHelper = new WhatsAppHelper();
+
+    $whatsappHelper->setMsg("This is test msg from hardeep");
+
+    $whatsappHelper->setFromMobile("9814040490");
+    $whatsappHelper->setToMobile("9803915717");
+
+    $whatsappHelper->send();
+
+    dd('done');
+});
+
 
 Route::get('/', function () {
     return redirect()->route("home");

@@ -15,7 +15,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.10",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "sendinblue/api-v3-sdk": "8.x.x",
+        "twilio/sdk": "^7.12"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
